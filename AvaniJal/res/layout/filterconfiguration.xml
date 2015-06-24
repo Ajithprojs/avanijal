@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    
+    <ImageView 
+        
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/lineseperator"
+        
+        />
+    <ImageView 
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/filters"
+        android:id="@+id/filterimage"
+        android:layout_marginTop="5dp"
+        
+        />
+    <TextView  
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/filterimage"
+        android:textSize="16sp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/filtercountlbl"
+        android:text="Select Motor :"
+        
+        ></TextView>
+    
+    <Spinner
+        
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/filtercountlbl"
+        android:id="@+id/motorfilterspinner"
+        ></Spinner>
+    
+    <TextView  
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/filterimage"
+        android:layout_below="@id/motorfilterspinner"
+        android:id="@+id/frequencylabel"
+        android:text="Enter frequency :"
+        android:textSize="16sp"
+        ></TextView>
+    
+     <TextView  
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/filterimage"
+        android:layout_below="@id/frequencylabel"
+        android:id="@+id/hourlabel"
+        android:text="hours :"
+        android:textSize="16sp"
+        ></TextView>
+    
+    <Spinner 
+        
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/frequencylabel"
+        android:layout_toRightOf="@id/hourlabel"
+        android:id="@+id/filterfrequencyhours"
+        android:entries="@array/hournumber"
+        
+        ></Spinner>
+    
+    
+    <TextView  
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/filterfrequencyhours"
+        android:layout_below="@id/frequencylabel"
+        android:id="@+id/minlabel"
+        android:paddingLeft="3dp"
+        android:text="min :"
+        android:textSize="16sp"
+        ></TextView>
+    
+     <Spinner 
+        
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/frequencylabel"
+        android:layout_toRightOf="@id/minlabel"
+        android:paddingLeft="5dp"
+        android:id="@+id/filterfrequencyminutes"
+        android:entries="@array/minutenumber"
+        
+        ></Spinner>
+     
+     
+     
+      <TextView  
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/filterimage"
+        android:layout_below="@id/filterfrequencyminutes"
+        android:id="@+id/durationlabel"
+        android:text="Enter duration in seconds :"
+        android:textSize="16sp"
+        ></TextView>
+    
+    <Spinner 
+        
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/durationlabel"
+        android:layout_toRightOf="@id/filterimage"
+        android:id="@+id/filterdurationseconds"
+        android:entries="@array/minutenumber"
+        
+        ></Spinner>
+    
+
+</RelativeLayout>

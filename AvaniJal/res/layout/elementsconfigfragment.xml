@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
+    
+    <LinearLayout
+        
+        android:id="@+id/pumpnumberlayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        
+        >
+        <TextView 
+            
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:paddingLeft="5dp"
+            android:id="@+id/totalitemlabel"
+            android:text="@string/numberofpump"
+            
+            />
+        
+        <Spinner 
+		    
+		    android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/itemnum"
+            android:entries="@array/motornumber"
+		    
+		    />
+        
+        
+    </LinearLayout>
+    
+    <!--  
+    <LinearLayout
+        
+        android:id="@+id/configlayout"
+        android:layout_below="@id/pumpnumberlayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        
+        >
+        <TextView 
+            
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:paddingLeft="5dp"
+            android:id="@+id/totalconfiglabel"
+            android:text="@string/numberoffilter"
+            
+            />
+        
+        <Spinner 
+		    
+		    android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/numberofitemconfig"
+            android:entries="@array/filternumber"
+		    
+		    />
+        
+        
+    </LinearLayout> -->
+    
+<ScrollView 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/elementstable"
+    android:layout_below="@id/pumpnumberlayout"
+    android:layout_marginTop="5dp"
+     >
+    
+     
+    <LinearLayout
+     android:id="@+id/scrolllinear"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_marginLeft="10dp"
+     android:layout_marginTop="5dp"
+     android:orientation="vertical"
+     
+     >
+     
+    
+     </LinearLayout>
+  
+</ScrollView>
+</RelativeLayout>

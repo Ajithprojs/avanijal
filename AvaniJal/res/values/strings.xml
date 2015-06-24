@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AvaniJal</string>
+    <string name="action_settings">Settings</string>
+    <string name="language_change">Change Language</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_crop_configuration_screen">CropConfigurationScreen</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_crop_selection">CropSelectionActivity</string>
+    <string name="title_section1">Patram</string>
+    <string name="title_section2">Pushpam</string>
+    <string name="title_section3">Phalam</string>
+    <string name="title_section4">Dhanyam</string>
+    <string name="title_activity_language_selection">LanguageSelectionActivity</string>
+    <string name="title_activity_elements_configuration">ElementsConfigurationActivity</string>
+    <string name="title_activity_configuration_details">ConfigurationDetails</string>
+    <string name="title_activity_configurations_list">ConfigurationsList</string>
+    <string name="title_activity_motor">MotorActivity</string>
+    <string name="title_activity_filter">FilterActivity</string>
+    <string name="title_activity_valve">ValveActivity</string>
+    <string name="title_activity_sensor">SensorActivity</string>
+    <string name="title_activity_sms">SmsActivity</string>
+
+</resources>

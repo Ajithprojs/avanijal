@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp" >
+    
+    <ImageView
+        android:id="@+id/configlisticon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="6dip"
+        android:layout_centerVertical="true"
+        android:contentDescription="TODO"
+        android:src="@drawable/ic_launcher" />
+
+    <!--  
+   -->
+
+    <TextView
+        android:id="@+id/configlistfirstLine"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/configlisticon"
+        android:gravity="center_vertical"
+        android:text="Element name"
+        android:textSize="18sp" />
+    
+     <TextView
+        android:id="@+id/configlistsecondLine"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/configlistfirstLine"
+        android:layout_toRightOf="@id/configlisticon"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:text="not configured yet"
+        android:textSize="12sp" />
+    
+
+</RelativeLayout>

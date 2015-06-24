@@ -1,0 +1,84 @@
+<resources>
+
+   <string name="app_name">AvaniJal</string>
+    <string name="greet">स्वागत!!</string>
+    <string name="langselection">आप चाहते हैं जिसमें भाषा का चयन करें</string>
+    <string name="chooselang">भाषा चुनें</string>
+    <string name="logintitle">लॉग इन करो</string>
+    <string name="emailfield">ईमेल</string>
+    <string name="passwordfield">पासवर्ड</string>
+    <string name="loginbutton">साइन इन</string>
+    <string name="cropconfig">फसल विन्यास</string>
+    <string name="patrmatitle">पत्ते</string>
+    <string name="pushpamtitle">फूल</string>
+    <string name="phalamtitle">फल</string>
+    <string name="dhanyamtitle">अनाज</string>
+    <string name="carrot">गाजर</string>
+    <string name="potato">आलू</string>
+    <string name="rice">चावल</string>
+
+      <string name="acreplaceholder">एकड़ जमीन की संख्या दर्ज करें</string>
+    
+    <string name="gunteplaceholder">Guntha की संख्या दर्ज करें</string>
+    
+    <string name="localbuttontext">स्थानीय</string>
+    
+    <string name="remotebuttontext">दूरस्थ</string>
+    
+    <string name="fivehp">5</string>
+    
+    <string name="sevenhp">7.5</string>
+    
+    <string name="tenhp">10</string>
+    
+    <string name="twophase">2 चरण</string>
+    
+    <string name="threephase">3 चरण</string>
+    
+    <string name="numberofpump">पंपों की संख्या का चयन : </string>
+    
+    <string name="phoneremote">रिमोट पंप फोन</string>
+
+    <string-array name="croptype">
+    <item name="patrmatitle">पत्ते</item>
+    <item name="pushpamtitle">फूल</item>
+    <item name="phalamtitle">फल</item>
+    <item name="dhanyamtitle">अनाज</item>
+     
+    </string-array>
+    
+      <string-array name="languages">
+        <item>ಕನ್ನಡ</item>
+        <item>हिंदी</item>
+        <item>English</item>
+        <item>தமிழ்</item>
+        <item>മലയാളം</item>
+        <item>తెలుగు</item>
+    </string-array>
+    
+      <string-array name="elements">
+          
+          <item>पंप</item>
+          <item>फ़िल्टर</item>
+          <item>वाल्व</item>
+          <item>सेंसर</item>
+      </string-array>
+      
+      <string-array name="motortype">
+          
+          <item>सिंचाई</item>
+          <item>खाद डालना</item>
+      </string-array>
+      
+      <string-array name="localmotornumber">
+          <item>1</item>
+          <item>2</item>
+          <item>3</item>
+          <item>4</item>
+      </string-array>
+      <string-array name="remotemotornumber">
+          <item>5</item>
+          <item>6</item>
+      </string-array>
+
+</resources>

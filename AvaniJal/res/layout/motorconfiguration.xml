@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="5dp"
+     >
+    <ImageView 
+        
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/lineseperator"
+        android:id="@+id/sep1"
+        
+        />
+    
+    <TextView 
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Motor"
+        android:layout_below="@id/sep1"
+ 		android:textColor="@android:color/white"
+        android:id="@+id/motornumtxt"
+        android:textSize="24dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        
+        />
+    
+    
+    <Button 
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sep1"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:id="@+id/delebtn"
+        android:text="delete"
+        
+        />
+    
+    <ImageView 
+        
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/lineseperator"
+        android:id="@+id/sep2"
+        android:layout_below="@id/motornumtxt"
+        
+        />
+    <ImageView 
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/motors"
+        android:id="@+id/motorimage"
+        android:layout_below="@id/sep2"
+        android:layout_marginTop="5dp"
+        
+        />
+    
+    <EditText 
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:id="@+id/motorname"
+        android:hint="Enter location/pump name"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/motorimage"
+        android:layout_below="@id/sep2"
+        
+        />
+    
+    <TextView 
+        	android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/motoridlbl"
+            android:text="Select Motor Num :"
+            android:layout_toRightOf="@id/motorimage"
+            android:layout_below="@id/motorname"
+            android:layout_marginTop="5dp"
+        	android:layout_marginLeft="10dp"
+        	android:textSize="14sp"
+        />
+    <Spinner 
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/motoridval"
+        android:layout_toRightOf="@id/motoridlbl"
+        android:layout_below="@id/motorname"
+        android:layout_marginTop="5dp"
+       	android:layout_marginLeft="10dp"
+       	android:textSize="14sp"
+       	android:entries="@array/motornumber"
+        
+        />
+    
+    <TextView 
+        	android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/hplabel"
+            android:text="HP :"
+            android:layout_toRightOf="@id/motorimage"
+            android:layout_below="@id/motoridval"
+            android:layout_marginTop="5dp"
+        	android:layout_marginLeft="10dp"
+        	android:textSize="14sp"
+        />
+    
+    <RadioGroup 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/hplabel"
+        android:orientation="horizontal"
+        android:id="@+id/hptypegroup"
+        android:layout_below="@id/motoridval"
+        
+        >
+        
+        <RadioButton 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/firsthp"
+            android:textSize="14sp"
+            android:text="@string/fivehp"
+            
+            />
+        <RadioButton 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/secondhp"
+            android:textSize="14sp"
+            android:text="@string/sevenhp"
+            
+            />
+        <RadioButton 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/thirdhp"
+            android:textSize="14sp"
+            android:text="@string/tenhp"
+            
+            />
+    </RadioGroup>
+    
+    <TextView 
+        	android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/phaselabel"
+            android:text="Operation :"
+            android:layout_below="@id/hptypegroup"
+            android:layout_marginTop="5dp"
+        	android:layout_marginLeft="10dp"
+        	android:textSize="14sp"
+        />
+    <RadioGroup 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/phaselabel"
+        android:layout_below="@id/hptypegroup"
+        android:orientation="horizontal"
+        android:id="@+id/operationgroup"
+        >
+        
+        <RadioButton 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/twophase"
+            android:textSize="14sp"
+            android:text="@string/twophase"
+            
+            />
+        <RadioButton 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/threephase"
+            android:textSize="14sp"
+            android:text="@string/threephase"
+            
+            />
+        
+    </RadioGroup>
+    
+    
+    <EditText android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:id="@+id/minvoltage"
+        android:hint="min voltage"
+        android:inputType="number"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/operationgroup"
+        />
+    
+    <EditText android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:id="@+id/maxvoltage"
+        android:hint="max voltage"
+        android:inputType="number"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@id/operationgroup"
+        android:layout_toRightOf="@id/minvoltage"/>
+    
+    <EditText android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:id="@+id/litreminute"
+        android:hint="litres/min"
+        android:inputType="number"
+        android:layout_marginLeft="5dp"
+        android:layout_below="@id/operationgroup"
+        android:layout_toRightOf="@id/maxvoltage"/>
+    
+    	<TextView 
+        	android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/deliverytypelabel"
+            android:text="Delivery Type :"
+            android:layout_below="@id/minvoltage"
+            android:layout_marginTop="5dp"
+        	android:layout_marginLeft="10dp"
+        	android:textSize="14sp"
+        />
+    	
+    	<RadioGroup 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/deliverytypelabel"
+        android:layout_below="@id/litreminute"
+        android:orientation="horizontal"
+        android:id="@+id/deliverytypegroup"
+        >
+        
+        <RadioButton 
+            
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/singlebutton"
+            android:textSize="14sp"
+            android:text="@string/singlebuttontext"
+            
+            />
+        
+        <RadioButton 
+            
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/combinedbutton"
+            android:textSize="14sp"
+            android:text="@string/combinedbuttontext"
+            
+            />
+        
+    </RadioGroup>
+    
+    	
+    	<TextView 
+        	android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/currentmeasurementslabel"
+            android:text="Current :"
+            android:layout_below="@id/deliverytypegroup"
+            android:layout_marginTop="5dp"
+        	android:layout_marginLeft="10dp"
+        	android:textSize="14dp"
+        />
+    	
+    	<RadioGroup 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/currentmeasurementslabel"
+        android:layout_below="@id/deliverytypegroup"
+        android:orientation="horizontal"
+        android:id="@+id/curmeasuregroup"
+        >
+        
+        <RadioButton 
+            
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/startercurrentbutton"
+            android:textSize="14sp"
+            android:text="@string/starterbuttontext"
+            
+            />
+        
+        <RadioButton 
+            
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/ctbutton"
+            android:textSize="14sp"
+            android:text="@string/ctbuttontext"
+            
+            />
+        
+    </RadioGroup>
+    	
+    	
+    	<TextView 
+        	android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/typelabel"
+            android:text="Type :"
+            android:layout_below="@id/curmeasuregroup"
+        	android:layout_marginLeft="10dp"
+        	android:textSize="14dp"
+        />
+		<Spinner 
+		    
+		    android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/typelabel"
+            android:layout_below="@id/curmeasuregroup"
+            android:id="@+id/typespinner"
+            android:entries="@array/motortype"
+		    
+		    />
+		
+		
+		<EditText 
+		    android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/motorimage"
+            android:layout_below="@id/typespinner"
+            android:inputType="number"
+            android:layout_marginTop="5dp"
+            android:hint="@string/phoneremote"
+            android:visibility="invisible"
+            android:id="@+id/phonenumfield"
+            />
+</RelativeLayout>

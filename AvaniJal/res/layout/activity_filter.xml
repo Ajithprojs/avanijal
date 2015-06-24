@@ -1,0 +1,68 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/mainbg"
+    tools:context=".FilterActivity" >
+
+    <TextView 
+            
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:paddingLeft="5dp"
+            android:id="@+id/totalfilterlabel"
+            android:text="@string/numberoffilter"
+            
+            />
+        
+        <Spinner 
+		    
+		    android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/totalfilterlabel"
+            android:id="@+id/filternum"
+		    
+		    />
+        
+        <Button
+            
+            android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/setfilterconfigbtn"
+    android:text="Set Configuration"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginBottom="5dp"
+            
+            />
+        
+        
+        <ScrollView 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/elementstable"
+    android:layout_below="@id/totalfilterlabel"
+    android:layout_above="@id/setfilterconfigbtn"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="10dp"
+     >
+        
+        <LinearLayout
+     android:id="@+id/filterlayout"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_marginLeft="10dp"
+     android:layout_marginTop="15dp"
+     android:orientation="vertical"
+     
+     >
+     
+    
+     </LinearLayout>
+     </ScrollView>
+
+</RelativeLayout>

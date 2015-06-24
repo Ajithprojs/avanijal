@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/motorsholder"
+    android:orientation="vertical" >
+    
+    <LinearLayout android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/buttonholder"
+    android:weightSum="2"
+    android:orientation="horizontal">
+    <Button 
+        
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Add Local Motor(4)"
+        android:background="@drawable/btnbg"
+        android:layout_alignParentLeft="true"
+        android:textSize="13sp"
+        android:id ="@+id/addlocalmotorbtn"
+        />
+    <TextView android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:text="|"/>
+    
+    <Button 
+        
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Add Remote Motor(2)"
+        android:background="@drawable/btnbg"
+        android:layout_alignParentRight="true"
+        android:textSize="13sp"
+        android:id ="@+id/addremotemotorbtn"
+        />
+	</LinearLayout>
+    
+    
+    
+      <ScrollView 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/elementstable"
+    android:layout_below="@id/buttonholder"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="10dp"
+     >
+        
+        <LinearLayout
+     android:id="@+id/motorlayout"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_marginLeft="10dp"
+     android:layout_marginTop="15dp"
+     android:orientation="vertical"
+     
+     >
+     </LinearLayout>
+     </ScrollView>
+    
+</RelativeLayout>

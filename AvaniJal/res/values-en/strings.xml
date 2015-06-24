@@ -1,0 +1,383 @@
+<resources>
+
+    <string name="app_name">AvaniJal</string>
+    <string name="greet">Welcome!!</string>
+    <string name="langselection">Select the language in which you want</string>
+    <string name="chooselang">Choose the language</string>
+    <string name="logintitle">Login</string>
+    <string name="emailfield">Email</string>
+    <string name="passwordfield">Password</string>
+    <string name="loginbutton">Sign in</string>
+    <string name="cropconfig">Crop Configuration</string>
+    <string name="carrot">Carrot</string>
+    <string name="potato">Potato</string>
+    <string name="rice">Rice</string>
+    
+    <string name="acreplaceholder">Enter number of acres</string>
+    
+    <string name="gunteplaceholder">Enter number of guntas</string>
+    
+    <string name="localbuttontext">local</string>
+    
+    <string name="remotebuttontext">remote</string>
+    
+    <string name="singlebuttontext">single</string>
+    
+    <string name="combinedbuttontext">combined</string>
+    
+    <string name="starterbuttontext">starter</string>
+    
+    <string name="ctbuttontext">CT</string>
+    
+    <string name="fivehp">5</string>
+    
+    <string name="sevenhp">7.5</string>
+    
+    <string name="tenhp">10</string>
+    
+    <string name="twophase">2 phase</string>
+    
+    <string name="threephase">3 phase</string>
+    
+    <string name="numberofpump">select the number of pumps : </string>
+    
+    <string name="numberofpumpconfig">select the number of pump configuration : </string>
+    
+    <string name="numberoffilter">select the number of filters : </string>
+    
+    <string name="numberoffilterconfig">select the number of filter configuration : </string>
+    
+    <string name="phoneremote">Remote pump phone</string>
+    
+    	<string-array name="croptype">
+          
+     <item name="patrmatitle">PATRAM</item>
+    <item name="pushpamtitle">PUSHPAM</item>
+    <item name="phalamtitle">PHALAM</item>
+    <item name="dhanyamtitle">DHANYAM</item>
+      </string-array>
+      
+    	<string-array name="avaniprocess">
+    	     <item name="conf">Configurations</item>
+    		<item name="asso">Associations</item>
+    		<item name="provi">Provisioning</item>
+    		<item name="irri">Irrigation</item>
+    	    
+    	</string-array>
+
+    
+      <string-array name="languages">
+        <item>ಕನ್ನಡ</item>
+        <item>हिंदी</item>
+        <item>English</item>
+        <item>தமிழ்</item>
+        <item>മലയാളം</item>
+        <item>తెలుగు</item>
+    </string-array>
+    
+      <string-array name="elements">
+          
+          <item>Motor</item>
+          <item>Filter</item>
+          <item>Valve</item>
+          <item>Sensor</item>
+      </string-array>
+      
+      <string-array name="motortype">
+          
+          <item>irrigation</item>
+          <item>fertigation</item>
+      </string-array>
+      
+      <string-array name="motornumber">
+          <item>1</item>
+          <item>2</item>
+          <item>3</item>
+          <item>4</item>
+          <item>5</item>
+          <item>6</item>
+      </string-array>
+      
+      <string-array name="filternumber">
+      	  <item>0</item>
+          <item>1</item>
+          <item>2</item>
+          <item>3</item>
+          <item>4</item>
+      </string-array>
+      
+      <string-array name="fertigationvalvenumber">
+      	  <item>0</item>
+          <item>1</item>
+          <item>2</item>
+          <item>3</item>
+          <item>4</item>
+      </string-array>
+      
+      <string-array name="irrigationnvalvenumber">
+          <item>1</item>
+          <item>2</item>
+          <item>3</item>
+          <item>4</item>
+          <item>5</item>
+          <item>6</item>
+          <item>7</item>
+          <item>8</item>
+          <item>9</item>
+          <item>10</item>
+          <item>11</item>
+          <item>12</item>
+          <item>13</item>
+          <item>14</item>
+          <item>15</item>
+          <item>16</item>
+          <item>17</item>
+          <item>18</item>
+          <item>19</item>
+          <item>20</item>
+          <item>21</item>
+          <item>22</item>
+          <item>23</item>
+          <item>24</item>
+          <item>25</item>
+          <item>26</item>
+          <item>27</item>
+          <item>28</item>
+          <item>29</item>
+          <item>30</item>
+          <item>31</item>
+          <item>32</item>
+          <item>33</item>
+          <item>34</item>
+          <item>35</item>
+          <item>36</item>
+          <item>37</item>
+          <item>38</item>
+          <item>39</item>
+          <item>40</item>
+          <item>41</item>
+          <item>42</item>
+          <item>43</item>
+          <item>44</item>
+          <item>45</item>
+          <item>46</item>
+          <item>47</item>
+          <item>48</item>
+          <item>49</item>
+          <item>50</item>
+          <item>51</item>
+          <item>52</item>
+          <item>53</item>
+          <item>54</item>
+          <item>55</item>
+          <item>56</item>
+          <item>57</item>
+          <item>58</item>
+          <item>59</item>
+          <item>60</item>
+          <item>61</item>
+          <item>62</item>
+          <item>63</item>
+          <item>64</item>
+          <item>65</item>
+          <item>66</item>
+          <item>67</item>
+          <item>68</item>
+          <item>69</item>
+          <item>70</item>
+          <item>71</item>
+          <item>72</item>
+      </string-array>
+      
+      <string-array name="soilsensornumber">
+      	  <item>0</item>
+          <item>1</item>
+          <item>2</item>
+          <item>3</item>
+          <item>4</item>
+          <item>5</item>
+          <item>6</item>
+          <item>7</item>
+          <item>8</item>
+          <item>9</item>
+          <item>10</item>
+       </string-array>
+       
+      <string-array name="watersensornumber">
+      	  <item>0</item>
+          <item>1</item>
+          <item>2</item>
+          <item>3</item>
+          <item>4</item>
+          <item>5</item>
+          <item>6</item>
+       </string-array>
+      
+      <string-array name="hournumber">
+          <item>0</item>
+          <item>1</item>
+          <item>2</item>
+          <item>3</item>
+          <item>4</item>
+          <item>5</item>
+          <item>6</item>
+          <item>7</item>
+          <item>8</item>
+          <item>9</item>
+          <item>10</item>
+          <item>11</item>
+          <item>12</item>
+          <item>13</item>
+          <item>14</item>
+          <item>15</item>
+          <item>16</item>
+          <item>17</item>
+          <item>18</item>
+          <item>19</item>
+          <item>20</item>
+          <item>21</item>
+          <item>22</item>
+          <item>23</item>
+          <item>24</item>
+      </string-array>
+      
+      <string-array name="minutenumber">
+          <item>0</item>
+          <item>1</item>
+          <item>2</item>
+          <item>3</item>
+          <item>4</item>
+          <item>5</item>
+          <item>6</item>
+          <item>7</item>
+          <item>8</item>
+          <item>9</item>
+          <item>10</item>
+          <item>11</item>
+          <item>12</item>
+          <item>13</item>
+          <item>14</item>
+          <item>15</item>
+          <item>16</item>
+          <item>17</item>
+          <item>18</item>
+          <item>19</item>
+          <item>20</item>
+          <item>21</item>
+          <item>22</item>
+          <item>23</item>
+          <item>24</item>
+          <item>25</item>
+          <item>26</item>
+          <item>27</item>
+          <item>28</item>
+          <item>29</item>
+          <item>30</item>
+          <item>31</item>
+          <item>32</item>
+          <item>33</item>
+          <item>34</item>
+          <item>35</item>
+          <item>36</item>
+          <item>37</item>
+          <item>38</item>
+          <item>39</item>
+          <item>40</item>
+          <item>41</item>
+          <item>42</item>
+          <item>43</item>
+          <item>44</item>
+          <item>45</item>
+          <item>46</item>
+          <item>47</item>
+          <item>48</item>
+          <item>49</item>
+          <item>50</item>
+          <item>51</item>
+          <item>52</item>
+          <item>53</item>
+          <item>54</item>
+          <item>55</item>
+          <item>56</item>
+          <item>57</item>
+          <item>58</item>
+          <item>59</item>
+          <item>60</item>
+      </string-array>
+      
+      
+      <integer-array name="patramcropimages">
+          <item>@drawable/carrot</item>
+          <item>@drawable/potato</item>
+          <item>@drawable/rice</item>
+      </integer-array>
+      <integer-array name="palamcropimages">
+          <item>@drawable/carrot</item>
+          <item>@drawable/potato</item>
+          <item>@drawable/rice</item>
+      </integer-array>
+      <integer-array name="pushpamcropimages">
+          <item>@drawable/carrot</item>
+          <item>@drawable/potato</item>
+          <item>@drawable/rice</item>
+      </integer-array>
+      <integer-array name="dhanyamcropimages">
+          <item>@drawable/carrot</item>
+          <item>@drawable/potato</item>
+          <item>@drawable/rice</item>
+      </integer-array>
+      
+      <string-array name="patramcrops">
+          <item>carrot</item>
+          <item>potato</item>
+          <item>rice</item>
+      </string-array>
+      <string-array name="palamcrops">
+          <item>carrot</item>
+          <item>potato</item>
+          <item>rice</item>
+      </string-array>
+      <string-array name="pushpamcrops">
+          <item>carrot</item>
+          <item>potato</item>
+          <item>rice</item>
+      </string-array>
+      <string-array name="dhanyamcrops">
+          <item>@drawable/carrot</item>
+          <item>@drawable/potato</item>
+          <item>rice</item>
+      </string-array>
+      
+      <string-array name="avanimenuitems">
+          <item>Configuration</item>
+          <item>Provisioning</item>
+          <item>Association</item>
+          <item>Crop List</item>
+          <item>Irrigation</item>
+          <item>History</item>
+          <item>Settings</item>
+      </string-array>
+      
+      <string-array name="settingitems">
+          <item>Change Language</item>
+          <item>Reset Configurations</item>
+          <item>My profile</item>
+          <item>Log out</item>
+      </string-array>
+      
+      <string-array name="localmotornumber">
+          <item>1</item>
+          <item>2</item>
+          <item>3</item>
+          <item>4</item>
+      </string-array>
+      <string-array name="remotemotornumber">
+          <item>5</item>
+          <item>6</item>
+      </string-array>
+      
+      <string name="drawer_open">Open navigation drawer</string>
+      <string name="drawer_close">Close navigation drawer</string>
+      
+        
+</resources>

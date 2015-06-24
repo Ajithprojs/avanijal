@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.app.avanstart"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="18" />
+
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/avaniheaderlogo"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.app.avanstart.SplashActivity"
+            android:configChanges="locale"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.app.avanstart.LoginActivity"
+            android:configChanges="locale"
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait"
+            android:theme="@style/AvaniTheme"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
+        </activity>
+        <activity
+            android:name="com.app.avanstart.CropSelectionActivity"
+            android:configChanges="locale"
+            android:label="@string/title_activity_crop_selection"
+            android:screenOrientation="portrait"
+            android:theme="@style/AvaniTheme" >
+        </activity>
+        <activity
+            android:name="com.app.avanstart.LanguageSelectionActivity"
+            android:configChanges="locale"
+            android:label="@string/title_activity_language_selection"
+            android:screenOrientation="portrait"
+            android:theme="@style/AvaniTheme" >
+        </activity>
+        <activity
+            android:name="com.app.avanstart.ElementsConfigurationActivity"
+            android:configChanges="locale"
+            android:label="@string/title_activity_elements_configuration"
+            android:screenOrientation="portrait"
+            android:theme="@style/AvaniTheme" >
+        </activity>
+        <activity
+            android:name="com.app.avanstart.ConfigurationDetails"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_configuration_details" >
+        </activity>
+        <activity
+            android:name="com.app.avanstart.ConfigurationsList"
+            android:configChanges="locale"
+            android:label="@string/title_activity_elements_configuration"
+            android:screenOrientation="portrait"
+            android:theme="@style/AvaniTheme" >
+        </activity>
+        <activity
+            android:name="com.app.avanstart.MotorActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_motor" >
+        </activity>
+        <activity
+            android:name="com.app.avanstart.FilterActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_filter" >
+        </activity>
+        <activity
+            android:name="com.app.avanstart.ValveActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_valve" >
+        </activity>
+        <activity
+            android:name="com.app.avanstart.SensorActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_sensor" >
+        </activity>
+        <activity
+            android:name="com.app.avanstart.SmsActivity"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_sms" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SENDTO" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="sms" />
+                <data android:scheme="smsto" />
+                <data android:scheme="mms" />
+                <data android:scheme="mmsto" />
+            </intent-filter>
+        </activity>
+        
+       <!-- BroadcastReceiver that listens for incoming SMS messages -->
+        <!-- Note the use of android:enabled that is linked to a bool. This will mean this receiver
+             is enabled on KitKat devices and above -->
+        <receiver android:name="com.app.smsservice.SmsReceiver"
+                  android:permission="android.permission.BROADCAST_SMS">
+
+            <!-- KitKat+ SMS received action -->
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_DELIVER" />
+            </intent-filter>
+
+        </receiver>
+
+        <!-- BroadcastReceiver that listens for incoming SMS messages -->
+        <!-- Note the use of android:enabled that is linked to a bool. This will mean this receiver
+             is enabled on preKitKat devices -->
+        <receiver android:name="com.app.smsservice.SmsReceiverLegacy">
+
+            <!-- Pre-KitKat SMS received action -->
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+
+        </receiver>
+
+ 
+        <!-- Service that delivers messages from the phone "quick response" -->
+        <service android:name=".HeadlessSmsSendService"
+                 android:permission="android.permission.SEND_RESPOND_VIA_MESSAGE"
+                 android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.RESPOND_VIA_MESSAGE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="sms" />
+                <data android:scheme="smsto" />
+                <data android:scheme="mms" />
+                <data android:scheme="mmsto" />
+            </intent-filter>
+        </service>
+        <activity android:name="DashBoardActivity" 
+            android:screenOrientation="portrait"
+            android:theme="@style/AvaniTheme" 
+           ></activity>
+    
+    </application>
+
+</manifest>

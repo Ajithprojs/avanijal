@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    
+    <ImageView 
+        
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/lineseperator"
+        
+        />
+    
+   
+    <ImageView 
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/watersensor"
+        android:id="@+id/watersensorimg"
+        android:layout_marginTop="5dp"
+        
+        />
+    
+    <TextView  
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/watersensorimg"
+        android:textSize="16sp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/waterlbl"
+        android:text="Water Flow Meter :"
+        
+        ></TextView>
+    
+    <EditText 
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/watersensorimg"
+        android:layout_below="@id/waterlbl"
+        android:textSize="16sp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/kkvalue"
+        android:hint="KK "
+        
+        />
+    
+    <EditText 
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/kkvalue"
+        android:layout_below="@id/waterlbl"
+        android:textSize="16sp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/offsetvalue"
+        android:hint="offset"
+        
+        />
+    
+     <ImageView 
+        
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/lineseperator"
+        android:id="@+id/secondline"
+        android:layout_below="@id/watersensorimg"
+        android:layout_marginTop="5dp"
+        
+        
+        />
+    <ImageView 
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/sensors"
+        android:id="@+id/soilsensorimg"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/secondline"
+        
+        />
+    
+     <TextView  
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/soilsensorimg"
+        android:textSize="18sp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/soillbl"
+        android:layout_below="@id/secondline"
+        android:text="no of soil sensors :"
+        
+        ></TextView>
+    
+    <Spinner
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/soilsensorimg"
+        android:layout_below="@id/soillbl"
+        android:id="@+id/numbersoil"
+        android:entries="@array/filternumber"
+        ></Spinner>
+    
+    <TextView  
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/soilsensorimg"
+        android:layout_below="@id/numbersoil"
+        android:textSize="16sp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/moisturelbl"
+        android:text="Moisture Level :"
+        
+        ></TextView>
+    
+    <TextView  
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/soilsensorimg"
+        android:layout_below="@id/moisturelbl"
+        android:textSize="16sp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/moisturemin"
+        android:text="Min Level : 0%"
+        
+        ></TextView>
+    
+    <SeekBar 
+        android:id="@+id/moistureminseekbar" 
+        android:max="100" 
+        android:layout_width="200dp" 
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/soilsensorimg"
+         android:layout_below="@+id/moisturemin"/>
+    
+    <TextView  
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/soilsensorimg"
+        android:layout_below="@id/moistureminseekbar"
+        android:textSize="16sp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/moisturemax"
+        android:text="Max Level : 0%"
+        
+        ></TextView>
+    
+    <SeekBar 
+        android:id="@+id/moisturemaxseekbar" 
+        android:max="100" 
+        android:layout_width="200dp" 
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/soilsensorimg"
+         android:layout_below="@+id/moisturemax"/>
+    
+    
+    
+    <TextView  
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/soilsensorimg"
+        android:layout_below="@id/moisturemaxseekbar"
+        android:textSize="16sp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/eclbl"
+        android:text="EC Level "
+        
+        ></TextView>
+    
+    
+    <TextView  
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/soilsensorimg"
+        android:layout_below="@id/eclbl"
+        android:textSize="16sp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/ecminlbl"
+        android:text="Min Level : 0.00"
+        
+        ></TextView>
+    
+    <SeekBar 
+        android:id="@+id/ecminseekbar" 
+        android:max="500" 
+        android:layout_width="200dp" 
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/soilsensorimg"
+        android:layout_below="@+id/ecminlbl"/>
+    
+    
+     <TextView  
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/soilsensorimg"
+        android:layout_below="@id/ecminseekbar"
+        android:textSize="16sp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/ecmaxlbl"
+        android:text="Max Level : 0.00"
+        
+        ></TextView>
+    
+    <SeekBar 
+        android:id="@+id/ecmaxseekbar" 
+        android:max="500" 
+        android:layout_width="200dp" 
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/soilsensorimg"
+        android:layout_below="@+id/ecmaxlbl"/>
+    
+    
+    
+    <!--  
+    <Spinner
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/watersensorimg"
+        android:layout_below="@id/waterlbl"
+        android:id="@+id/numberwatersensor"
+        android:entries="@array/filternumber"
+        ></Spinner> -->
+   
+
+</RelativeLayout>

@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/mainbg"
+    tools:context=".MotorActivity" >
+
+    <!-- <TextView 
+            
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:paddingLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:id="@+id/totalmotorlabel"
+            android:text="@string/numberofpump"
+            
+            />
+        
+        <Spinner 
+		    
+		    android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/totalmotorlabel"
+            android:id="@+id/motornum"
+            android:entries="@array/motornumber"
+		    
+		    /> -->
+		    
+		  
+        
+        <Button
+            
+            android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:id="@+id/setconfigbtn"
+    android:text="Set Configuration"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginBottom="5dp"
+            
+            />
+        
+         <LinearLayout
+     android:id="@+id/finalmotorlayout"
+     android:layout_width="fill_parent"
+     android:layout_height="match_parent"
+     android:layout_above="@id/setconfigbtn"
+     android:layout_marginLeft="10dp"
+     android:layout_marginTop="15dp"
+     android:orientation="vertical"
+     
+     ></LinearLayout> 
+        
+        
+      
+
+</RelativeLayout>

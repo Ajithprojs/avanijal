@@ -1,0 +1,78 @@
+<resources>
+
+ <string name="app_name">AvaniJal</string>
+    <string name="greet">வரவேற்பு!!</string>
+    <string name="langselection">நீங்கள் விரும்பும் மொழியைத் தேர்ந்தெடுங்கள்</string>
+    <string name="chooselang">மொழி தேர்வு</string>
+    <string name="logintitle">தேதி</string>
+    <string name="emailfield">மின்னஞ்சல்</string>
+    <string name="passwordfield">கடவுச்சொல்</string>
+    <string name="loginbutton">உள்நுழைய</string>
+    <string name="cropconfig">பயிர் கட்டமைப்பு</string>
+    
+    <string name="carrot">கேரட்</string>
+    <string name="potato">உருளைக்கிழங்கு</string>
+    <string name="rice">அரிசி</string>
+
+      <string name="acreplaceholder">ஏக்கர் எண்ணை சேர்க்கவும்</string>
+    
+    <string name="gunteplaceholder">Guntas எண்ணிக்கை உள்ளிடவும்</string>
+    
+    <string name="localbuttontext">உள்ளூர்</string>
+    
+    <string name="remotebuttontext">தொலை</string>
+    
+    <string name="fivehp">5</string>
+    
+    <string name="sevenhp">7.5</string>
+    
+    <string name="tenhp">10</string>
+    
+    <string name="twophase">2 கட்ட</string>
+    
+    <string name="threephase">3 கட்ட</string>
+    
+    <string name="numberofpump">குழாய்கள் எண்ணிக்கை தேர்வ: </string>
+    
+    <string name="phoneremote">தொலை பம்ப் தொலைபேசி</string>
+
+    <string-array name="croptype">
+  <item name="patrmatitle">பாத்திர</item>
+    <item name="pushpamtitle">புஷ்பா</item>
+    <item name="phalamtitle">அண்மைய மாற்றங்கள்</item>
+    <item name="dhanyamtitle">தானிய</item>
+     
+    </string-array>
+    
+      <string-array name="languages">
+        <item>ಕನ್ನಡ</item>
+        <item>हिंदी</item>
+        <item>English</item>
+        <item>தமிழ்</item>
+        <item>മലയാളം</item>
+        <item>తెలుగు</item>
+    </string-array>
+    
+      <string-array name="elements">
+          
+          <item>பம்ப்</item>
+          <item>வடிகட்டி</item>
+          <item>வால்வு</item>
+          <item>சென்சார்</item>
+      </string-array>
+      
+      <string-array name="motortype">
+          
+          <item>பாசன</item>
+          <item>கருத்தரித்தல்</item>
+      </string-array>
+      
+      <string-array name="motornumber">
+          
+          <item>1</item>
+          <item>2</item>
+          <item>3</item>
+          <item>4</item>
+      </string-array>
+
+</resources>

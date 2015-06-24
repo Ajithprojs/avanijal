@@ -1,0 +1,111 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    
+    android:background="@drawable/mainbg"
+    tools:context=".ElementsConfigurationActivity" >
+	
+    <!--  <ImageView 
+        
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/potato"
+        android:paddingLeft="5dp"
+        android:id="@+id/selectedcropholder"
+        
+        />
+    
+    <TextView 
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/selectedcropholder"
+        android:id="@+id/cropname"
+        android:text="crop name"
+        android:textSize="22sp"
+        android:paddingLeft="5dp"
+        
+        />
+    
+    	
+    	
+    	<EditText 
+    	    
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="40dp"
+    	    android:layout_toRightOf="@id/selectedcropholder"
+    	    android:layout_below="@id/cropname"
+       		android:id="@+id/acreedit"
+       		android:inputType="number"
+       		android:hint="@string/acreplaceholder"
+        	android:textSize="16sp"
+        	android:paddingLeft="5dp"
+    	    
+    	    />
+    	
+    	<EditText 
+    	    
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="40dp"
+    	    android:layout_toRightOf="@id/selectedcropholder"
+    	    android:layout_below="@id/acreedit"
+       		android:id="@+id/guntaedit"
+       		android:inputType="number"
+       		android:hint="@string/gunteplaceholder"
+        	android:textSize="16sp"
+        	android:paddingLeft="5dp"
+    	    
+    	    />-->
+    	
+     <RelativeLayout 
+      android:layout_width="fill_parent"
+      android:layout_height="40dp"
+      android:layout_alignParentBottom="true"
+      android:background="@android:color/white"
+      android:id="@+id/bottombutton"
+      >
+      
+      <Button 
+          
+          android:layout_width="wrap_content"
+      android:layout_height="40dp"
+      android:id="@+id/configbtn"
+      android:text="Set Configuration"
+      android:layout_centerHorizontal="true"
+          
+          />
+      
+  </RelativeLayout>
+    	
+   <android.support.v4.view.ViewPager 
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/elementconfigpager"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+   
+    android:layout_above="@id/bottombutton"
+    
+     >
+
+    <!--
+    This title strip will display the currently visible page title, as well as the page
+    titles for adjacent pages.
+    -->
+
+    <android.support.v4.view.PagerTitleStrip
+        android:id="@+id/elementconfiguretitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="#ffffff"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:textColor="#000" />
+
+</android.support.v4.view.ViewPager>
+
+ 
+
+</RelativeLayout>

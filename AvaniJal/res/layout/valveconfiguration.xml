@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <ImageView 
+        
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/lineseperator"
+        
+        />
+    <ImageView 
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/valves"
+        android:id="@+id/valveimage"
+        android:layout_marginTop="5dp"
+        
+        />
+    
+    <TextView  
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/valveimage"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        android:id="@+id/irrigationlbl"
+        android:text="no of wired irrigation valves :"
+        
+        ></TextView>
+    
+    <com.app.avanicomponents.MultiSelectionSpinner
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/valveimage"
+        android:layout_below="@id/irrigationlbl"
+        android:id="@+id/wirednumberirrivalve"
+        android:entries="@array/irrigationnvalvenumber"
+        />
+    
+    <TextView  
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/valveimage"
+        android:layout_below="@id/wirednumberirrivalve"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/plcirrigationlbl"
+        android:text="no of PLC irrigation valves :"
+        
+        ></TextView>
+    
+    <com.app.avanicomponents.MultiSelectionSpinner
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/valveimage"
+        android:layout_below="@id/plcirrigationlbl"
+        android:id="@+id/plcnumberirrivalve"
+        android:entries="@array/irrigationnvalvenumber"
+        />
+    
+    <TextView  
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/valveimage"
+        android:layout_below="@id/plcnumberirrivalve"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/wirelessirrigationlbl"
+        android:text="no of wireless irrigation valves :"
+        
+        ></TextView>
+    
+    <com.app.avanicomponents.MultiSelectionSpinner
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/valveimage"
+        android:layout_below="@id/wirelessirrigationlbl"
+        android:id="@+id/wirelessnumberirrivalve"
+        android:entries="@array/irrigationnvalvenumber"
+        />
+    
+    
+    <TextView  
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/valveimage"
+        android:layout_below="@id/wirelessnumberirrivalve"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/fertilbl"
+        android:text="no of fertigation valves :"
+        
+        ></TextView>
+    
+    <com.app.avanicomponents.MultiSelectionSpinner
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/valveimage"
+        android:layout_below="@id/fertilbl"
+        android:id="@+id/numberfertivalve"
+        android:entries="@array/fertigationvalvenumber"
+        />
+    
+    
+
+</RelativeLayout>

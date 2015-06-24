@@ -1,0 +1,79 @@
+<resources>
+
+    <string name="app_name">AvaniJal</string>
+    <string name="greet">பಸ್ವಾಗತ!!</string>
+    <string name="langselection">ನೀವು ಬಯಸುವ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆ ಮಾಡಿ</string>
+    <string name="chooselang">ಭಾಷೆ ಆಯ್ಕೆ</string>
+
+   <string name="logintitle">ಲಾಗಿನ್</string>
+    <string name="emailfield">ಇಮೇಲ್</string>
+    <string name="passwordfield">ಗುಪ್ತಪದ</string>
+    <string name="loginbutton">ಸೈನ್ ಇನ್</string>
+    <string name="cropconfig">ಬೆಳೆ ಸಂರಚನಾ</string>
+    
+    <string name="carrot">ಕ್ಯಾರೆಟ್</string>
+    <string name="potato">ಆಲೂಗಡ್ಡೆ</string>
+    <string name="rice">ಅಕ್ಕಿ</string>
+
+      <string name="acreplaceholder">ಎಕರೆಗಳ ಸಂಖ್ಯೆಯು ನಮೂದಿಸಿ</string>
+    
+    <string name="gunteplaceholder">ಗುಂಟೆ ಸಂಖ್ಯೆ ನಮೂದಿಸಿ</string>
+    
+    <string name="localbuttontext">ಸ್ಥಳೀಯ</string>
+    
+    <string name="remotebuttontext">ದೂರಸ್ಥ</string>
+    
+    <string name="fivehp">5</string>
+    
+    <string name="sevenhp">7.5</string>
+    
+    <string name="tenhp">10</string>
+    
+    <string name="twophase">2 ಹಂತದ</string>
+    
+    <string name="threephase">3 ಹಂತದ</string>
+    
+    <string name="numberofpump">ಪಂಪ್ ಸಂಖ್ಯೆಯನ್ನು ಆಯ್ಕೆ : </string>
+    
+    <string name="phoneremote">ರಿಮೋಟ್ ಪಂಪ್ ಫೋನ್</string>
+
+    <string-array name="croptype">
+   <item name="patrmatitle">ಪತ್ರಾ</item>
+    <item name="pushpamtitle">ಪುಷ್ಪಾ</item>
+    <item name="phalamtitle">ಫಲಂ</item>
+    <item name="dhanyamtitle">ಧಾನ್ಯ</item>
+     
+    </string-array>
+    
+      <string-array name="languages">
+        <item>ಕನ್ನಡ</item>
+        <item>हिंदी</item>
+        <item>English</item>
+        <item>தமிழ்</item>
+        <item>മലയാളം</item>
+        <item>తెలుగు</item>
+    </string-array>
+    
+      <string-array name="elements">
+          
+          <item>ಪಂಪ್</item>
+          <item>ಫಿಲ್ಟರ್</item>
+          <item>ವಾಲ್ವ್</item>
+          <item>ಸಂವೇದಕ</item>
+      </string-array>
+      
+      <string-array name="motortype">
+          
+          <item>ನೀರಾವರಿ</item>
+          <item>ಫಲೀಕರಣ</item>
+      </string-array>
+      
+      <string-array name="motornumber">
+          
+          <item>1</item>
+          <item>2</item>
+          <item>3</item>
+          <item>4</item>
+      </string-array>
+
+</resources>

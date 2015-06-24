@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <Button 
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Button"
+        android:background="@drawable/btnbg"
+        android:layout_alignParentLeft="true"
+        android:textSize="13sp"
+        android:id ="@+id/addelementbtn"
+        />
+    
+    <ScrollView 
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/elementstable"
+    android:layout_below="@id/addelementbtn"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="10dp"
+     >
+        
+        <LinearLayout
+     android:id="@+id/motorlayout"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_marginLeft="10dp"
+     android:layout_marginTop="15dp"
+     android:orientation="vertical"
+     
+     >
+     </LinearLayout>
+     </ScrollView>
+
+</RelativeLayout>

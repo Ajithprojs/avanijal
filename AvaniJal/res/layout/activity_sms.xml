@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/mainbg"
+    tools:context=".SmsActivity" >
+    
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/smstatuslbl"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:text="sending sms please wait..." />
+    
+    <ProgressBar android:id="@+id/mainSpinner1" android:layout_gravity="center" 
+			android:layout_width="wrap_content" android:layout_height="wrap_content"
+			android:indeterminate="true" 
+			android:layout_centerHorizontal="true"
+			android:layout_above="@id/smstatuslbl"
+			android:layout_marginBottom="10dp"
+			style="?android:attr/progressBarStyleInverse"/>
+    
+    
+    
+
+</RelativeLayout>

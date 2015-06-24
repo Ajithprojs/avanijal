@@ -1,0 +1,79 @@
+<resources>
+
+     <string name="app_name">AvaniJal</string>
+    <string name="greet">స్వాగత!!</string>
+    <string name="langselection">మీరు కావలసిన భాషను ఎంచుకోండి</string>
+    <string name="chooselang">భాషను ఎంచుకోండి</string>
+    <string name="logintitle">లాగిన్</string>
+    <string name="emailfield">ఇమెయిల్</string>
+    <string name="passwordfield">పాస్వర్డ్</string>
+    <string name="loginbutton">సైన్ ఇన్</string>
+    <string name="cropconfig">పంట ఆకృతీకరణு</string>
+    
+    <string name="carrot">ప్రతిఫలం</string>
+    <string name="potato">బంగాళాదుంప</string>
+    <string name="rice">బియ్యం</string>
+    
+	<string name="acreplaceholder">ఎకరాల నెంబర్ ను ఎంటర్ చేయండి</string>
+    
+    <string name="gunteplaceholder">Guntas యొక్క నెంబర్ ను ఎంటర్ చేయండి</string>
+    
+    <string name="localbuttontext">స్థానిక</string>
+    
+    <string name="remotebuttontext">రిమోట్</string>
+    
+    <string name="fivehp">5</string>
+    
+    <string name="sevenhp">7.5</string>
+    
+    <string name="tenhp">10</string>
+    
+    <string name="twophase">2 దశ</string>
+    
+    <string name="threephase">3 దశ</string>
+    
+    <string name="numberofpump">పంపులు సంఖ్య ఎంచుకోండి : </string>
+    
+    <string name="phoneremote">రిమోట్ పంపు ఫోన్</string>
+    
+    <string-array name="croptype">
+  <item name="patrmatitle">పట్రా</item>
+    <item name="pushpamtitle">పుష్ప</item>
+    <item name="phalamtitle">ఫ్రూట్</item>
+    <item name="dhanyamtitle">గ్రెయిన్</item>
+     
+    </string-array>
+
+    
+      <string-array name="languages">
+        <item>ಕನ್ನಡ</item>
+        <item>हिंदी</item>
+        <item>English</item>
+        <item>தமிழ்</item>
+        <item>മലയാളം</item>
+        <item>తెలుగు</item>
+    </string-array>
+    
+      <string-array name="elements">
+          
+          <item>పంపు</item>
+          <item>వడపోత</item>
+          <item>వాల్వ్</item>
+          <item>సెన్సార్</item>
+      </string-array>
+      
+      <string-array name="motortype">
+          
+          <item>నీటిపారుదల</item>
+          <item>ఫలదీకరణం</item>
+      </string-array>
+      
+      <string-array name="motornumber">
+          
+          <item>1</item>
+          <item>2</item>
+          <item>3</item>
+          <item>4</item>
+      </string-array>
+
+</resources>

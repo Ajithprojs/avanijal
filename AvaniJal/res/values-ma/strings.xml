@@ -1,0 +1,79 @@
+<resources>
+
+     <string name="app_name">AvaniJal</string>
+    <string name="greet">സ്വാഗതം!!</string>
+    <string name="langselection">നിങ്ങൾ ആഗ്രഹിക്കുന്ന ഭാഷ തിരഞ്ഞെടുക്കുക</string>
+    <string name="chooselang">ഭാഷ തിരഞ്ഞെടുക്കുക</string>
+    <string name="logintitle">ലോഗിൻ</string>
+    <string name="emailfield">ഇമെയിൽ</string>
+    <string name="passwordfield">പാസ്വേഡ്</string>
+    <string name="loginbutton">സൈൻ ഇൻ</string>
+    <string name="cropconfig">വിള കോൺഫിഗറേഷൻ</string>
+    
+    <string name="carrot">കാരറ്റ്</string>
+    <string name="potato">ഉരുളക്കിഴങ്ങ്</string>
+    <string name="rice">അരി</string>
+
+     <string name="acreplaceholder">ഏക്കർ നമ്പർ നൽകുക</string>
+    
+    <string name="gunteplaceholder">പ്യൂണായ എണ്ണം നൽകുക</string>
+    
+    <string name="localbuttontext">പ്രാദേശിക</string>
+    
+    <string name="remotebuttontext">വിദൂര</string>
+    
+    <string name="fivehp">5</string>
+    
+    <string name="sevenhp">7.5</string>
+    
+    <string name="tenhp">10</string>
+    
+    <string name="twophase">2 ഘട്ടം</string>
+    
+    <string name="threephase">3 ഘട്ടം</string>
+    
+    <string name="numberofpump">പമ്പുകൾ തെരഞ്ഞെടുക്കുക : </string>
+    
+    <string name="phoneremote">വിദൂര പമ്പ് ഫോൺ</string>
+	
+    <string-array name="croptype">
+   <item name="patrmatitle">പത്ര</item>
+    <item name="pushpamtitle">പൂക്കൾ</item>
+    <item name="phalamtitle">പഴങ്ങൾ</item>
+    <item name="dhanyamtitle">ധാന്യം</item>
+     
+    </string-array>
+    
+      <string-array name="languages">
+        <item>ಕನ್ನಡ</item>
+        <item>हिंदी</item>
+        <item>English</item>
+        <item>தமிழ்</item>
+        <item>മലയാളം</item>
+        <item>తెలుగు</item>
+    </string-array>
+    
+      <string-array name="elements">
+          
+          <item>അടിച്ചുകയറ്റുക</item>
+          <item>അരിപ്പ</item>
+          <item>വാതില്പ്പലക</item>
+          <item>സെൻസർ</item>
+      </string-array>
+      
+      <string-array name="motortype">
+          
+          <item>ജലസേചനം</item>
+          <item>ബീജസങ്കലനത്തിനു</item>
+      </string-array>
+      
+      <string-array name="motornumber">
+          
+          <item>1</item>
+          <item>2</item>
+          <item>3</item>
+          <item>4</item>
+      </string-array>
+
+
+</resources>
