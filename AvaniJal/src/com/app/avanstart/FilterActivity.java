@@ -40,7 +40,7 @@ public class FilterActivity extends Activity {
 		}
 
 		Spinner filternum = (Spinner)findViewById(R.id.filternum);
-		ArrayList<MotorItem> mItems = (ArrayList<MotorItem>)AppUtils.confItems.motorItems;
+		ArrayList<Elements> mItems = (ArrayList<Elements>)AppUtils.confItems.motorItems;
 		if (mItems != null) {
 			
 			String[] i = new String[mItems.size() + 1];

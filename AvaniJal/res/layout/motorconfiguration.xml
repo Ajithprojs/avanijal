@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="5dp"
+    android:layout_marginBottom="10dp"
      >
     <ImageView 
         
@@ -75,30 +76,7 @@
         
         />
     
-    <TextView 
-        	android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/motoridlbl"
-            android:text="Select Motor Num :"
-            android:layout_toRightOf="@id/motorimage"
-            android:layout_below="@id/motorname"
-            android:layout_marginTop="5dp"
-        	android:layout_marginLeft="10dp"
-        	android:textSize="14sp"
-        />
-    <Spinner 
-        
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/motoridval"
-        android:layout_toRightOf="@id/motoridlbl"
-        android:layout_below="@id/motorname"
-        android:layout_marginTop="5dp"
-       	android:layout_marginLeft="10dp"
-       	android:textSize="14sp"
-       	android:entries="@array/motornumber"
-        
-        />
+
     
     <TextView 
         	android:layout_width="wrap_content"
@@ -106,7 +84,7 @@
             android:id="@+id/hplabel"
             android:text="HP :"
             android:layout_toRightOf="@id/motorimage"
-            android:layout_below="@id/motoridval"
+            android:layout_below="@id/motorname"
             android:layout_marginTop="5dp"
         	android:layout_marginLeft="10dp"
         	android:textSize="14sp"
@@ -118,7 +96,7 @@
         android:layout_toRightOf="@id/hplabel"
         android:orientation="horizontal"
         android:id="@+id/hptypegroup"
-        android:layout_below="@id/motoridval"
+        android:layout_below="@id/motorname"
         
         >
         

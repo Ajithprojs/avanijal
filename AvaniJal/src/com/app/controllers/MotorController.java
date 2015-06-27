@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import android.R.string;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -34,7 +35,7 @@ import com.app.beans.MotorItem;
 
 
 
-public class MotorController {
+public class MotorController extends ElementsController {
 
 
 	static MotorController _instance;
@@ -43,10 +44,13 @@ public class MotorController {
 
 	int MAX_REMOTE = 2;
 
-	ArrayList<MotorItem> motors;
+	/// holds all the motor elements
+	ArrayList<Elements> motors;
 
+	/// relative layout for each motor
 	RelativeLayout relativ;
 
+	/// final motor holder
 	LinearLayout motorLinear;
 
 	RelativeLayout lin;
@@ -67,11 +71,11 @@ public class MotorController {
 
 	int localVal,remoteVal;
 
-	AlertDialog alert;
-
 	String type;
 
-	int strtIndx;
+	Button addLocalMotorBtn ;
+
+	Button addRemoteMotorBtn ;
 
 
 	private MotorController() {
@@ -87,40 +91,53 @@ public class MotorController {
 
 	}
 
+	private void init(Context cxt) {
+
+		/*
+		 * send objects to the super class for addition and deletion
+		 * 
+		 * */
+
+		if(AppUtils.confItems.motorItems == null)
+			motors = new ArrayList<Elements>();
+		else
+		{
+			motors = AppUtils.confItems.motorItems;
+		}
+		type = "motor";
+		super.elements = motors;
+		super.max = 6;
+		super.type = "motor";
+		super.activity = cxt;
+
+		localmotonum = new ArrayList<String>(Arrays.asList((String[])this.activity.getResources().getStringArray(R.array.localmotornumber)));
+		remotemotonum = new ArrayList<String>(Arrays.asList((String[])this.activity.getResources().getStringArray(R.array.remotemotornumber)));
+
+
+	}
+
 	public RelativeLayout getMotorLayout( ViewGroup con ,  Context act , LinearLayout llayout ) {
 
 
 		this.container = con;
 		this.activity = act;
-		type = "motor";
-
-		localmotonum = new ArrayList<String>(Arrays.asList((String[])this.activity.getResources().getStringArray(R.array.localmotornumber)));
-
-		remotemotonum = new ArrayList<String>(Arrays.asList((String[])this.activity.getResources().getStringArray(R.array.remotemotornumber)));
+		init(act);
 
 
 		LayoutInflater oldlinf = (LayoutInflater) this.activity.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
 		lin = (RelativeLayout) oldlinf.inflate(R.layout.motorconfigholder, container, false);
 		motorLinear = (LinearLayout)lin.findViewById(R.id.motorlayout);
 
-		Button addLocalMotorBtn = (Button)lin.findViewById(R.id.addlocalmotorbtn);
+		addLocalMotorBtn = (Button)lin.findViewById(R.id.addlocalmotorbtn);
 
-		Button addRemoteMotorBtn = (Button)lin.findViewById(R.id.addremotemotorbtn);
+		addRemoteMotorBtn = (Button)lin.findViewById(R.id.addremotemotorbtn);
 
 		addLocalMotorBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				if(MAX_LOCAL == localVal){
-					showDialog("Motors", "We can have only" +MAX_LOCAL+"local motors");
-				}else {
-					localVal++;
-					MotorItem mitem = new MotorItem();
-					mitem.setMotorType(0);
-					disableDropDown = false;
-					addElement(localmotonum.get(0), mitem);
-				}
+				addLocalMotor();
 			}
 		});
 
@@ -129,57 +146,140 @@ public class MotorController {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				if(MAX_REMOTE == remoteVal){
-					showDialog("Motors", "We can have only" +MAX_REMOTE+"remote motors");
-				}else {
-					remoteVal++;
-					MotorItem mitem = new MotorItem();
-					mitem.setMotorType(1);
-					disableDropDown = false;
-					addElement(remotemotonum.get(0), mitem);
-				}
+				addRemoteMotor();
 			}
 		});
 
-		if(AppUtils.confItems.motorItems == null)
-			motors = new ArrayList<MotorItem>();
-		else
-		{
-			//motors = AppUtils.confItems.motorItems;
-		}
-
-		for (MotorItem mt : motors) {
+		for (Elements mt : motors) {
 
 			disableDropDown = true;
-			buildUI(mt);
+			buildUI((MotorItem)mt);
 		}
 
 		return lin;
 	}
 
-	//	public void addMotor( int val ) {
-	//
-	//		final MotorItem mitem = new MotorItem();
-	//		mitem.setMotorType(val);
-	//		setMotorArray(val);
-	//		mitem.itemId = "motor"+motonum.get(0);
-	//		motors.add(mitem);
-	//		//AppUtils.confItems.motorItems = motors;
-	//		disableDropDown = false;
-	//		buildUI(mitem);
-	//
-	//	}
+	public void addLocalMotor() {
+
+		if(MAX_LOCAL == localVal){
+			super.showDialog("Motors", "We can have only" +MAX_LOCAL+"local motors");
+		}else {
+			localVal++;
+			MotorItem mitem = new MotorItem();
+			mitem.setMotorType(0);
+			disableDropDown = false;
+			addElement(localmotonum.get(0), mitem);
+		}
+	}
+
+	public void addRemoteMotor() {
+
+		if(MAX_REMOTE == remoteVal){
+			super.showDialog("Motors", "We can have only" +MAX_REMOTE+"remote motors");
+		}else {
+			remoteVal++;
+			MotorItem mitem = new MotorItem();
+			mitem.setMotorType(1);
+			disableDropDown = false;
+			addElement(remotemotonum.get(0), mitem);
+		}
+	}
+
+	public void addElement( String id , MotorItem eitem ) {
+
+		setRemoveMotorToArray(id, eitem.getMotorTypeint());
+		setButtonsSync();
+		super.addElement(id, eitem);
+		AppUtils.confItems.motorItems = motors;
+	}
+
+	public void deleteElement(String id, ViewGroup vg, int mType ) {
+
+		setAddMotorToArray(id, mType);
+		setButtonsSync();
+		super.deleteElement(id, vg);
+
+	}
+
+	public void setAddMotorToArray( String id , int mType ){
+
+		ArrayList<String> motonum = null;
+		if(mType == 0){
+			motonum = localmotonum;
+			localVal--;
+		}else
+		{
+			motonum = remotemotonum;
+			remoteVal--;
+		}
+		if(motonum != null){
+			Iterator<String> iter = motonum.iterator();
+			Boolean hasElement = false;
+			while(iter.hasNext()){
+				String str = iter.next();
+				if(str.equals(id)){
+					hasElement = true;
+					break;
+				}
+			}
+			if(!hasElement){
+				motonum.add(""+getMotorInt(id));
+			}
+		}
+	}
+
+	public void setRemoveMotorToArray( String id, int mType ){
+
+		ArrayList<String> motonum = null;
+		if(mType == 0){
+			motonum = localmotonum;
+		}else
+		{
+			motonum = remotemotonum;
+		}
+		if(motonum != null){
+			Iterator<String> iter = motonum.iterator();
+			while(iter.hasNext()){
+				String str = iter.next();
+				if(str.equals(id)){
+					iter.remove();
+					break;
+				}
+			}
+		}
+	}
+
+	private int getMotorInt( String motorId ){
+
+		int num = Integer.parseInt(motorId.substring(5, 6));
+		return num;
+	}
+
+	public void setMotorId( String pumpName  , String val ) {
+
+		MotorItem mItem = getMotorObjectforTag(pumpName);
+		mItem.itemId = "motor"+val;
+
+	}
+
+	public void setButtonsSync() {
+
+		addLocalMotorBtn.setText("Add Local Button ("+localmotonum.size()+")");
+		addRemoteMotorBtn.setText("Add Remote Button("+remotemotonum.size()+")");
+
+	}
 
 
-	private void buildUI( final MotorItem mitem ) {
+	//// ui stuff from here
 
+	@Override
+	public void buildUI(Elements eitem) {
 
+		final MotorItem mitem = (MotorItem)eitem;
 		LayoutInflater linf = (LayoutInflater) this.activity.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
 
 		relativ = (RelativeLayout)linf.inflate(R.layout.motorconfiguration, container, false);
 
-		final Spinner idSpinner = (Spinner)relativ.findViewById(R.id.motoridval);
-		idSpinner.setTag(mitem.itemId);
 		final TextView motornum = (TextView)relativ.findViewById(R.id.motornumtxt);
 		final RadioGroup operations = (RadioGroup)relativ.findViewById(R.id.operationgroup);
 		final RadioGroup hpvalue = (RadioGroup)relativ.findViewById(R.id.hptypegroup);
@@ -264,78 +364,17 @@ public class MotorController {
 		typeSpinner.setTag(mitem.itemId);
 		deleteBtn.setTag(mitem.itemId);
 		relativ.setTag(mitem.itemId);
-		idSpinner.setTag(mitem.itemId);
 		motornum.setTag(mitem.itemId);
 		motornum.setText(mitem.itemId);
 
 
-		//		idSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-		//
-		//			@Override
-		//			public void onItemSelected(AdapterView<?> view, View v,
-		//					int pos, long arg3) {
-		//				// TODO Auto-generated method stub
-		//
-		//				if(!disableDropDown) {
-		//					String val = motonum.get(pos);
-		//					motornum.setText(getMotorTypeHeading(mitem.getMotorTypeint())+val);
-		//					setMotorId((String)view.getTag(), val);
-		//					operations.setTag(mitem.itemId);
-		//					hpvalue.setTag(mitem.itemId);
-		//					deliverytype.setTag(mitem.itemId);
-		//					currenttype.setTag(mitem.itemId);
-		//					EditmotorName.setTag(mitem.itemId);
-		//					Editminvoltage.setTag(mitem.itemId);
-		//					Editmaxvoltage.setTag(mitem.itemId);
-		//					Editlitres.setTag(mitem.itemId);
-		//					typeSpinner.setTag(mitem.itemId);
-		//					deleteBtn.setTag(mitem.itemId);
-		//					relativ.setTag(mitem.itemId);
-		//					idSpinner.setTag(mitem.itemId);
-		//					motornum.setTag(mitem.itemId);
-		//					motornum.setText(mitem.itemId);
-		//				}
-		//				disableDropDown = false;
-		//
-		//
-		//			}
-		//
-		//			@Override
-		//			public void onNothingSelected(AdapterView<?> arg0) {
-		//				// TODO Auto-generated method stub
-		//
-		//			}
-		//		});
-
-		if (motonum.size() > 0) {
-
-			dataAdapter = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, motonum);
-			dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			idSpinner.setAdapter(dataAdapter);
-
-		}
-
 		disableDropDown = true;
-		//idSpinner.setSelection(getIndex(idSpinner, ""+getMotorInt(mitem.itemId)), false);
-
 		deleteBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				//				int childcount = motorLinear.getChildCount();
-				//				for (int i=0; i < childcount; i++){
-				//					View view = motorLinear.getChildAt(i);
-				//					if(view.getTag().equals(deleteBtn.getTag())){
-				//						view.setVisibility(View.GONE);
-				//						String tagObj = (String) deleteBtn.getTag();
-				//						if(motors != null )
-				//							motors.remove(tagObj);
-				//						break;
-				//					}
-				//				}
-
-				deleteElement((String)deleteBtn.getTag() , motorLinear);
+				deleteElement((String)deleteBtn.getTag() , motorLinear , mitem.getMotorTypeint());
 			}
 		});
 
@@ -394,74 +433,164 @@ public class MotorController {
 			}
 		});
 
-		EditmotorName.setOnFocusChangeListener(new OnFocusChangeListener() {
+		EditmotorName.addTextChangedListener(new TextWatcher() {
 
 			@Override
-			public void onFocusChange(View arg0, boolean hasFocus) {
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				// TODO Auto-generated method stub
-				if(!hasFocus){
+				if(s.length() == 3){
 					MotorItem mItem = getMotorObjectforTag((String)EditmotorName.getTag());
 					if(mItem != null)
 						mItem.setPumpName(EditmotorName.getText().toString());
 				}
 			}
-		});
-
-		Editlitres.setOnFocusChangeListener(new OnFocusChangeListener() {
 
 			@Override
-			public void onFocusChange(View arg0, boolean hasFocus) {
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
 				// TODO Auto-generated method stub
-				if(!hasFocus){
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		Editlitres.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+				if(s.length() == 3){
 					MotorItem mItem = getMotorObjectforTag((String)Editlitres.getTag());
 					if(mItem != null)
 						mItem.setWaterDeliveryRate(Editlitres.getText().toString());
 				}
 			}
-		});
-
-		Editminvoltage.setOnFocusChangeListener(new OnFocusChangeListener() {
 
 			@Override
-			public void onFocusChange(View arg0, boolean hasFocus) {
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
 				// TODO Auto-generated method stub
-				if(!hasFocus){
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		Editminvoltage.addTextChangedListener( new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+				if(s.length() == 3){
 					MotorItem mItem = getMotorObjectforTag((String)Editminvoltage.getTag());
 					if(mItem != null)
 						mItem.setMinVolts(Editminvoltage.getText().toString());
 				}
 			}
-		});
-
-		Editmaxvoltage.setOnFocusChangeListener(new OnFocusChangeListener() {
 
 			@Override
-			public void onFocusChange(View arg0, boolean hasFocus) {
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
 				// TODO Auto-generated method stub
-				if(!hasFocus){
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		Editmaxvoltage.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+				if(s.length() == 3){
 					MotorItem mItem = getMotorObjectforTag((String)Editmaxvoltage.getTag());
 					if(mItem != null)
 						mItem.setMaxVolts(Editmaxvoltage.getText().toString());
 				}
 			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+
+			}
 		});
+
+		//		EditmotorName.setOnFocusChangeListener(new OnFocusChangeListener() {
+		//
+		//			@Override
+		//			public void onFocusChange(View arg0, boolean hasFocus) {
+		//				// TODO Auto-generated method stub
+		//				if(!hasFocus){
+		//					MotorItem mItem = getMotorObjectforTag((String)EditmotorName.getTag());
+		//					if(mItem != null)
+		//						mItem.setPumpName(EditmotorName.getText().toString());
+		//				}
+		//			}
+		//		});
+		//
+		//		Editlitres.setOnFocusChangeListener(new OnFocusChangeListener() {
+		//
+		//			@Override
+		//			public void onFocusChange(View arg0, boolean hasFocus) {
+		//				// TODO Auto-generated method stub
+		//				if(!hasFocus){
+		//					MotorItem mItem = getMotorObjectforTag((String)Editlitres.getTag());
+		//					if(mItem != null)
+		//						mItem.setWaterDeliveryRate(Editlitres.getText().toString());
+		//				}
+		//			}
+		//		});
+		//
+		//		Editminvoltage.setOnFocusChangeListener(new OnFocusChangeListener() {
+		//
+		//			@Override
+		//			public void onFocusChange(View arg0, boolean hasFocus) {
+		//				// TODO Auto-generated method stub
+		//				if(!hasFocus){
+		//					MotorItem mItem = getMotorObjectforTag((String)Editminvoltage.getTag());
+		//					if(mItem != null)
+		//						mItem.setMinVolts(Editminvoltage.getText().toString());
+		//				}
+		//			}
+		//		});
+		//
+		//		Editmaxvoltage.setOnFocusChangeListener(new OnFocusChangeListener() {
+		//
+		//			@Override
+		//			public void onFocusChange(View arg0, boolean hasFocus) {
+		//				// TODO Auto-generated method stub
+		//				if(!hasFocus){
+		//					MotorItem mItem = getMotorObjectforTag((String)Editmaxvoltage.getTag());
+		//					if(mItem != null)
+		//						mItem.setMaxVolts(Editmaxvoltage.getText().toString());
+		//				}
+		//			}
+		//		});
 
 		motornum.requestFocus();
 		motorLinear.addView(relativ);
-
-	}
-
-
-	private int getMotorInt( String motorId ){
-
-		int num = Integer.parseInt(motorId.substring(5, 6));
-		return num;
-	}
-
-	public void setMotorId( String pumpName  , String val ) {
-
-		MotorItem mItem = getMotorObjectforTag(pumpName);
-		mItem.itemId = "motor"+val;
 
 	}
 
@@ -523,51 +652,14 @@ public class MotorController {
 	private MotorItem getMotorObjectforTag( String motorName ) {
 
 		MotorItem mt = null;
-		for (MotorItem mitem : motors) {
+		for (Elements mitem : motors) {
 			if(mitem.itemId.equalsIgnoreCase(motorName))
-				mt = mitem;
+				mt = (MotorItem)mitem;
 		}
 		return mt;
 
 	}
 
-	//	private int getIndex(Spinner spinner,String string){
-	//
-	//		//Pseudo code because I dont remember the API
-	//
-	//		int index = 0;
-	//
-	//		for (int i = 0; i < motonum.size(); i++){
-	//
-	//			if (spinner.getItemAtPosition(i).equals(string)){
-	//				index = i;
-	//			}
-	//
-	//		}
-	//
-	//		return index;
-	//
-	//	}
-
-	private void showDialog( String motorName , String message ) {
-
-		if(alert == null){
-
-			alert = new AlertDialog.Builder(activity).create();
-			alert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-					new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-				}
-			});
-
-		}
-
-		alert.setTitle(motorName);
-		alert.setMessage(message);
-		alert.show();
-
-	}
 
 	private String getMotorTypeHeading(int val) {
 
@@ -577,114 +669,6 @@ public class MotorController {
 			return "Remote Motor";
 		}
 	}
-
-	public void addElement( String id , MotorItem eitem ) {
-
-		setRemoveElementFromArray(id, eitem.getMotorTypeint());
-		eitem.itemId = type+id;
-		strtIndx = type.length();
-		if(motors == null){
-			motors = new ArrayList<MotorItem>();
-		}
-		motors.add(eitem);
-		buildUI(eitem);
-		AppUtils.confItems.motorItems = motors;
-	}
-
-	public void deleteElement(String id, ViewGroup vg ) {
-
-		int childcount = vg.getChildCount();
-		for (int i=0; i < childcount; i++){
-			View view = vg.getChildAt(i);
-			String oneView = (String)view.getTag();
-			if(oneView.equals(id)){
-				vg.removeView(view);
-				break;
-			}
-		}
-
-		Iterator<MotorItem> iter = motors.iterator();
-
-		while (iter.hasNext()) {
-			MotorItem ele = iter.next();
-
-			if (ele.itemId.equals(id)){
-				iter.remove();
-				setAddElementToArray(id , ele.getMotorTypeint());
-				localVal--;
-				break;
-			}
-		}
-
-	}
-
-	public void setRemoveElementFromArray( String id, int mtype  ) {
-
-		ArrayList<String> motonum = null;
-		if(mtype == 0){
-			/// its a local motor
-			motonum = localmotonum;
-		}else {
-			motonum = remotemotonum;
-		}
-
-		Iterator<String> iter = motonum.iterator();
-
-		while (iter.hasNext()) {
-			String str = iter.next();
-
-			if (str.equals(id))
-				iter.remove();
-		}
-	}
-
-	public void setAddElementToArray( String id, int mtype ){
-
-		ArrayList<String> motonum = null;
-		if(mtype == 0){
-			/// its a local motor
-			motonum = localmotonum;
-		}else {
-			motonum = remotemotonum;
-		}
-		if(motonum != null) {
-			Boolean hasElement = false;
-			Iterator<String> iter = motonum.iterator();
-
-			while (iter.hasNext()) {
-				String str = iter.next();
-
-				if (str.equals(id)) {
-					hasElement = true;
-					break;
-				}
-			}
-			if(!hasElement){
-				motonum.add(""+getElementInt(id));
-			}
-		}
-	}
-
-	private int getElementInt( String elementId ){
-
-		int num = Integer.parseInt(elementId.substring(strtIndx, strtIndx + 1));
-		return num;
-	}
-
-	private boolean removeMotorObjForTag( String motorName ) {
-
-		boolean removed = false;
-		MotorItem mt = null;
-		for (MotorItem mitem : motors) {
-			if(mitem.itemId.equalsIgnoreCase(motorName)) {
-				motors.remove(mt);
-				removed = true;
-				break;
-			}
-		}
-		return removed;
-	}
-
 
 }
 

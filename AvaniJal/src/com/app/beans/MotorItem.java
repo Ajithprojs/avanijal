@@ -75,7 +75,7 @@ public class MotorItem extends Elements{
 
 	public void setMinVolts(String val){ 
 		int intval = Integer.parseInt(val);
-		if( intval >= 250 && intval <= 420){
+		if( intval >= 200 && intval <= 350){
 			this.minVolts = val;
 		}else{
 			this.minVolts = "";
@@ -85,7 +85,7 @@ public class MotorItem extends Elements{
 
 	public void setMaxVolts(String val){ 
 		int intval = Integer.parseInt(val);
-		if(intval >= 250  && intval <= 420){
+		if(intval >= 400  && intval <= 420){
 			this.maxVolts = val;
 		}else{
 			Log.e("Element Error", "Invalid min volts");

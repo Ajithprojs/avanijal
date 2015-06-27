@@ -210,16 +210,20 @@ public class DashBoardActivity extends Activity {
 		switch (requestCode) {
 		case 2001:
 			/// ok this is from the config screen
-			Intent i = data;
-			Bundle b = i.getExtras();
-			if(b!=null){
-				if(b.containsKey("status")){
-					String status = b.getString("status");
-					if(status.equals("configured")){
-						ConfigListController.getInstance().addConfigToElement("Motor");
+			if(data!=null){
+
+				Intent i = data;
+				Bundle b = i.getExtras();
+				if(b!=null){
+					if(b.containsKey("status")){
+						String status = b.getString("status");
+						if(status.equals("configured")){
+							ConfigListController.getInstance().addConfigToElement("Motor");
+						}
 					}
+
 				}
-				
+
 			}
 			break;
 

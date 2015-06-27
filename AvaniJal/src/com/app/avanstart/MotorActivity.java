@@ -100,8 +100,8 @@ public class MotorActivity extends Activity {
 
 	private void setConfigured() {
 
-		ArrayList<MotorItem> motors = AppUtils.confItems.motorItems;
-		Iterator<MotorItem> iter = motors.iterator();
+		ArrayList<Elements> motors = AppUtils.confItems.motorItems;
+		Iterator<Elements> iter = motors.iterator();
 		
 		showDialog("Motors", "Configured Successfully");
 		Intent intent=new Intent();  
@@ -116,11 +116,13 @@ public class MotorActivity extends Activity {
 
 		Boolean valid = true;
 		//ArrayList<Elements> moto = (ArrayList<Elements>)AppUtils.confItems.motorItems;
-		ArrayList<MotorItem> motors = AppUtils.confItems.motorItems;
+		ArrayList<Elements> motors = AppUtils.confItems.motorItems;
 		//ArrayList<MotorItem> motors = new ArrayList<MotorItem>();//(ArrayList<MotorItem>)moto;
 
 
-		for (MotorItem mt : motors) {
+		for (Elements m : motors) {
+			
+			MotorItem mt = (MotorItem)m;
 
 			String pumpName = mt.getPumpName();
 			if(pumpName == "")
@@ -128,14 +130,14 @@ public class MotorActivity extends Activity {
 
 			/// validation for min volts
 			if(mt.getMinVolts() == ""){
-				showDialog(pumpName, "Enter minimum voltage for the motor");
+				showDialog(pumpName, "The Minimum voltage of the motor must be between 200 to 350");
 				valid = false;
 				break;
 			}
 
 			/// validation for max volts
 			if(mt.getMaxVolts() == ""){
-				showDialog(pumpName, "Enter maximum voltage for the motor");
+				showDialog(pumpName, "The Maximum voltage of the motor must be between 400 to 420");
 				valid = false;
 				break;
 			}

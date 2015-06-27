@@ -15,6 +15,7 @@ import android.telephony.SmsManager;
 
 import com.app.beans.ConfigItem;
 import com.app.beans.CropItem;
+import com.app.beans.Elements;
 import com.app.beans.FilterItem;
 import com.app.beans.MotorItem;
 
@@ -110,10 +111,11 @@ public class AppUtils {
 		/// lets first build for the motors
 		
 		ConfigItem cItem = AppUtils.confItems;
-		ArrayList<MotorItem> mtItems =  cItem.motorItems;
+		ArrayList<Elements> mtItems =  cItem.motorItems;
 		if(mtItems != null) {
 
-			for (MotorItem me : mtItems) {
+			for (Elements m : mtItems) {
+				MotorItem me = (MotorItem)m;
 				sb.append("*AC");
 				sb.append(" "+getsmsidfromID(me.itemId)+" ");
 				sb.append(" "+me.getHpValeint()+" ");

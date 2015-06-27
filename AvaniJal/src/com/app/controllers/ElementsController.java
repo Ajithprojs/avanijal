@@ -19,12 +19,11 @@ import android.widget.TextView;
 import com.app.avanstart.R;
 import com.app.beans.Elements;
 
-public class ElementsController {
+public abstract class ElementsController {
 
 	static ElementsController _instance;
 	int localVal = 0;
 	int strtIndx = 0;
-	Context activity;
 	ViewGroup container;
 	LinearLayout elementLinear;
 	AlertDialog alert;
@@ -35,6 +34,7 @@ public class ElementsController {
 	 * */
 	
 	public ArrayList<Elements> elements;
+	Context activity;
 	int max = 6;
 	public String type;
 	ArrayList<String> elementsnum = new ArrayList<String>();
@@ -89,7 +89,8 @@ public class ElementsController {
 
 	public void addElement( String id , Elements eitem ) {
 
-		setRemoveElementFromArray(id);
+		//setRemoveElementFromArray(id);
+		//setAddElementToArray(id);
 		eitem.itemId = type+id;
 		strtIndx = type.length();
 		if(elements == null){
@@ -98,7 +99,7 @@ public class ElementsController {
 		//elements.add(eitem);
 		elements.add(eitem);
 		//uncomment for element UI Testing
-		//buildUI(eitem);
+		buildUI(eitem);
 	}
 
 	public void deleteElement(String id, ViewGroup vg ) {
@@ -120,13 +121,16 @@ public class ElementsController {
 
 			if (ele.itemId.equals(id)){
 				iter.remove();
-				setAddElementToArray(id);
+				//setAddElementToArray(id);
+				//setRemoveElementFromArray(id);
 				localVal--;
 				break;
 			}
 		}
 
 	}
+	
+	public abstract void buildUI( Elements eitem);
 	
 	//uncomment for element UI Testing
 
