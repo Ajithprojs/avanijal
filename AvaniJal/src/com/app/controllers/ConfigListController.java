@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.app.avaniadapters.ConfigListViewAdapter;
 import com.app.avanstart.FilterActivity;
 import com.app.avanstart.MotorActivity;
+import com.app.avanstart.PipelineActivity;
 import com.app.avanstart.R;
 import com.app.avanstart.SensorActivity;
 import com.app.avanstart.ValveActivity;
@@ -34,7 +35,7 @@ public class ConfigListController implements expandedlistinterfaces {
 	ArrayList<Children> configs;
 
 	Activity cxt;
-	
+
 	ConfigListViewAdapter adapter;
 
 
@@ -69,7 +70,7 @@ public class ConfigListController implements expandedlistinterfaces {
 
 		/// lets create group for configuration , association and provisioning
 		String[] elements = this.cxt.getResources().getStringArray(R.array.elements);
-		int[] eleimgs = {R.drawable.motors , R.drawable.filters , R.drawable.valves , R.drawable.sensors};
+		int[] eleimgs = {R.drawable.motors, R.drawable.motors , R.drawable.filters , R.drawable.valves , R.drawable.sensors, R.drawable.sensors};
 		int j = 0;
 		Hashtable<String, ConfigStatus> cghash = AppUtils.confItems.elementConfigstatus;
 		for (String string : elements) {
@@ -134,8 +135,8 @@ public class ConfigListController implements expandedlistinterfaces {
 		AppUtils.confItems.elementConfigstatus = cghash;
 		adapter.notifyDataSetChanged();
 	}
-	
-	
+
+
 
 	public void OnItemClicked( int childPosition ) {
 
@@ -147,11 +148,16 @@ public class ConfigListController implements expandedlistinterfaces {
 			break;
 
 		case 2:
+			/// show pipeline config
+			navigateToPipelineConfig();
+			break;
+
+		case 3:
 
 			navigateToFilterConfig();
 			break;
 
-		case 3:
+		case 4:
 
 			navigateToValveConfig();
 			break;
@@ -172,23 +178,28 @@ public class ConfigListController implements expandedlistinterfaces {
 		Intent i = new Intent( cxt , MotorActivity.class );
 		this.cxt.startActivityForResult(i, 2001);
 	}
+	private void navigateToPipelineConfig() {
+
+		Intent i = new Intent( cxt , PipelineActivity.class );
+		cxt.startActivityForResult(i, 2002);
+	}
 
 	private void navigateToFilterConfig() {
 
 		Intent i = new Intent( cxt , FilterActivity.class );
-		cxt.startActivityForResult(i, 2002);
+		cxt.startActivityForResult(i, 2003);
 	}
 
 	private void navigateToValveConfig() {
 
 		Intent i = new Intent( cxt , ValveActivity.class );
-		cxt.startActivityForResult(i, 2003);
+		cxt.startActivityForResult(i, 2004);
 	}
 
 	private void navigateToSensorConfig() {
 
 		Intent i = new Intent( cxt , SensorActivity.class );
-		cxt.startActivityForResult(i, 2004);
+		cxt.startActivityForResult(i, 2005);
 	}
 	@Override
 	public void listclicked(int child) {

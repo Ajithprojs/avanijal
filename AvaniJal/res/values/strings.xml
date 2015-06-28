@@ -22,5 +22,6 @@
     <string name="title_activity_valve">ValveActivity</string>
     <string name="title_activity_sensor">SensorActivity</string>
     <string name="title_activity_sms">SmsActivity</string>
+    <string name="title_activity_pipeline">PipelineActivity</string>
 
 </resources>

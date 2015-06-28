@@ -3,11 +3,18 @@ package com.app.avanstart;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.app.avanstart.util.AppUtils;
+import com.app.beans.ConfigItem;
+import com.app.beans.Elements;
+import com.app.controllers.PipelineController;
+import com.app.parsers.SmsParser;
+import com.app.parsers.SmsParser.MessageHolder;
+
+import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,23 +22,15 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.app.avanstart.util.AppUtils;
-import com.app.beans.ConfigItem;
-import com.app.beans.Elements;
-import com.app.beans.MotorItem;
-import com.app.controllers.MotorController;
-import com.app.parsers.SmsParser;
-import com.app.parsers.SmsParser.MessageHolder;
+public class PipelineActivity extends Activity {
 
-public class MotorActivity extends Activity {
-
-	RelativeLayout motorLayout;
+	RelativeLayout pipelineLayout;
 	AlertDialog alert;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_motor);
-
+		setContentView(R.layout.activity_pipeline);
 		if(AppUtils.confItems == null) {
 			AppUtils.confItems = new ConfigItem();
 		}
@@ -43,15 +42,16 @@ public class MotorActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				if(applyMotorValidations())
+				if(applyPiplelineValidations())
 					sendConfig();
 			}
 		});
-		LinearLayout llayout = (LinearLayout)findViewById(R.id.finalmotorlayout);
-		motorLayout = MotorController.getInstance().getMotorLayout(null, this, null);
-		llayout.addView(motorLayout);
+		LinearLayout llayout = (LinearLayout)findViewById(R.id.finalpipelinelayout);
+		//pipelineLayout = MotorController.getInstance().getMotorLayout(null, this, null);
+		pipelineLayout = PipelineController.getInstance().getPipelineLayout(null, this, null);
+		llayout.addView(pipelineLayout);
 	}
-
+	
 	private void sendConfig() {
 
 		String sms = AppUtils.buildConfigSMS();
@@ -77,7 +77,7 @@ public class MotorActivity extends Activity {
 				MessageHolder mh = SmsParser.getInstance().getResult(smsStr);
 				if(mh != null) {
 					if(mh.isError){
-						showDialog("motor", "error in configuration");
+						showDialog("pipeline", "error in configuration");
 					}else {
 						// configured successfully
 						setConfigured();
@@ -97,7 +97,7 @@ public class MotorActivity extends Activity {
 		ArrayList<Elements> motors = AppUtils.confItems.motorItems;
 		Iterator<Elements> iter = motors.iterator();
 
-		showDialog("Motors", "Configured Successfully");
+		showDialog("Pipeline", "Configured Successfully");
 		Intent intent=new Intent();  
 		intent.putExtra("status","configured");  
 		setResult(2001,intent);  
@@ -106,50 +106,10 @@ public class MotorActivity extends Activity {
 	}
 
 
-	private Boolean applyMotorValidations() {
+	private Boolean applyPiplelineValidations() {
 
 		Boolean valid = true;
-		ArrayList<Elements> motors = AppUtils.confItems.motorItems;
-
-		for (Elements m : motors) {
-
-			MotorItem mt = (MotorItem)m;
-
-			String pumpName = mt.getPumpName();
-			if(pumpName == "")
-				pumpName = mt.itemId;
-
-			/// validation for min volts
-			if(mt.getMinVolts() == "" ){
-				showDialog(pumpName, "The Minimum voltage of the motor must be between 200 to 350");
-				valid = false;
-				break;
-			}
-
-			/// validation for max volts
-			if(mt.getMaxVolts() == ""){
-				showDialog(pumpName, "The Maximum voltage of the motor must be between 400 to 420");
-				valid = false;
-				break;
-			}
-
-			///validation for litres
-			if(mt.getWaterDeliveryRate() == ""){
-				showDialog(pumpName, "Enter water delivery rate for the motor");
-				valid = false;
-				break;
-			}
-
-			///validation for remote number
-
-			if(mt.getMotorTypeint() == 1 && mt.getPhoneNum() == ""){
-				showDialog(pumpName, "Enter remote phone number for the motor");
-				valid = false;
-				break;
-			}
-
-		}
-
+		
 		return valid;
 	}
 
@@ -173,29 +133,10 @@ public class MotorActivity extends Activity {
 
 	}
 
-
-	@Override
-	protected void onStop() {
-		// TODO Auto-generated method stub
-		super.onStop();
-		//syncMotorWithIds();
-		/// sync activities
-
-
-	}
-
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		// TODO Auto-generated method stub
-		//outState.putInt(20, motorLayout.getValue());
-		super.onSaveInstanceState(outState);
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.motor, menu);
+		getMenuInflater().inflate(R.menu.pipeline, menu);
 		return true;
 	}
 

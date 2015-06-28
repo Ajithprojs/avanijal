@@ -192,6 +192,15 @@ public class AppUtils {
 		return crcStr;
 
 	}
+	
+	public static int getIntFromString( String val ) {
+		
+		if(val.length() > 0){
+			
+			return Integer.parseInt(val);
+		}
+		return 0;
+	}
 
 	/**
 	 * Check if the device runs Android 4.3 (JB MR2) or higher.

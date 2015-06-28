@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <ImageView 
+        
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/lineseperator"
+        android:id="@+id/sep1"
+        
+        />
+    
+    <TextView 
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Pipeline"
+        android:layout_below="@id/sep1"
+ 		android:textColor="@android:color/holo_red_dark"
+        android:id="@+id/pipelinenumtxt"
+        android:textSize="24dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        
+        />
+    
+    
+    <Button 
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sep1"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:id="@+id/delebtn"
+        android:text="delete"
+        
+        />
+    
+    <ImageView 
+        
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/lineseperator"
+        android:id="@+id/sep2"
+        android:layout_below="@id/pipelinenumtxt"
+        
+        />
+    
+     <ImageView 
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/motors"
+        android:layout_below="@id/sep2"
+        android:id="@+id/pipelineimage"
+        android:layout_marginTop="5dp"
+        
+        />
+    
+    <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sep2"
+        android:id="@+id/pipetxt"
+        android:text="Associate Pipeline:"
+        android:layout_toRightOf="@id/pipelineimage"
+        android:layout_marginLeft="20dp"
+        />
+    
+    
+    <com.app.avanicomponents.MultiSelectionSpinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/pipetxt"
+        android:layout_toRightOf="@id/pipelineimage"
+        android:id="@+id/pipelinespinner"
+        android:layout_marginLeft="20dp"
+        /> 
+    
+    
+    
+
+</RelativeLayout>

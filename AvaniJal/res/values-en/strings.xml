@@ -78,8 +78,10 @@
       <string-array name="elements">
           
           <item>Motor</item>
+          <item>Pipeline</item>
           <item>Filter</item>
           <item>Valve</item>
+          <item>Ventury</item>
           <item>Sensor</item>
       </string-array>
       

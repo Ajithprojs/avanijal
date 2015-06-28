@@ -8,6 +8,7 @@ public class ConfigItem {
 	public Hashtable<String, ConfigStatus> elementConfigstatus ; 
 	//public Hashtable<String, MotorItem>  motorItems;
 	public ArrayList<Elements> motorItems;
+	public ArrayList<Elements> pipelineItems;
 	public Hashtable<String, FilterItem> filterItems;
 	public Hashtable<String, ValveItems> valveItems;
 	public Hashtable<String, SensorItem> sensorItems;

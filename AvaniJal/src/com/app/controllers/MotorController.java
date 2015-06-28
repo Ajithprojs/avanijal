@@ -149,11 +149,12 @@ public class MotorController extends ElementsController {
 				addRemoteMotor();
 			}
 		});
-
-		for (Elements mt : motors) {
+		ArrayList<Elements> tempMotors = (ArrayList<Elements>)motors.clone();
+		for (Elements mt : tempMotors) {
 
 			disableDropDown = true;
-			buildUI((MotorItem)mt);
+			MotorItem m  = (MotorItem)mt;
+			addElement(""+getMotorInt(m.itemId), m);
 		}
 
 		return lin;
@@ -536,58 +537,6 @@ public class MotorController extends ElementsController {
 
 			}
 		});
-
-		//		EditmotorName.setOnFocusChangeListener(new OnFocusChangeListener() {
-		//
-		//			@Override
-		//			public void onFocusChange(View arg0, boolean hasFocus) {
-		//				// TODO Auto-generated method stub
-		//				if(!hasFocus){
-		//					MotorItem mItem = getMotorObjectforTag((String)EditmotorName.getTag());
-		//					if(mItem != null)
-		//						mItem.setPumpName(EditmotorName.getText().toString());
-		//				}
-		//			}
-		//		});
-		//
-		//		Editlitres.setOnFocusChangeListener(new OnFocusChangeListener() {
-		//
-		//			@Override
-		//			public void onFocusChange(View arg0, boolean hasFocus) {
-		//				// TODO Auto-generated method stub
-		//				if(!hasFocus){
-		//					MotorItem mItem = getMotorObjectforTag((String)Editlitres.getTag());
-		//					if(mItem != null)
-		//						mItem.setWaterDeliveryRate(Editlitres.getText().toString());
-		//				}
-		//			}
-		//		});
-		//
-		//		Editminvoltage.setOnFocusChangeListener(new OnFocusChangeListener() {
-		//
-		//			@Override
-		//			public void onFocusChange(View arg0, boolean hasFocus) {
-		//				// TODO Auto-generated method stub
-		//				if(!hasFocus){
-		//					MotorItem mItem = getMotorObjectforTag((String)Editminvoltage.getTag());
-		//					if(mItem != null)
-		//						mItem.setMinVolts(Editminvoltage.getText().toString());
-		//				}
-		//			}
-		//		});
-		//
-		//		Editmaxvoltage.setOnFocusChangeListener(new OnFocusChangeListener() {
-		//
-		//			@Override
-		//			public void onFocusChange(View arg0, boolean hasFocus) {
-		//				// TODO Auto-generated method stub
-		//				if(!hasFocus){
-		//					MotorItem mItem = getMotorObjectforTag((String)Editmaxvoltage.getTag());
-		//					if(mItem != null)
-		//						mItem.setMaxVolts(Editmaxvoltage.getText().toString());
-		//				}
-		//			}
-		//		});
 
 		motornum.requestFocus();
 		motorLinear.addView(relativ);
