@@ -5,7 +5,9 @@ import java.util.Hashtable;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -35,6 +37,10 @@ public class ConfigListController implements expandedlistinterfaces {
 	ArrayList<Children> configs;
 
 	Activity cxt;
+
+	AlertDialog alert;
+	
+	AlertDialog alert1;
 
 	ConfigListViewAdapter adapter;
 
@@ -105,6 +111,7 @@ public class ConfigListController implements expandedlistinterfaces {
 			else {
 				cg = new ConfigStatus();
 				cg.setConfigDesc("Not Configured");
+				cg.setIsConfigured(false);
 				cghash.put(string, cg);
 			}
 		}
@@ -119,6 +126,7 @@ public class ConfigListController implements expandedlistinterfaces {
 		}
 		ConfigStatus cg = cghash.get(eleName);
 		cg.setConfigDesc("Configured");
+		cg.setIsConfigured(true);
 		cghash.put(eleName, cg);
 		AppUtils.confItems.setElementConfigStatus(cghash);
 		adapter.notifyDataSetChanged();
@@ -131,9 +139,16 @@ public class ConfigListController implements expandedlistinterfaces {
 		}
 		ConfigStatus cg = cghash.get(eleName);
 		cg.setConfigDesc("Not Configured");
+		cg.setIsConfigured(false);
 		cghash.put(eleName, cg);
 		AppUtils.confItems.setElementConfigStatus(cghash);
 		adapter.notifyDataSetChanged();
+	}
+
+	public boolean isElementConfigured( String eleName ) {
+
+		Hashtable<String, ConfigStatus> cghash = AppUtils.confItems.getElementConfigStatus();
+		return cghash.get(eleName).getISConfigured();
 	}
 
 
@@ -144,17 +159,43 @@ public class ConfigListController implements expandedlistinterfaces {
 		switch (childPosition + 1) {
 		case 1:
 			/// show motor config
-			navigateToMotorConfig();
+			if(isElementConfigured("Motor")){
+				showDialogWithOptions( "Configured" ,"Motors are already configured, do you want to edit?", 1, "Edit" );
+			}else{
+				navigateToMotorConfig();
+			}
+
 			break;
 
 		case 2:
 			/// show pipeline config
-			navigateToPipelineConfig();
+			if(isElementConfigured("Motor")){
+
+				if(isElementConfigured("Pipeline")){
+					showDialogWithOptions( "Configured" ,"Pipelines are already configured, do you want to edit?", 2, "Edit" );
+				}else{
+					navigateToPipelineConfig();
+				}
+
+
+			}else {
+				showDialog("Error", "Pipeline cannot be configured unless Motor is configured");
+			}
 			break;
 
 		case 3:
 
-			navigateToFilterConfig();
+			if(isElementConfigured("Pipeline")){
+				if(isElementConfigured("Filter")){
+					showDialogWithOptions( "Configured" ,"Filters are already configured, do you want to edit?", 3, "Edit" );
+				}else{
+					navigateToFilterConfig();
+				}
+
+			}else {
+				showDialog("Error", "Filters cannot be configured unless Pipeline is configured");
+			}
+
 			break;
 
 		case 4:
@@ -181,31 +222,93 @@ public class ConfigListController implements expandedlistinterfaces {
 	private void navigateToPipelineConfig() {
 
 		Intent i = new Intent( cxt , PipelineActivity.class );
-		cxt.startActivityForResult(i, 2002);
+		cxt.startActivityForResult(i, 2001);
 	}
 
 	private void navigateToFilterConfig() {
 
 		Intent i = new Intent( cxt , FilterActivity.class );
-		cxt.startActivityForResult(i, 2003);
+		cxt.startActivityForResult(i, 2001);
 	}
 
 	private void navigateToValveConfig() {
 
 		Intent i = new Intent( cxt , ValveActivity.class );
-		cxt.startActivityForResult(i, 2004);
+		cxt.startActivityForResult(i, 2001);
 	}
 
 	private void navigateToSensorConfig() {
 
 		Intent i = new Intent( cxt , SensorActivity.class );
-		cxt.startActivityForResult(i, 2005);
+		cxt.startActivityForResult(i, 2001);
 	}
 	@Override
 	public void listclicked(int child) {
 		// TODO Auto-generated method stub
 		OnItemClicked(child);
 
+	}
+
+	private void showDialog( String motorName , String message ) {
+
+		if(alert == null){
+
+			alert = new AlertDialog.Builder(cxt).create();
+			alert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
+
+		}
+
+		alert.setTitle(motorName);
+		alert.setMessage(message);
+		alert.show();
+
+	}
+
+	private void showDialogWithOptions( String title , String msg, final int val, String btnTitle ) {
+		if(alert1 == null){
+
+			alert1 = new AlertDialog.Builder(cxt).create();
+			alert1.setButton(AlertDialog.BUTTON_POSITIVE, btnTitle,
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					switch(val){
+
+					case 1 :
+						navigateToMotorConfig();
+						break;
+					case 2:
+						navigateToPipelineConfig();
+						break;
+					case 3:
+						navigateToFilterConfig();
+						break;
+
+					default:
+						dialog.dismiss();
+						break;
+					}
+
+				}
+			});
+
+			alert1.setButton(AlertDialog.BUTTON_NEUTRAL, "Cancel",
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+
+				}
+			});
+
+		}
+
+		alert1.setTitle(title);
+		alert1.setMessage(msg);
+		alert1.show();
 	}
 
 }

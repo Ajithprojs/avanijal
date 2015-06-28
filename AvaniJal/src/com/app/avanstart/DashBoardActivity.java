@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 The Android Open Source Project
+on * Copyright 2013 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -221,16 +221,17 @@ public class DashBoardActivity extends Activity {
 				if(b!=null){
 					if(b.containsKey("status")){
 						String status = b.getString("status");
+						String elementName = b.getString("element");
 						if(status.equals("configured")){
-							ConfigListController.getInstance().addConfigToElement("Motor");
+							ConfigListController.getInstance().addConfigToElement(elementName);
 							DataOperations.saveDataToFile(AppUtils.confItems, AppUtils.CONFIG_FILE_NAME, cxt);
 						}
 					}
-
 				}
-
 			}
 			break;
+
+
 
 		default:
 			break;
@@ -263,30 +264,26 @@ public class DashBoardActivity extends Activity {
 				AppUtils.confItems = new ConfigItem();
 			}
 
-			switch(pos + 1){
+			switch(pos){
 
-			case 1:
+			default:
 				return ConfigListController.getInstance().getConfigLayout(container, getActivity());
 				//return ElementsController.getInstance().getElementLayout(container, getActivity());
 				//return NewMotorController.getInstance().getMotorLayout(container, getActivity(), null);
+			case 1:
+				return ProvisionController.getInstance().getProvisioningLayout(container, getActivity());
 			case 2:
-				return ProvisionController.getInstance().getProvisioningLayout(container, getActivity());
-			case 3:
 				return AssociationController.getInstance().getAssociationLayout(container, getActivity());
-			case 4:
+			case 3:
 				return ProvisionController.getInstance().getProvisioningLayout(container, getActivity());
-			case 5:
+			case 4:
 				return IrrigationController.getInstance().getIrrigationLayout(container, getActivity());
-			case 6:
+			case 5:
 				return HistoryController.getInstance().getHistoryLayout(container, getActivity());
-			case 7:
+			case 6:
 				return SettingsController.getInstance().getSettingsLayout(container, getActivity());
 			}
-
-			return null;
 		}
-
-
 	}
 
 

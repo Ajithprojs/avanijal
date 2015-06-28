@@ -7,6 +7,11 @@
     <string name="logintitle">Login</string>
     <string name="emailfield">Email</string>
     <string name="passwordfield">Password</string>
+    <string name="namefield">Farmer Name</string>
+    <string name="mobilefield">Mobile No</string>
+    <string name="idfield">Product ID</string>
+    <string name="addressfield">Farmer Address</string>
+    
     <string name="loginbutton">Sign in</string>
     <string name="cropconfig">Crop Configuration</string>
     <string name="carrot">Carrot</string>

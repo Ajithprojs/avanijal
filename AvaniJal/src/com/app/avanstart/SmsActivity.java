@@ -50,11 +50,14 @@ import android.widget.Toast;
 		// Simple query to show the most recent SMS messages in the inbox
 		getSupportLoaderManager().initLoader(SmsQuery.TOKEN, null, this);
 		//sendSMS(phone, msg);
-		sendSMSTempOK();
+		sendSMSTempOK(msg);
 
 	}
 	
-	public void sendSMSTempOK() {
+	public void sendSMSTempOK(String msg) {
+		
+		SmsManager sms = SmsManager.getDefault();
+		//sms.sendTextMessage(AppUtils.phoneNum, null, msg, null, null); 
 		onSmsReceived("OK");
 	}
 	public void sendSMS(String phoneNumber, String message)

@@ -27,6 +27,8 @@ public class MotorActivity extends Activity {
 
 	RelativeLayout motorLayout;
 	AlertDialog alert;
+	LinearLayout llayout;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,14 +49,14 @@ public class MotorActivity extends Activity {
 					sendConfig();
 			}
 		});
-		LinearLayout llayout = (LinearLayout)findViewById(R.id.finalmotorlayout);
+		llayout = (LinearLayout)findViewById(R.id.finalmotorlayout);
 		motorLayout = MotorController.getInstance().getMotorLayout(null, this, null);
 		llayout.addView(motorLayout);
 	}
 
 	private void sendConfig() {
 
-		String sms = AppUtils.buildConfigSMS();
+		String sms = AppUtils.buildMotorConfigSMS();
 		Intent i = new Intent(this , SmsActivity.class);
 		i.putExtra("phone", AppUtils.phoneNum);
 		i.putExtra("msg", sms);
@@ -97,10 +99,15 @@ public class MotorActivity extends Activity {
 
 		ArrayList<Elements> motors = AppUtils.confItems.getMotorItems();
 		Iterator<Elements> iter = motors.iterator();
-
-		showDialog("Motors", "Configured Successfully");
+		while(iter.hasNext()){
+			Elements ele = iter.next();
+			ele.setIsConfigured(true);
+		}
+		//showDialog("Motors", "Configured Successfully");
 		Intent intent=new Intent();  
-		intent.putExtra("status","configured");  
+		intent.putExtra("status","configured"); 
+		String[] values = this.getResources().getStringArray(R.array.elements);
+		intent.putExtra("element",values[0]); 
 		setResult(2001,intent);  
 		finish();
 
@@ -181,7 +188,9 @@ public class MotorActivity extends Activity {
 		super.onStop();
 		//syncMotorWithIds();
 		/// sync activities
-
+		motorLayout = null;
+		llayout.removeAllViews();
+		llayout = null;
 
 	}
 

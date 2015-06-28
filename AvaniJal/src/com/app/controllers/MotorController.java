@@ -104,10 +104,10 @@ public class MotorController extends ElementsController {
 		{
 			motors = AppUtils.confItems.getMotorItems();
 		}
-		type = "motor";
+		type = AppUtils.MOTOR_TYPE;
 		super.elements = motors;
 		super.max = 6;
-		super.type = "motor";
+		super.type = type;
 		super.activity = cxt;
 
 		localmotonum = new ArrayList<String>(Arrays.asList((String[])this.activity.getResources().getStringArray(R.array.localmotornumber)));
@@ -154,6 +154,7 @@ public class MotorController extends ElementsController {
 
 			disableDropDown = true;
 			MotorItem m  = (MotorItem)mt;
+			if(m.getIsConfigured())
 			addElement(""+getMotorInt(m.getItemid()), m);
 		}
 
@@ -168,6 +169,7 @@ public class MotorController extends ElementsController {
 			localVal++;
 			MotorItem mitem = new MotorItem();
 			mitem.setMotorType(0);
+			mitem.setIsConfigured(false);
 			disableDropDown = false;
 			addElement(localmotonum.get(0), mitem);
 		}
@@ -180,6 +182,7 @@ public class MotorController extends ElementsController {
 		}else {
 			remoteVal++;
 			MotorItem mitem = new MotorItem();
+			mitem.setIsConfigured(false);
 			mitem.setMotorType(1);
 			disableDropDown = false;
 			addElement(remotemotonum.get(0), mitem);
@@ -252,14 +255,15 @@ public class MotorController extends ElementsController {
 
 	private int getMotorInt( String motorId ){
 
-		int num = Integer.parseInt(motorId.substring(5, 6));
+		int strtIndx = type.length();
+		int num = Integer.parseInt(motorId.substring(strtIndx, strtIndx+1));
 		return num;
 	}
 
 	public void setMotorId( String pumpName  , String val ) {
 
 		MotorItem mItem = getMotorObjectforTag(pumpName);
-		mItem.setItemid("motor"+val) ;
+		mItem.setItemid(type+val) ;
 
 	}
 

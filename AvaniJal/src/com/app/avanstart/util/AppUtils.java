@@ -3,6 +3,7 @@ package com.app.avanstart.util;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Iterator;
 
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -18,6 +19,7 @@ import com.app.beans.CropItem;
 import com.app.beans.Elements;
 import com.app.beans.FilterItem;
 import com.app.beans.MotorItem;
+import com.app.beans.Pipelineitem;
 
 public class AppUtils {
 
@@ -25,7 +27,9 @@ public class AppUtils {
 
 	public static CropItem cropItems;
 
-	public static String MOTOR_TYPE = "motor";
+	public static String MOTOR_TYPE = "M";
+	
+	public static String PIPELINE_TYPE = "P";
 
 	public static String FILTER_TYPE = "filter";
 
@@ -35,9 +39,12 @@ public class AppUtils {
 
 	public static String VENTURY_TYPE = "ventury";
 
-	public static String phoneNum = "9739287569";
+	//public static String phoneNum = "9739287569";
+	public static String phoneNum = "9986003200";
 	
 	public static String CONFIG_FILE_NAME = "config";
+	
+	public static String USER_FILE_NAME = "user";
 
 	public static void sendSMS(String phoneNumber, String message , final Activity activity)
 	{        
@@ -106,7 +113,7 @@ public class AppUtils {
 	//*AC M1 0 250 420 0 0 800 0 1 1 1234567890 (motor1, 5HP, 250-420V, 3 phase, bore, 800lt/min, starter control, 
 	//w.sensors installed, , remote, ph#)
 
-	public static String buildConfigSMS() {
+	public static String buildMotorConfigSMS() {
 
 		StringBuffer finalSb = new StringBuffer();
 		StringBuffer sb = new StringBuffer();
@@ -140,6 +147,29 @@ public class AppUtils {
 		return finalSb.toString();
 
 	}
+	
+	public static String buildPipeLineConfigSms() {
+		StringBuffer sb = new StringBuffer();
+		/// lets  build for the filters
+		sb.append("*AC");
+		ConfigItem cItem = AppUtils.confItems;
+		ArrayList<Elements> pipelines = cItem.getPipelineItems();
+		Iterator<Elements> iter = pipelines.iterator();
+		while(iter.hasNext()) {
+			Pipelineitem ele = (Pipelineitem)iter.next();
+			sb.append(" "+ele.getItemid()+" ");
+			ArrayList<String> assoids = ele.getAllAssociatedElementsOfType(MOTOR_TYPE);
+			Iterator<String> assoiter = assoids.iterator();
+			while(assoiter.hasNext()){
+				String str = assoiter.next();
+				sb.append(" "+str+" ");
+			}
+			
+		}
+		
+		sb.append("*en");
+		return sb.toString();
+	}
 
 	public static String buildFilterConfigSms() {
 
@@ -147,27 +177,43 @@ public class AppUtils {
 		/// lets  build for the filters
 		sb.append("*AC");
 		ConfigItem cItem = AppUtils.confItems;
-		Hashtable<String, FilterItem> ftItems = cItem.getFilterItems();
-
-
-
-		if(ftItems != null) {
-			int j = 1;
-			Enumeration<String> allKeys = ftItems.keys();
-			while(allKeys.hasMoreElements()){
-
-				String key = allKeys.nextElement();
-				FilterItem fi = ftItems.get(key);
-				ArrayList<String> motorIds = fi.getAllAssociatedElementsOfType("motor");
-				sb.append(" F"+j+" ");
-				sb.append(" "+getsmsidfromID(motorIds.get(0))+" ");
-				sb.append(" "+fi.getFrequencyHours()+" ");
-				sb.append(" "+fi.getFrequencyminutes()+" ");
-				sb.append(" "+fi.getDurationSeconds()+" ");
-				j++;
-
+		ArrayList<Elements> ftItems = cItem.getFilterItems();
+		
+		Iterator<Elements> iter = ftItems.iterator();
+		while(iter.hasNext()) {
+			
+			FilterItem ele = (FilterItem)iter.next();
+			sb.append(" "+ele.getItemid()+" ");
+			Iterator<String> asso = ele.getAllAssociatedElementsOfType(PIPELINE_TYPE).iterator();
+			while(asso.hasNext()){
+				sb.append(" "+asso.next()+" ");
 			}
+			
+			sb.append(" "+ele.getFrequencyHours()+" ");
+			sb.append(" "+ele.getFrequencyminutes()+" ");
+			sb.append(" "+ele.getDurationSeconds()+" ");
+			
 		}
+
+
+
+//		if(ftItems != null) {
+//			int j = 1;
+//			Enumeration<String> allKeys = ftItems.keys();
+//			while(allKeys.hasMoreElements()){
+//
+//				String key = allKeys.nextElement();
+//				FilterItem fi = ftItems.get(key);
+//				ArrayList<String> motorIds = fi.getAllAssociatedElementsOfType("motor");
+//				sb.append(" F"+j+" ");
+//				sb.append(" "+getsmsidfromID(motorIds.get(0))+" ");
+//				sb.append(" "+fi.getFrequencyHours()+" ");
+//				sb.append(" "+fi.getFrequencyminutes()+" ");
+//				sb.append(" "+fi.getDurationSeconds()+" ");
+//				j++;
+//
+//			}
+//		}
 		sb.append("*en");
 		return sb.toString();
 	}

@@ -2,6 +2,7 @@ package com.app.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public abstract class Elements implements Serializable {
 
@@ -18,21 +19,53 @@ public abstract class Elements implements Serializable {
 
 	/// other elements associated ids
 	private ArrayList<String> ids = new ArrayList<String>();
-	
+
 	public void setItemid( String id ) {
 		this.itemId = id;
 	}
-	
+
 	public void setType( String type ) {
 		this.type = type;
 	}
 	public void setIsEnabled( Boolean val ) {
 		this.isEnabled = val;
 	}
+	
+	public Boolean hasAssociatedElement( String val ) {
+		Boolean hasVal = false;
+		Iterator<String> vals = ids.iterator();
+		while(vals.hasNext()) {
+			String v = vals.next();
+			if(v.equals(val)){
+				hasVal = true;
+				break;
+			}
+		}
+		return hasVal;
+	}
 
-	public void setAssociatedElement( String val ) { ids.add(val); }
+	public void setAssociatedElement( String val ) { 
+		//ids.add(val); 
+		
+		if(!hasAssociatedElement(val)){
+			ids.add(val);
+		}
 
-	public void setMotorConfigured( Boolean val ) { this.isConfigured = val; }
+	}
+
+	public void removeAssociatedElement(String val) {
+
+		Iterator<String> vals = ids.iterator();
+		while(vals.hasNext()) {
+			String v = vals.next();
+			if(v.equals(val)){
+				vals.remove();
+			}
+		}
+
+	}
+
+	public void setIsConfigured( Boolean val ) { this.isConfigured = val; }
 
 	public ArrayList<String> getAllAssociatedElementsOfType( String type ) {
 

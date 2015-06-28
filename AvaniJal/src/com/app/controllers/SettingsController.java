@@ -11,8 +11,10 @@ import android.widget.RelativeLayout;
 
 import com.app.avaniadapters.ConfigListViewAdapter;
 import com.app.avanstart.R;
+import com.app.avanstart.util.AppUtils;
 import com.app.beans.Children;
 import com.app.interfaces.expandedlistinterfaces;
+import com.app.modals.DataOperations;
 
 public class SettingsController implements expandedlistinterfaces{
 	
@@ -70,9 +72,28 @@ public class SettingsController implements expandedlistinterfaces{
 		return ch;
 
 	}
+	public void OnItemClicked( int childPosition ) {
+		
+		switch(childPosition){
+			default:
+			break;
+			
+			case 1:
+				break;
+			case 2:
+				DataOperations.deleteFiles(AppUtils.CONFIG_FILE_NAME, cxt);
+				break;
+			case 3:
+				break;
+			case 4:
+				DataOperations.deleteFiles(AppUtils.USER_FILE_NAME, cxt);
+				break;
+		}
+	}
 	@Override
 	public void listclicked(int child) {
 		// TODO Auto-generated method stub
+		OnItemClicked(child);
 		
 	}
 	

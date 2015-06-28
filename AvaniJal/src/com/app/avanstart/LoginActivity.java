@@ -1,13 +1,24 @@
 package com.app.avanstart;
 
+import java.util.Locale;
+
+import com.app.avanstart.util.AppUtils;
+import com.app.beans.User;
+import com.app.modals.DataOperations;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +38,7 @@ public class LoginActivity extends Activity {
 	 * TODO: remove after connecting to a real authentication system.
 	 */
 	private static final String[] DUMMY_CREDENTIALS = new String[] {
-			"foo@example.com:hello", "bar@example.com:world" };
+		"foo@example.com:hello", "bar@example.com:world" };
 
 	/**
 	 * The default email to populate the email field with.
@@ -37,62 +48,81 @@ public class LoginActivity extends Activity {
 	/**
 	 * Keep track of the login task to ensure we can cancel it if requested.
 	 */
-	private UserLoginTask mAuthTask = null;
+	//private UserLoginTask mAuthTask = null;
 
 	// Values for email and password at the time of the login attempt.
-	private String mEmail;
-	private String mPassword;
 
 	// UI references.
-	private EditText mEmailView;
-	private EditText mPasswordView;
+	private EditText mEmailField;
+	private EditText mPasswordField;
+	private EditText mNameField;
+	private EditText mPhoneField;
+	private EditText mIdField;
+	private EditText mAddressField;
 	private View mLoginFormView;
 	private View mLoginStatusView;
 	private TextView mLoginStatusMessageView;
+	AlertDialog alert;
+
+	/// temp
+	Locale myLocale;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_login);
-		
-		
+
+
 		/// changing styles
-		pushLanguageScreen();
-		
+		//pushLanguageScreen(); commenting for temp reason
+		User u = (User)DataOperations.getDataFromFile(AppUtils.USER_FILE_NAME, this);
+		if(u != null) {
+			String mob = u.getMobile();
+			if(mob.length() == 10){
+				AppUtils.phoneNum = mob;
+				showConfigScreen();
+				finish();
+			}
+		}
+
 	}
-	
+
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
 		getActionBar().setIcon(R.drawable.avaniheaderlogo);
 		getActionBar().setTitle(R.string.logintitle);
+		mNameField = (EditText)findViewById(R.id.name);
+		mPhoneField = (EditText)findViewById(R.id.mobile);
+		mIdField = (EditText)findViewById(R.id.productid);
+		mAddressField = (EditText)findViewById(R.id.address);
 
 		// Set up the login form.
-		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
-		mEmailView = (EditText) findViewById(R.id.email);
-		mEmailView.setText(mEmail);
-		mEmailView.setHint(R.string.emailfield);
-
-		mPasswordView = (EditText) findViewById(R.id.password);
-		mPasswordView
-				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-					@Override
-					public boolean onEditorAction(TextView textView, int id,
-							KeyEvent keyEvent) {
-						if (id == R.id.login || id == EditorInfo.IME_NULL) {
-							attemptLogin();
-							return true;
-						}
-						return false;
-					}
-				});
-		mPasswordView.setHint(R.string.passwordfield);
-
-		mLoginFormView = findViewById(R.id.login_form);
-		mLoginStatusView = findViewById(R.id.login_status);
-		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
+		//		mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
+		//		mEmailView = (EditText) findViewById(R.id.email);
+		//		mEmailView.setText(mEmail);
+		//		mEmailView.setHint(R.string.emailfield);
+		//
+		//		mPasswordView = (EditText) findViewById(R.id.password);
+		//		mPasswordView
+		//				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+		//					@Override
+		//					public boolean onEditorAction(TextView textView, int id,
+		//							KeyEvent keyEvent) {
+		//						if (id == R.id.login || id == EditorInfo.IME_NULL) {
+		//							attemptLogin();
+		//							return true;
+		//						}
+		//						return false;
+		//					}
+		//				});
+		//		mPasswordView.setHint(R.string.passwordfield);
+		//
+		//		mLoginFormView = findViewById(R.id.login_form);
+		//		mLoginStatusView = findViewById(R.id.login_status);
+		//		mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
 
 		Button signinbtn = (Button)findViewById(R.id.sign_in_button);
 		signinbtn.setOnClickListener(
@@ -100,20 +130,65 @@ public class LoginActivity extends Activity {
 					@Override
 					public void onClick(View view) {
 						//attemptLogin();
-						showConfigScreen();
+						//showConfigScreen();
+						checkLoginClicked();
 					}
 				});
-		
+
 		signinbtn.setText(R.string.loginbutton);
 	}
 	
+	public void checkLoginClicked() {
+		
+		User u = new User();
+		
+		if(mNameField.getText().length() > 0) {
+			u.setName(mNameField.getText().toString());
+		}
+		if(mIdField.getText().length() > 0) {
+			u.setId(mIdField.getText().toString());
+		}
+		if(mAddressField.getText().length() > 0) {
+			u.setAddress(mAddressField.getText().toString());
+		}
+		if(mPhoneField.getText().length() == 10 ) {
+			u.setMobile(mPhoneField.getText().toString());
+			AppUtils.phoneNum = u.getMobile();
+			DataOperations.saveDataToFile(u, AppUtils.USER_FILE_NAME, this);
+			showConfigScreen();
+			finish();
+		} else {
+			showDialog("Login", "Ten Digit Mobile Number is Mandatory");
+		}
+	}
+	
+	public void showDialog( String titleName , String message ) {
+
+		if(alert == null){
+
+			alert = new AlertDialog.Builder(this).create();
+			alert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
+
+		}
+
+		alert.setTitle(titleName);
+		alert.setMessage(message);
+		alert.show();
+
+	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
 		this.onStart();
 	}
-	
+
 	@Override
 	protected void onRestart() {
 		// TODO Auto-generated method stub
@@ -126,11 +201,11 @@ public class LoginActivity extends Activity {
 		getMenuInflater().inflate(R.menu.login, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		// TODO Auto-generated method stub
-		
+
 		pushLanguageScreen();
 		return super.onMenuItemSelected(featureId, item);
 	}
@@ -140,57 +215,7 @@ public class LoginActivity extends Activity {
 	 * If there are form errors (invalid email, missing fields, etc.), the
 	 * errors are presented and no actual login attempt is made.
 	 */
-	public void attemptLogin() {
-		if (mAuthTask != null) {
-			return;
-		}
 
-		// Reset errors.
-		/*mEmailView.setError(null);
-		mPasswordView.setError(null);
-
-		// Store values at the time of the login attempt.
-		mEmail = mEmailView.getText().toString();
-		mPassword = mPasswordView.getText().toString();
-
-		boolean cancel = false;
-		View focusView = null;
-
-		// Check for a valid password.
-		if (TextUtils.isEmpty(mPassword)) {
-			mPasswordView.setError(getString(R.string.error_field_required));
-			focusView = mPasswordView;
-			cancel = true;
-		} else if (mPassword.length() < 4) {
-			mPasswordView.setError(getString(R.string.error_invalid_password));
-			focusView = mPasswordView;
-			cancel = true;
-		}
-
-		// Check for a valid email address.
-		if (TextUtils.isEmpty(mEmail)) {
-			mEmailView.setError(getString(R.string.error_field_required));
-			focusView = mEmailView;
-			cancel = true;
-		} else if (!mEmail.contains("@")) {
-			mEmailView.setError(getString(R.string.error_invalid_email));
-			focusView = mEmailView;
-			cancel = true;
-		}*/
-
-		/*if (cancel) {
-			// There was an error; don't attempt login and focus the first
-			// form field with an error.
-			focusView.requestFocus();
-		} else {*/
-			// Show a progress spinner, and kick off a background task to
-			// perform the user login attempt.
-			mLoginStatusMessageView.setText(R.string.loginbutton);
-			showProgress(true);
-			mAuthTask = new UserLoginTask();
-			mAuthTask.execute((Void) null);
-		//}
-	}
 
 	/**
 	 * Shows the progress UI and hides the login form.
@@ -206,25 +231,25 @@ public class LoginActivity extends Activity {
 
 			mLoginStatusView.setVisibility(View.VISIBLE);
 			mLoginStatusView.animate().setDuration(shortAnimTime)
-					.alpha(show ? 1 : 0)
-					.setListener(new AnimatorListenerAdapter() {
-						@Override
-						public void onAnimationEnd(Animator animation) {
-							mLoginStatusView.setVisibility(show ? View.VISIBLE
-									: View.GONE);
-						}
-					});
+			.alpha(show ? 1 : 0)
+			.setListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					mLoginStatusView.setVisibility(show ? View.VISIBLE
+							: View.GONE);
+				}
+			});
 
 			mLoginFormView.setVisibility(View.VISIBLE);
 			mLoginFormView.animate().setDuration(shortAnimTime)
-					.alpha(show ? 0 : 1)
-					.setListener(new AnimatorListenerAdapter() {
-						@Override
-						public void onAnimationEnd(Animator animation) {
-							mLoginFormView.setVisibility(show ? View.GONE
-									: View.VISIBLE);
-						}
-					});
+			.alpha(show ? 0 : 1)
+			.setListener(new AnimatorListenerAdapter() {
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					mLoginFormView.setVisibility(show ? View.GONE
+							: View.VISIBLE);
+				}
+			});
 		} else {
 			// The ViewPropertyAnimator APIs are not available, so simply show
 			// and hide the relevant UI components.
@@ -237,66 +262,77 @@ public class LoginActivity extends Activity {
 	 * Represents an asynchronous login/registration task used to authenticate
 	 * the user.
 	 */
-	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-		@Override
-		protected Boolean doInBackground(Void... params) {
-			// TODO: attempt authentication against a network service.
-
-			try {
-				// Simulate network access.
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				return false;
-			}
-
-			for (String credential : DUMMY_CREDENTIALS) {
-				String[] pieces = credential.split(":");
-				if (pieces[0].equals(mEmail)) {
-					// Account exists, return true if the password matches.
-					return pieces[1].equals(mPassword);
-				}
-			}
-
-			// TODO: register the new account here.
-			return true;
-		}
-
-		@Override
-		protected void onPostExecute(final Boolean success) {
-			mAuthTask = null;
-			showProgress(false);
-
-			if (success) {
-				
-				showConfigScreen();
-				finish();
-			} else {
-				mPasswordView
-						.setError(getString(R.string.error_incorrect_password));
-				mPasswordView.requestFocus();
-			}
-		}
-
-		@Override
-		protected void onCancelled() {
-			mAuthTask = null;
-			showProgress(false);
-		}
-	}
+	//	public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+	//		@Override
+	//		protected Boolean doInBackground(Void... params) {
+	//			// TODO: attempt authentication against a network service.
+	//
+	//			try {
+	//				// Simulate network access.
+	//				Thread.sleep(2000);
+	//			} catch (InterruptedException e) {
+	//				return false;
+	//			}
+	//
+	//			for (String credential : DUMMY_CREDENTIALS) {
+	//				String[] pieces = credential.split(":");
+	//				if (pieces[0].equals(mEmail)) {
+	//					// Account exists, return true if the password matches.
+	//					return pieces[1].equals(mPassword);
+	//				}
+	//			}
+	//
+	//			// TODO: register the new account here.
+	//			return true;
+	//		}
+	//
+	//		@Override
+	//		protected void onPostExecute(final Boolean success) {
+	//			mAuthTask = null;
+	//			showProgress(false);
+	//
+	//			if (success) {
+	//				
+	//				showConfigScreen();
+	//				finish();
+	//			} else {
+	//				mPasswordView
+	//						.setError(getString(R.string.error_incorrect_password));
+	//				mPasswordView.requestFocus();
+	//			}
+	//		}
+	//
+	//		@Override
+	//		protected void onCancelled() {
+	//			mAuthTask = null;
+	//			showProgress(false);
+	//		}
+	//	}
 	private void pushLanguageScreen() {
-		
+
 		Intent i = new Intent(this , LanguageSelectionActivity.class);
 		startActivityForResult(i, 400);
-		
+
 	}
+	//// temporary , we will remove this later
+	public void setLocale(String lang) {
+
+		myLocale = new Locale(lang);
+		Resources res = getResources();
+		DisplayMetrics dm = res.getDisplayMetrics();
+		Configuration conf = res.getConfiguration();
+		conf.locale = myLocale;
+		res.updateConfiguration(conf, dm);
+	}
+
 	private void showConfigScreen() {
-		
+
 		//Intent i = new Intent(this , CropSelectionActivity.class);
 		//Intent i = new Intent(this , ElementsConfigurationActivity.class);
-		
+
 		//Intent i = new Intent(this , ConfigurationsList.class);
 		Intent i = new Intent(this , DashBoardActivity.class);
 		startActivity(i);
-		
+
 	}
 }

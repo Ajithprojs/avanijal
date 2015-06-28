@@ -61,5 +61,34 @@ public class DataOperations  {
 		return simpleClass;
 		
 	}
+	
+	public static void deleteFiles( String fileName , Context cxt ) {
+		
+		try {
+			//ObjectMapper mapper = new ObjectMapper();
+			//mapper.writeValue(new File("c:\\"+configFileName+".json"), data);
+			FileOutputStream fos = cxt.openFileOutput(fileName, Context.MODE_PRIVATE);
+			ObjectOutputStream os = new ObjectOutputStream(fos);
+			os.writeObject("");
+			os.close();
+			fos.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static boolean deleteDir(File dir) {
+	    if (dir != null && dir.isDirectory()) {
+	        String[] children = dir.list();
+	        for (int i = 0; i < children.length; i++) {
+	            boolean success = deleteDir(new File(dir, children[i]));
+	            if (!success) {
+	                return false;
+	            }
+	        }
+	    }
+
+	    return dir.delete();
+	}
 
 }

@@ -75,7 +75,7 @@ public class ConfigListViewAdapter extends BaseAdapter{
 
 		text.setText(children.title);
 		ConfigStatus cg = cghash.get(children.title);
-		if(children.status != null){
+		if(children.status != null && cg != null){
 			statustext.setVisibility(View.VISIBLE);
 			statustext.setText(cg.getConfigDesc());
 		}

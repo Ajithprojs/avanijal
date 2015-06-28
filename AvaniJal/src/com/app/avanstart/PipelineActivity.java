@@ -26,7 +26,7 @@ public class PipelineActivity extends Activity {
 
 	RelativeLayout pipelineLayout;
 	AlertDialog alert;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,14 +47,13 @@ public class PipelineActivity extends Activity {
 			}
 		});
 		LinearLayout llayout = (LinearLayout)findViewById(R.id.finalpipelinelayout);
-		//pipelineLayout = MotorController.getInstance().getMotorLayout(null, this, null);
 		pipelineLayout = PipelineController.getInstance().getPipelineLayout(null, this, null);
 		llayout.addView(pipelineLayout);
 	}
-	
+
 	private void sendConfig() {
 
-		String sms = AppUtils.buildConfigSMS();
+		String sms = AppUtils.buildPipeLineConfigSms();
 		Intent i = new Intent(this , SmsActivity.class);
 		i.putExtra("phone", AppUtils.phoneNum);
 		i.putExtra("msg", sms);
@@ -94,12 +93,17 @@ public class PipelineActivity extends Activity {
 
 	private void setConfigured() {
 
-		ArrayList<Elements> motors = AppUtils.confItems.getMotorItems();
-		Iterator<Elements> iter = motors.iterator();
-
+		ArrayList<Elements> pipelines = AppUtils.confItems.getPipelineItems();
+		Iterator<Elements> iter = pipelines.iterator();
+		while(iter.hasNext()){
+			Elements ele = iter.next();
+			ele.setIsConfigured(true);
+		}
 		showDialog("Pipeline", "Configured Successfully");
 		Intent intent=new Intent();  
-		intent.putExtra("status","configured");  
+		intent.putExtra("status","configured");
+		String[] values = this.getResources().getStringArray(R.array.elements);
+		intent.putExtra("element",values[1]); 
 		setResult(2001,intent);  
 		finish();
 
@@ -109,7 +113,7 @@ public class PipelineActivity extends Activity {
 	private Boolean applyPiplelineValidations() {
 
 		Boolean valid = true;
-		
+
 		return valid;
 	}
 

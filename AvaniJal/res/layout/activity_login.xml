@@ -45,25 +45,37 @@
             android:orientation="vertical" >
 
             <EditText
-                android:id="@+id/email"
+                android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/emailfield"
-                android:inputType="textEmailAddress"
+                android:hint="@string/namefield"
                 android:maxLines="1"
                 android:singleLine="true" />
 
             <EditText
-                android:id="@+id/password"
+                android:id="@+id/mobile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/passwordfield"
+                android:hint="@string/mobilefield"
                 android:imeActionId="@+id/login"
-                android:imeActionLabel="@string/action_sign_in_short"
-                android:imeOptions="actionUnspecified"
-                android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true" />
+            
+            <EditText
+                android:id="@+id/productid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/idfield"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:hint="@string/addressfield"
+                android:maxLines="1"
+                />
 
             <Button
                 android:id="@+id/sign_in_button"

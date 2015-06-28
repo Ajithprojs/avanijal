@@ -89,7 +89,7 @@ public abstract class ElementsController {
 
 	public void addElement( String id , Elements eitem ) {
 
-		//setRemoveElementFromArray(id);
+		setRemoveElementFromArray(id);
 		//setAddElementToArray(id);
 		eitem.setItemid(type+id);
 		strtIndx = type.length();
@@ -127,7 +127,7 @@ public abstract class ElementsController {
 
 			if (ele.getItemid().equals(id)){
 				iter.remove();
-				//setAddElementToArray(id);
+				setAddElementToArray(id);
 				//setRemoveElementFromArray(id);
 				localVal--;
 				break;

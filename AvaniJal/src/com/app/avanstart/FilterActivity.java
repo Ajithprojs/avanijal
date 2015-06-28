@@ -1,35 +1,38 @@
 package com.app.avanstart;
 
+
+
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.Iterator;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.renderscript.Element;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
+import android.widget.RelativeLayout;
 
 import com.app.avanstart.util.AppUtils;
 import com.app.beans.ConfigItem;
 import com.app.beans.Elements;
-import com.app.beans.MotorItem;
 import com.app.controllers.FilterController;
+import com.app.parsers.SmsParser;
+import com.app.parsers.SmsParser.MessageHolder;
 
 
 
 public class FilterActivity extends Activity {
 
-	LinearLayout filterLayout;
+	RelativeLayout filterLayout;
 	ArrayAdapter<String> dataAdapter;
 	boolean changeFilterNum = false;
+	AlertDialog alert;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,42 +42,8 @@ public class FilterActivity extends Activity {
 			AppUtils.confItems = new ConfigItem();
 		}
 
-		Spinner filternum = (Spinner)findViewById(R.id.filternum);
-		ArrayList<Elements> mItems = (ArrayList<Elements>)AppUtils.confItems.getMotorItems();
-		if (mItems != null) {
-			
-			String[] i = new String[mItems.size() + 1];
-			i[0] = "0";
-			for(int x = 1 ; x <= mItems.size() ; x++){
-				i[x] = ""+x;
-			}
-			
-			changeFilterNum = false;
-			dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, i);
-			dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			filternum.setAdapter(dataAdapter);
-
-		}
 		
-		filternum.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int number, long arg3) {
-				// TODO Auto-generated method stub
-				if(changeFilterNum)
-				ValueChanged(number);
-				changeFilterNum = true;
-
-			}
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
-		Button setconfigbtn  = (Button)findViewById(R.id.setfilterconfigbtn);
+		Button setconfigbtn  = (Button)findViewById(R.id.setconfigbtn);
 
 		setconfigbtn.setOnClickListener(new OnClickListener() {
 
@@ -88,7 +57,7 @@ public class FilterActivity extends Activity {
 
 
 		int nofilters = 0;
-		LinearLayout llayout = (LinearLayout)findViewById(R.id.filterlayout);
+		LinearLayout llayout = (LinearLayout)findViewById(R.id.finalfilterlayout);
 		filterLayout = FilterController.getInstance().createFilterLayout(null, null, this, nofilters);
 		llayout.addView(filterLayout);
 	}
@@ -99,18 +68,85 @@ public class FilterActivity extends Activity {
 		Intent i = new Intent(this , SmsActivity.class);
 		i.putExtra("phone", AppUtils.phoneNum);
 		i.putExtra("msg", sms);
-		startActivity(i);
+		i.putExtra("elementid", "");
+		startActivityForResult(i, 1000);
 
 	}
 
-	private void ValueChanged(int pos) {
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
 
-		LinearLayout llayout = (LinearLayout)findViewById(R.id.filterlayout);
-		llayout.removeAllViews();
-		filterLayout = FilterController.getInstance().createFilterLayout(null, null , this, pos);
-		llayout.addView(filterLayout);
+		switch (requestCode) {
+		case 1000:
+			/// ok this is from the sms activity
+			Intent i = data;//getIntent();
+			String smsStr = i.getExtras().getString("MESSAGE");
+			if(smsStr != null){
+				MessageHolder mh = SmsParser.getInstance().getResult(smsStr);
+				if(mh != null) {
+					if(mh.isError){
+						showDialog("Filter", "error in configuration");
+					}else {
+						// configured successfully
+						setConfigured();
+					}
+				}
+			}
+
+			break;
+
+		default:
+			break;
+		}
 	}
 
+	private void setConfigured() {
+
+		ArrayList<Elements> filters = AppUtils.confItems.getFilterItems();
+		Iterator<Elements> iter = filters.iterator();
+		while(iter.hasNext()){
+			Elements ele = iter.next();
+			ele.setIsConfigured(true);
+		}
+		showDialog("Pipeline", "Configured Successfully");
+		Intent intent=new Intent();  
+		intent.putExtra("status","configured");
+		String[] values = this.getResources().getStringArray(R.array.elements);
+		intent.putExtra("element",values[2]); 
+		setResult(2001,intent);  
+		finish();
+
+	}
+
+
+	private Boolean applyPiplelineValidations() {
+
+		Boolean valid = true;
+
+		return valid;
+	}
+
+	private void showDialog( String motorName , String message ) {
+
+		if(alert == null){
+
+			alert = new AlertDialog.Builder(this).create();
+			alert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
+
+		}
+
+		alert.setTitle(motorName);
+		alert.setMessage(message);
+		alert.show();
+
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

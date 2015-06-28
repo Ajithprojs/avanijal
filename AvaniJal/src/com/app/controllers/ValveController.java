@@ -12,8 +12,9 @@ import android.widget.RelativeLayout;
 import com.app.avanicomponents.MultiSelectionSpinner;
 import com.app.avanstart.R;
 import com.app.beans.ValveItems;
+import com.app.interfaces.MultiSelectInterface;
 
-public class ValveController {
+public class ValveController implements MultiSelectInterface {
 	
 	
 	static ValveController _instance;
@@ -45,18 +46,30 @@ public class ValveController {
 			RelativeLayout relativ = (RelativeLayout)linf.inflate(R.layout.valveconfiguration, container, false);
 			
 			MultiSelectionSpinner spinner1 = (MultiSelectionSpinner)relativ.findViewById(R.id.wirednumberirrivalve);
-			spinner1.setItems(activity.getResources().getStringArray(R.array.irrigationnvalvenumber));
+			spinner1.setItems(activity.getResources().getStringArray(R.array.irrigationnvalvenumber) ,this);
 			
 			MultiSelectionSpinner spinner2 = (MultiSelectionSpinner)relativ.findViewById(R.id.plcnumberirrivalve);
-			spinner2.setItems(activity.getResources().getStringArray(R.array.irrigationnvalvenumber));
+			spinner2.setItems(activity.getResources().getStringArray(R.array.irrigationnvalvenumber) , this);
 			
 			MultiSelectionSpinner spinner3 = (MultiSelectionSpinner)relativ.findViewById(R.id.wirelessnumberirrivalve);
-			spinner3.setItems(activity.getResources().getStringArray(R.array.irrigationnvalvenumber));
+			spinner3.setItems(activity.getResources().getStringArray(R.array.irrigationnvalvenumber), this);
 			
 			MultiSelectionSpinner spinner4 = (MultiSelectionSpinner)relativ.findViewById(R.id.numberfertivalve);
-			spinner4.setItems(activity.getResources().getStringArray(R.array.fertigationvalvenumber));
+			spinner4.setItems(activity.getResources().getStringArray(R.array.fertigationvalvenumber), this);
 
 			return relativ;
+		
+	}
+
+	@Override
+	public void BeforeSelectDialog(MultiSelectionSpinner spinner) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void itemSelected(MultiSelectionSpinner spinner, String val) {
+		// TODO Auto-generated method stub
 		
 	}
 

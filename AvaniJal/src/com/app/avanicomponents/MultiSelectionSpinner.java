@@ -6,7 +6,9 @@ import java.util.List;
 
 import com.app.avanstart.R;
 import com.app.avanstart.R.styleable;
+import com.app.interfaces.MultiSelectInterface;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -33,6 +35,10 @@ OnMultiChoiceClickListener{
 	boolean[] mSelection = null;  
 
 	ArrayAdapter<String> simple_adapter;  
+	
+	MultiSelectInterface act;
+	
+	
 
 	public MultiSelectionSpinner(Context context) {  
 		super(context);  
@@ -64,6 +70,7 @@ OnMultiChoiceClickListener{
 
 	@Override  
 	public boolean performClick() {  
+		this.act.BeforeSelectDialog(this);
 		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());  
 		builder.setMultiChoiceItems(_items, mSelection, this);  
 		builder.show();  
@@ -76,19 +83,21 @@ OnMultiChoiceClickListener{
 				"setAdapter is not supported by MultiSelectSpinner.");  
 	}  
 
-	public void setItems(String[] items) {  
+	public void setItems(String[] items ,  MultiSelectInterface act) {  
 		_items = items;  
 		mSelection = new boolean[_items.length];  
 		simple_adapter.clear();  
 		simple_adapter.add(_items[0]);  
+		this.act = act;
 		Arrays.fill(mSelection, false);  
 	}  
 
-	public void setItems(List<String> items) {  
+	public void setItems(List<String> items , MultiSelectInterface act) {  
 		_items = items.toArray(new String[items.size()]);  
 		mSelection = new boolean[_items.length];  
 		simple_adapter.clear();  
 		simple_adapter.add(_items[0]);  
+		this.act = act;
 		Arrays.fill(mSelection, false);  
 	}  
 
@@ -117,6 +126,7 @@ OnMultiChoiceClickListener{
 		simple_adapter.add(buildSelectedItemString());  
 	}  
 
+	
 	public void setSelection(int index) {  
 		for (int i = 0; i < mSelection.length; i++) {  
 			mSelection[i] = false;  
@@ -177,7 +187,7 @@ OnMultiChoiceClickListener{
 					sb.append(", ");  
 				}  
 				foundOne = true;  
-
+				act.itemSelected(this,_items[i]);
 				sb.append(_items[i]);  
 			}  
 		}  
