@@ -91,7 +91,7 @@ public abstract class ElementsController {
 
 		//setRemoveElementFromArray(id);
 		//setAddElementToArray(id);
-		eitem.itemId = type+id;
+		eitem.setItemid(type+id);
 		strtIndx = type.length();
 		if(elements == null){
 			elements = new ArrayList<Elements>();
@@ -99,7 +99,7 @@ public abstract class ElementsController {
 		localVal++;
 		//add only if not existing
 		if(!hasElement(eitem)){
-			deleteElement(eitem.itemId, null);
+			deleteElement(eitem.getItemid(), null);
 			elements.add(eitem);
 		}
 		//uncomment for element UI Testing
@@ -125,7 +125,7 @@ public abstract class ElementsController {
 		while (iter.hasNext()) {
 			Elements ele = iter.next();
 
-			if (ele.itemId.equals(id)){
+			if (ele.getItemid().equals(id)){
 				iter.remove();
 				//setAddElementToArray(id);
 				//setRemoveElementFromArray(id);
@@ -140,7 +140,7 @@ public abstract class ElementsController {
 
 		Boolean has = false;
 		for (Elements ele : elements) {
-			if(ele.itemId.equals(elem)) {
+			if(ele.getItemid().equals(elem)) {
 				has = true;
 				break;
 			}

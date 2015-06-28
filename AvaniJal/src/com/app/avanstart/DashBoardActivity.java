@@ -26,12 +26,14 @@ import com.app.controllers.HistoryController;
 import com.app.controllers.IrrigationController;
 import com.app.controllers.ProvisionController;
 import com.app.controllers.SettingsController;
+import com.app.modals.DataOperations;
 import com.app.parsers.SmsParser;
 import com.app.parsers.SmsParser.MessageHolder;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -81,6 +83,7 @@ public class DashBoardActivity extends Activity {
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
 	private String[] mDrawerTitles;
+	public Context cxt;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +94,7 @@ public class DashBoardActivity extends Activity {
 		mDrawerTitles = getResources().getStringArray(R.array.avanimenuitems);
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
+		this.cxt = this;
 
 		// set a custom shadow that overlays the main content when the drawer opens
 		//mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
@@ -219,6 +223,7 @@ public class DashBoardActivity extends Activity {
 						String status = b.getString("status");
 						if(status.equals("configured")){
 							ConfigListController.getInstance().addConfigToElement("Motor");
+							DataOperations.saveDataToFile(AppUtils.confItems, AppUtils.CONFIG_FILE_NAME, cxt);
 						}
 					}
 
@@ -253,6 +258,7 @@ public class DashBoardActivity extends Activity {
 
 		private View getCurrentView( int pos, ViewGroup container ){
 
+			AppUtils.confItems = (ConfigItem)DataOperations.getDataFromFile(AppUtils.CONFIG_FILE_NAME, getActivity());
 			if(AppUtils.confItems == null) {
 				AppUtils.confItems = new ConfigItem();
 			}

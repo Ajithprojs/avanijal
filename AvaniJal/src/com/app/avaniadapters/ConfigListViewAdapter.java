@@ -35,7 +35,7 @@ public class ConfigListViewAdapter extends BaseAdapter{
 
 		this.groups = groups;
 		this.delegate = del;
-		cghash = AppUtils.confItems.elementConfigstatus;
+		cghash = AppUtils.confItems.getElementConfigStatus();
 		inflater = (LayoutInflater) act.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
 	}
 
@@ -77,7 +77,7 @@ public class ConfigListViewAdapter extends BaseAdapter{
 		ConfigStatus cg = cghash.get(children.title);
 		if(children.status != null){
 			statustext.setVisibility(View.VISIBLE);
-			statustext.setText(cg.configDescription);
+			statustext.setText(cg.getConfigDesc());
 		}
 		if(children.img != 0){
 			elementImage.setVisibility(View.VISIBLE);

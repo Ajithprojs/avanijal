@@ -1,9 +1,13 @@
 package com.app.beans;
 
 
+import java.io.Serializable;
+
 import android.util.Log;
 
-public class MotorItem extends Elements{
+public class MotorItem extends Elements implements Serializable{
+	
+	private static final long serialVersionUID = 46543448;
 
 	/// user name for the pump
 	private String pumpName = "";

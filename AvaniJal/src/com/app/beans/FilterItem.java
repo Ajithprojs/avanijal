@@ -1,8 +1,11 @@
 package com.app.beans;
 
-public class FilterItem extends Elements{
+import java.io.Serializable;
 
+public class FilterItem extends Elements implements Serializable{
 
+	private static final long serialVersionUID = 46543446;
+	
 	private String frequencyHours;
 
 	private String frequencyMintutes;

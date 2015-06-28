@@ -94,7 +94,7 @@ public class PipelineActivity extends Activity {
 
 	private void setConfigured() {
 
-		ArrayList<Elements> motors = AppUtils.confItems.motorItems;
+		ArrayList<Elements> motors = AppUtils.confItems.getMotorItems();
 		Iterator<Elements> iter = motors.iterator();
 
 		showDialog("Pipeline", "Configured Successfully");

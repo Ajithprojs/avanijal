@@ -208,8 +208,8 @@ public class ConfigurationsList extends Activity implements expandedlistinterfac
 		int i = 0;
 		for (String ele : elements) {
 			ConfigStatus cf = new ConfigStatus();
-			cf.elementName = ele;
-			cf.imgName = elementImg[i];
+			cf.setElementName(ele);
+			cf.setImageName(elementImg[i]);
 			init.add(cf);
 			i++;
 		}

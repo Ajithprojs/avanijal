@@ -98,11 +98,11 @@ public class MotorController extends ElementsController {
 		 * 
 		 * */
 
-		if(AppUtils.confItems.motorItems == null)
+		if(AppUtils.confItems.getMotorItems() == null)
 			motors = new ArrayList<Elements>();
 		else
 		{
-			motors = AppUtils.confItems.motorItems;
+			motors = AppUtils.confItems.getMotorItems();
 		}
 		type = "motor";
 		super.elements = motors;
@@ -154,7 +154,7 @@ public class MotorController extends ElementsController {
 
 			disableDropDown = true;
 			MotorItem m  = (MotorItem)mt;
-			addElement(""+getMotorInt(m.itemId), m);
+			addElement(""+getMotorInt(m.getItemid()), m);
 		}
 
 		return lin;
@@ -191,7 +191,7 @@ public class MotorController extends ElementsController {
 		setRemoveMotorToArray(id, eitem.getMotorTypeint());
 		setButtonsSync();
 		super.addElement(id, eitem);
-		AppUtils.confItems.motorItems = motors;
+		AppUtils.confItems.setMotorItems(motors);
 	}
 
 	public void deleteElement(String id, ViewGroup vg, int mType ) {
@@ -259,7 +259,7 @@ public class MotorController extends ElementsController {
 	public void setMotorId( String pumpName  , String val ) {
 
 		MotorItem mItem = getMotorObjectforTag(pumpName);
-		mItem.itemId = "motor"+val;
+		mItem.setItemid("motor"+val) ;
 
 	}
 
@@ -354,19 +354,19 @@ public class MotorController extends ElementsController {
 			motonum = remotemotonum;
 		}
 
-		operations.setTag(mitem.itemId);
-		hpvalue.setTag(mitem.itemId);
-		deliverytype.setTag(mitem.itemId);
-		currenttype.setTag(mitem.itemId);
-		EditmotorName.setTag(mitem.itemId);
-		Editminvoltage.setTag(mitem.itemId);
-		Editmaxvoltage.setTag(mitem.itemId);
-		Editlitres.setTag(mitem.itemId);
-		typeSpinner.setTag(mitem.itemId);
-		deleteBtn.setTag(mitem.itemId);
-		relativ.setTag(mitem.itemId);
-		motornum.setTag(mitem.itemId);
-		motornum.setText(mitem.itemId);
+		operations.setTag(mitem.getItemid());
+		hpvalue.setTag(mitem.getItemid());
+		deliverytype.setTag(mitem.getItemid());
+		currenttype.setTag(mitem.getItemid());
+		EditmotorName.setTag(mitem.getItemid());
+		Editminvoltage.setTag(mitem.getItemid());
+		Editmaxvoltage.setTag(mitem.getItemid());
+		Editlitres.setTag(mitem.getItemid());
+		typeSpinner.setTag(mitem.getItemid());
+		deleteBtn.setTag(mitem.getItemid());
+		relativ.setTag(mitem.getItemid());
+		motornum.setTag(mitem.getItemid());
+		motornum.setText(mitem.getItemid());
 
 
 		disableDropDown = true;
@@ -602,7 +602,7 @@ public class MotorController extends ElementsController {
 
 		MotorItem mt = null;
 		for (Elements mitem : motors) {
-			if(mitem.itemId.equalsIgnoreCase(motorName))
+			if(mitem.getItemid().equalsIgnoreCase(motorName))
 				mt = (MotorItem)mitem;
 		}
 		return mt;

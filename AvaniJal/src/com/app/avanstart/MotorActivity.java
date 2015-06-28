@@ -81,6 +81,7 @@ public class MotorActivity extends Activity {
 					}else {
 						// configured successfully
 						setConfigured();
+						
 					}
 				}
 			}
@@ -94,7 +95,7 @@ public class MotorActivity extends Activity {
 
 	private void setConfigured() {
 
-		ArrayList<Elements> motors = AppUtils.confItems.motorItems;
+		ArrayList<Elements> motors = AppUtils.confItems.getMotorItems();
 		Iterator<Elements> iter = motors.iterator();
 
 		showDialog("Motors", "Configured Successfully");
@@ -109,7 +110,7 @@ public class MotorActivity extends Activity {
 	private Boolean applyMotorValidations() {
 
 		Boolean valid = true;
-		ArrayList<Elements> motors = AppUtils.confItems.motorItems;
+		ArrayList<Elements> motors = AppUtils.confItems.getMotorItems();
 
 		for (Elements m : motors) {
 
@@ -117,7 +118,7 @@ public class MotorActivity extends Activity {
 
 			String pumpName = mt.getPumpName();
 			if(pumpName == "")
-				pumpName = mt.itemId;
+				pumpName = mt.getItemid();
 
 			/// validation for min volts
 			if(mt.getMinVolts() == "" ){

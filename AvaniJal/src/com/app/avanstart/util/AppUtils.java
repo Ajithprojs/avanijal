@@ -36,6 +36,8 @@ public class AppUtils {
 	public static String VENTURY_TYPE = "ventury";
 
 	public static String phoneNum = "9739287569";
+	
+	public static String CONFIG_FILE_NAME = "config";
 
 	public static void sendSMS(String phoneNumber, String message , final Activity activity)
 	{        
@@ -111,13 +113,13 @@ public class AppUtils {
 		/// lets first build for the motors
 		
 		ConfigItem cItem = AppUtils.confItems;
-		ArrayList<Elements> mtItems =  cItem.motorItems;
+		ArrayList<Elements> mtItems =  cItem.getMotorItems();
 		if(mtItems != null) {
 
 			for (Elements m : mtItems) {
 				MotorItem me = (MotorItem)m;
 				sb.append("*AC");
-				sb.append(" "+getsmsidfromID(me.itemId)+" ");
+				sb.append(" "+getsmsidfromID(me.getItemid())+" ");
 				sb.append(" "+me.getHpValeint()+" ");
 				sb.append(" "+me.getMinVolts()+" ");
 				sb.append(" "+me.getMaxVolts()+" ");
@@ -145,7 +147,7 @@ public class AppUtils {
 		/// lets  build for the filters
 		sb.append("*AC");
 		ConfigItem cItem = AppUtils.confItems;
-		Hashtable<String, FilterItem> ftItems = cItem.filterItems;
+		Hashtable<String, FilterItem> ftItems = cItem.getFilterItems();
 
 
 

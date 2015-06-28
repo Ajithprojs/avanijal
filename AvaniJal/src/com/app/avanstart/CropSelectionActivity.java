@@ -55,11 +55,11 @@ public class CropSelectionActivity extends FragmentActivity {
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
 		cropConfig = new Hashtable<String, Object>();
-		if(DataOperations.crops == null) {
-			
-			DataOperations.crops = new Hashtable<String, Hashtable<String,CropItem>>();
-			
-		}
+//		if(DataOperations.crops == null) {
+//			
+//			DataOperations.crops = new Hashtable<String, Hashtable<String,CropItem>>();
+//			
+//		}
 
 	}
 
@@ -260,7 +260,7 @@ public class CropSelectionActivity extends FragmentActivity {
 				holder.imageItem.setImageResource(item.imgId);
 				holder.imageItem.setTag(item.cropTitle);
 				cropConfig.put(item.cropTitle, holder);
-				DataOperations.crops.put(getResources().getStringArray(R.array.croptype)[index], cropHolder);
+				//DataOperations.crops.put(getResources().getStringArray(R.array.croptype)[index], cropHolder);
 
 			}
 

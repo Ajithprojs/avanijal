@@ -93,13 +93,13 @@ public class ElementListAdapter extends BaseAdapter implements android.widget.Ad
 			
 			/************  Set Model values in Holder elements ***********/
 			ConfigStatus cs = (ConfigStatus)data.get(position);
-			holder.elementName.setText(cs.elementName );
-			holder.configText.setText(cs.configDescription);
+			holder.elementName.setText(cs.getElementName() );
+			holder.configText.setText(cs.getConfigDesc());
 			//holder.image.setImageResource(
 				//	res.getIdentifier(
 					//		"com.androidexample.customlistview:drawable/"+name.get(position)
 						//	,null,null));
-			holder.image.setImageResource(cs.imgName);
+			holder.image.setImageResource(cs.getImgName());
 
 			/******** Set Item Click Listner for LayoutInflater for each row *******/
 

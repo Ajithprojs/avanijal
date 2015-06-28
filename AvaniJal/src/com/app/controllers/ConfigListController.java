@@ -72,10 +72,10 @@ public class ConfigListController implements expandedlistinterfaces {
 		String[] elements = this.cxt.getResources().getStringArray(R.array.elements);
 		int[] eleimgs = {R.drawable.motors, R.drawable.motors , R.drawable.filters , R.drawable.valves , R.drawable.sensors, R.drawable.sensors};
 		int j = 0;
-		Hashtable<String, ConfigStatus> cghash = AppUtils.confItems.elementConfigstatus;
+		Hashtable<String, ConfigStatus> cghash = AppUtils.confItems.getElementConfigStatus();
 		for (String string : elements) {
 			ConfigStatus cg = cghash.get(string);
-			groups.add(getNewChild(string, cg.configDescription, eleimgs[j]));
+			groups.add(getNewChild(string, cg.getConfigDesc(), eleimgs[j]));
 			j++;
 		}
 
@@ -94,7 +94,7 @@ public class ConfigListController implements expandedlistinterfaces {
 	public void refreshConfigs() {
 
 		String[] elements = this.cxt.getResources().getStringArray(R.array.elements);
-		Hashtable<String, ConfigStatus> cghash = AppUtils.confItems.elementConfigstatus;
+		Hashtable<String, ConfigStatus> cghash = AppUtils.confItems.getElementConfigStatus();
 		if(cghash == null){
 			cghash = new Hashtable<String, ConfigStatus>();
 		}
@@ -104,35 +104,35 @@ public class ConfigListController implements expandedlistinterfaces {
 				cg = cghash.get(string);
 			else {
 				cg = new ConfigStatus();
-				cg.configDescription = "Not Configured";
+				cg.setConfigDesc("Not Configured");
 				cghash.put(string, cg);
 			}
 		}
-		AppUtils.confItems.elementConfigstatus = cghash;
+		AppUtils.confItems.setElementConfigStatus(cghash);
 	}
 
 	public void addConfigToElement( String eleName ) {
 
-		Hashtable<String, ConfigStatus> cghash = AppUtils.confItems.elementConfigstatus;
+		Hashtable<String, ConfigStatus> cghash = AppUtils.confItems.getElementConfigStatus();
 		if(cghash == null){
 			cghash = new Hashtable<String, ConfigStatus>();
 		}
 		ConfigStatus cg = cghash.get(eleName);
-		cg.configDescription = "Configured";
+		cg.setConfigDesc("Configured");
 		cghash.put(eleName, cg);
-		AppUtils.confItems.elementConfigstatus = cghash;
+		AppUtils.confItems.setElementConfigStatus(cghash);
 		adapter.notifyDataSetChanged();
 	}
 	public void removeConfigToElement( String eleName ) {
 
-		Hashtable<String, ConfigStatus> cghash = AppUtils.confItems.elementConfigstatus;
+		Hashtable<String, ConfigStatus> cghash = AppUtils.confItems.getElementConfigStatus();
 		if(cghash == null){
 			cghash = new Hashtable<String, ConfigStatus>();
 		}
 		ConfigStatus cg = cghash.get(eleName);
-		cg.configDescription = "Not Configured";
+		cg.setConfigDesc("Not Configured");
 		cghash.put(eleName, cg);
-		AppUtils.confItems.elementConfigstatus = cghash;
+		AppUtils.confItems.setElementConfigStatus(cghash);
 		adapter.notifyDataSetChanged();
 	}
 

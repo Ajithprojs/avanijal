@@ -83,17 +83,17 @@ public class PipelineController extends ElementsController {
 		 * 
 		 * */
 
-		if(AppUtils.confItems.pipelineItems == null)
+		if(AppUtils.confItems.getPipelineItems() == null)
 			pipelines = new ArrayList<Elements>();
 		else
 		{
-			pipelines = AppUtils.confItems.pipelineItems;
+			pipelines = AppUtils.confItems.getPipelineItems();
 
 		}
-		ArrayList<Elements> motors = AppUtils.confItems.motorItems;
+		ArrayList<Elements> motors = AppUtils.confItems.getMotorItems();
 		MAX_PIPELINE = motors.size();
 		for (Elements elements : motors) {
-			motorIds.add(elements.itemId);
+			motorIds.add(elements.getItemid());
 		}
 		type = "pipeline";
 		super.elements = pipelines;
@@ -130,7 +130,7 @@ public class PipelineController extends ElementsController {
 		for (Elements mt : tempPipes) {
 
 			disableDropDown = true;
-			addElement(""+getPipeInt(mt.itemId), mt);
+			addElement(""+getPipeInt(mt.getItemid()), mt);
 			//buildUI((Pipelineitem)mt);
 		}
 
@@ -146,7 +146,7 @@ public class PipelineController extends ElementsController {
 
 			disableDropDown = false;
 			super.addElement(""+localVal, pitem);
-			AppUtils.confItems.pipelineItems = pipelines;
+			AppUtils.confItems.setPipelineItems(pipelines);
 		}
 
 	}
@@ -223,10 +223,10 @@ public class PipelineController extends ElementsController {
 		final Button deleteBtn = (Button)relativ.findViewById(R.id.delebtn);
 		final MultiSelectionSpinner typeSpinner = (MultiSelectionSpinner)relativ.findViewById(R.id.pipelinespinner);
 
-		pipelineid.setTag(pitem.itemId);
-		deleteBtn.setTag(pitem.itemId);
-		typeSpinner.setTag(pitem.itemId);
-		relativ.setTag(pitem.itemId);
+		pipelineid.setTag(pitem.getItemid());
+		deleteBtn.setTag(pitem.getItemid());
+		typeSpinner.setTag(pitem.getItemid());
+		relativ.setTag(pitem.getItemid());
 
 		typeSpinner.setItems(motorIds);
 
@@ -279,7 +279,7 @@ public class PipelineController extends ElementsController {
 
 		Pipelineitem mt = null;
 		for (Elements mitem : pipelines) {
-			if(mitem.itemId.equalsIgnoreCase(pipeName))
+			if(mitem.getItemid().equalsIgnoreCase(pipeName))
 				mt = (Pipelineitem)mitem;
 		}
 		return mt;

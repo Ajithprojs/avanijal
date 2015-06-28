@@ -40,7 +40,7 @@ public class ValveController {
 		valves = new Hashtable<String, ValveItems>();
 
 			ValveItems fitem = new ValveItems();
-			fitem.valveId = 1;
+			fitem.setValveId(1) ;
 			LayoutInflater linf = activity.getLayoutInflater();
 			RelativeLayout relativ = (RelativeLayout)linf.inflate(R.layout.valveconfiguration, container, false);
 			

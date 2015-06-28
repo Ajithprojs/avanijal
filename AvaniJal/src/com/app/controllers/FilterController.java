@@ -68,10 +68,10 @@ public class FilterController {
 		this.activity = activity;
 		this.container = container;
 
-		if(AppUtils.confItems.filterItems == null)
+		if(AppUtils.confItems.getFilterItems() == null)
 			filters = new Hashtable<String, FilterItem>();
 		else
-			filters = AppUtils.confItems.filterItems;
+			filters = AppUtils.confItems.getFilterItems();
 
 		mainLayout = new LinearLayout(activity);
 		LayoutParams LLParams = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
@@ -82,14 +82,14 @@ public class FilterController {
 		for (int i = 0; i < numberoffilters; i++) {
 
 			FilterItem fitem = new FilterItem();
-			fitem.itemId = "filter"+(i+1);
+			fitem.setItemid("filter"+(i+1)) ;
 			if(filters.containsKey("filter"+(i+1))) {
 				fitem = (FilterItem)filters.get("filter"+(i+1));
 			}
 
 			buildUI(fitem , i);
 		}
-		AppUtils.confItems.filterItems = filters;
+		AppUtils.confItems.setFilterItems(filters) ;
 		return mainLayout;
 	}
 
@@ -222,10 +222,10 @@ public class FilterController {
 					if(mt.getPumpName().length() > 1){
 						motornames.add(mt.getPumpName());
 					}else{
-						motornames.add(mt.itemId);
+						motornames.add(mt.getItemid());
 					}
 
-					motorIds.add(mt.itemId);
+					motorIds.add(mt.getItemid());
 				}
 			}
 		}

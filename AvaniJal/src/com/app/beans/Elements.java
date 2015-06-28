@@ -1,14 +1,16 @@
 package com.app.beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public abstract class Elements {
+public abstract class Elements implements Serializable {
 
-	public String itemId;
+	private static final long serialVersionUID = 46543447;
+	private String itemId;
 
-	public String type;
+	private String type;
 
-	public boolean isEnabled;
+	private boolean isEnabled;
 
 	////is configured by sending sms success
 
@@ -16,6 +18,17 @@ public abstract class Elements {
 
 	/// other elements associated ids
 	private ArrayList<String> ids = new ArrayList<String>();
+	
+	public void setItemid( String id ) {
+		this.itemId = id;
+	}
+	
+	public void setType( String type ) {
+		this.type = type;
+	}
+	public void setIsEnabled( Boolean val ) {
+		this.isEnabled = val;
+	}
 
 	public void setAssociatedElement( String val ) { ids.add(val); }
 
@@ -35,7 +48,9 @@ public abstract class Elements {
 		return types;
 
 	}
-
+	public String getItemid() {return this.itemId ;}
+	public String getType() {return this.type ;}
+	public Boolean getIsEnabled() {return this.isEnabled ;}
 	public Boolean getIsConfigured() {return this.isConfigured ;}
 
 }
