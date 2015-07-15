@@ -382,6 +382,18 @@
           <item>5</item>
           <item>6</item>
       </string-array>
+      <string-array name="irrigation_spinner">
+        <item>Time Based</item>
+        <item>Volume Based</item>
+    </string-array>
+    <string-array name="irragation_valve_test">
+        <item>V1</item>
+        <item>V4</item>
+        <item>V7</item>
+        <item>V12</item>
+        <item>V13</item>
+        <item>V3</item>
+    </string-array>
       
       <string name="drawer_open">Open navigation drawer</string>
       <string name="drawer_close">Close navigation drawer</string>

@@ -82,10 +82,10 @@ public class ElementsConfigurationActivity extends FragmentActivity {
 	
 	private void showConfigScreen() {
 		
-		String sms = AppUtils.buildMotorConfigSMS();
-		AppUtils.sendSMS("9880652209", sms, this);
-		Intent i = new Intent( ElementsConfigurationActivity.this , ConfigurationDetails.class );
-		startActivity(i);
+//		String sms = AppUtils.buildMotorConfigSMS();
+//		AppUtils.sendSMS("9880652209", sms, this);
+//		Intent i = new Intent( ElementsConfigurationActivity.this , ConfigurationDetails.class );
+//		startActivity(i);
 		
 	}
 

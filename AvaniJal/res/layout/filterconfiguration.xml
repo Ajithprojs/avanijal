@@ -92,7 +92,7 @@
         android:textSize="16sp"
         ></TextView>
     
-     <TextView  
+     <!-- <TextView  
         
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -112,14 +112,14 @@
         android:id="@+id/filterfrequencyhours"
         android:entries="@array/hournumber"
         
-        ></Spinner>
+        ></Spinner> -->
     
     
     <TextView  
         
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/filterfrequencyhours"
+        android:layout_toRightOf="@id/filterimage"
         android:layout_below="@id/frequencylabel"
         android:id="@+id/minlabel"
         android:paddingLeft="3dp"
@@ -127,7 +127,7 @@
         android:textSize="16sp"
         ></TextView>
     
-     <Spinner 
+    <!--  <Spinner 
         
         android:layout_width="80dp"
         android:layout_height="wrap_content"
@@ -137,7 +137,18 @@
         android:id="@+id/filterfrequencyminutes"
         android:entries="@array/minutenumber"
         
-        ></Spinner>
+        ></Spinner> -->
+        
+        <EditText 
+             android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/frequencylabel"
+        android:layout_toRightOf="@id/minlabel"
+        android:paddingLeft="5dp"
+        android:inputType="number"
+        android:id="@+id/filterfrequencyminutes"
+            
+            />
      
      
      

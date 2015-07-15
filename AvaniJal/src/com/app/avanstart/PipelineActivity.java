@@ -1,11 +1,14 @@
 package com.app.avanstart;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import com.app.avanstart.util.AppUtils;
 import com.app.beans.ConfigItem;
 import com.app.beans.Elements;
+import com.app.beans.MotorItem;
+import com.app.beans.Pipelineitem;
 import com.app.controllers.PipelineController;
 import com.app.parsers.SmsParser;
 import com.app.parsers.SmsParser.MessageHolder;
@@ -53,10 +56,10 @@ public class PipelineActivity extends Activity {
 
 	private void sendConfig() {
 
-		String sms = AppUtils.buildPipeLineConfigSms();
+		HashMap<String, String> sms = AppUtils.buildPipeLineConfigSms();
 		Intent i = new Intent(this , SmsActivity.class);
 		i.putExtra("phone", AppUtils.phoneNum);
-		i.putExtra("msg", sms);
+		i.putExtra("MESSAGE", sms);
 		i.putExtra("elementid", "");
 		startActivityForResult(i, 1000);
 
@@ -70,19 +73,31 @@ public class PipelineActivity extends Activity {
 		switch (requestCode) {
 		case 1000:
 			/// ok this is from the sms activity
-			Intent i = data;//getIntent();
-			String smsStr = i.getExtras().getString("MESSAGE");
-			if(smsStr != null){
-				MessageHolder mh = SmsParser.getInstance().getResult(smsStr);
-				if(mh != null) {
-					if(mh.isError){
-						showDialog("pipeline", "error in configuration");
-					}else {
+
+			if(data!= null) {
+				Intent i = data;//getIntent();
+				HashMap<String, String> smsStr = (HashMap<String, String>) i.getExtras().getSerializable("MESSAGE");
+
+				if(smsStr != null){
+					Object[] e = smsStr.keySet().toArray();
+					boolean isSuccess = true;
+					for( int m = 0 ; m < e.length ; m++ ){
+						String key = (String)e[m];
+						if(!smsStr.get(key).equals(AppUtils.SMS_CONFIG_SUCCESS)) {
+							showDialog("key", smsStr.get(key) );
+							isSuccess = false;
+							break;
+						}
+					}
+
+					if(isSuccess){
 						// configured successfully
 						setConfigured();
 					}
+
 				}
 			}
+
 
 			break;
 
@@ -113,9 +128,22 @@ public class PipelineActivity extends Activity {
 	private Boolean applyPiplelineValidations() {
 
 		Boolean valid = true;
+		ArrayList<Elements> pipes = AppUtils.confItems.getPipelineItems();
+		for (Elements m : pipes) {
+			Pipelineitem pt = (Pipelineitem)m;
+			ArrayList<String> ids = pt.getAllAssociatedElementsOfType(AppUtils.MOTOR_TYPE);
+
+			if(ids.size() == 0){
+				valid = false;
+				showDialog(pt.getItemid(), "Please associate motor to the pipeline");
+				break;
+			}
+		}
 
 		return valid;
 	}
+
+
 
 	private void showDialog( String motorName , String message ) {
 

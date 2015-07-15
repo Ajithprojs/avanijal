@@ -80,7 +80,7 @@ public class LoginActivity extends Activity {
 		if(u != null) {
 			String mob = u.getMobile();
 			if(mob.length() == 10){
-				AppUtils.phoneNum = mob;
+				//AppUtils.phoneNum = mob;
 				showConfigScreen();
 				finish();
 			}

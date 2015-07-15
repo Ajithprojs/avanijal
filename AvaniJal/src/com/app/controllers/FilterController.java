@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -67,6 +70,8 @@ public class FilterController extends ElementsController {
 	private int MIN_COMMAND = 2;
 
 	private int SECOND_COMMAND = 3;
+	
+	boolean disablaDropDown = false;
 
 	private FilterController() {
 
@@ -96,12 +101,15 @@ public class FilterController extends ElementsController {
 			filters = AppUtils.confItems.getFilterItems();
 
 		}
+		pipelineIds.clear();
+		pipelineIds.add(" ");
 		ArrayList<Elements> pipeline = AppUtils.confItems.getPipelineItems();
 		MAX_FILTERS = pipeline.size();
 		for (Elements elements : pipeline) {
 			pipelineIds.add(elements.getItemid());
 		}
-		type = "filter";
+		filterVal = 0;
+		type = AppUtils.FILTER_TYPE;
 		super.elements = filters;
 		super.max = MAX_FILTERS;
 		super.type = type;
@@ -133,8 +141,12 @@ public class FilterController extends ElementsController {
 		for (Elements mt : tempFilters) {
 
 			disableDropDown = true;
+			if(mt.getIsConfigured()) {
 			addElement(""+getFilterInt(mt.getItemid()), mt);
+			filterVal++;
+			}
 		}
+		setButtonsSync();
 		return lin;
 	}
 
@@ -205,23 +217,29 @@ public class FilterController extends ElementsController {
 	@Override
 	public void buildUI(Elements eitem) {
 		// TODO Auto-generated method stub
+		FilterItem fitem = (FilterItem)eitem;
 		LayoutInflater linf = (LayoutInflater) this.activity.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
 		relativ = (RelativeLayout)linf.inflate(R.layout.filterconfiguration, container, false);
 
 		Spinner numberoffiltersSpinner = (Spinner)relativ.findViewById(R.id.motorfilterspinner);
-		Spinner freqhoursspinner = (Spinner)relativ.findViewById(R.id.filterfrequencyhours);
-		Spinner freqminutesspinner = (Spinner)relativ.findViewById(R.id.filterfrequencyminutes);
+		//Spinner freqhoursspinner = (Spinner)relativ.findViewById(R.id.filterfrequencyhours);
+		final EditText freqminutesspinner = (EditText)relativ.findViewById(R.id.filterfrequencyminutes);
 		Spinner durationsecondsspinner = (Spinner)relativ.findViewById(R.id.filterdurationseconds);
 		final Button deleteBtn = (Button)relativ.findViewById(R.id.delebtn);
 		final TextView filterid  = (TextView)relativ.findViewById(R.id.filternumtxt);
 
-		numberoffiltersSpinner.setTag(eitem.getItemid());
-		freqhoursspinner.setTag(eitem.getItemid());
-		freqminutesspinner.setTag(eitem.getItemid());
-		durationsecondsspinner.setTag(eitem.getItemid());
-		relativ.setTag(eitem.getItemid());
-		deleteBtn.setTag(eitem.getItemid());
-		filterid.setText("Filter "+filterVal);
+		numberoffiltersSpinner.setTag(fitem.getItemid());
+		//freqhoursspinner.setTag(fitem.getItemid());
+		freqminutesspinner.setTag(fitem.getItemid());
+		durationsecondsspinner.setTag(fitem.getItemid());
+		relativ.setTag(fitem.getItemid());
+		deleteBtn.setTag(fitem.getItemid());
+		filterid.setText("Filter "+fitem.getItemid());
+		
+		//freqminutesspinner.setSelection(fitem.getFrequencyminutes());
+		freqminutesspinner.setText(""+fitem.getFrequencyminutes());
+		durationsecondsspinner.setSelection(fitem.getDurationSeconds());
+		numberoffiltersSpinner.setSelection(getAssociatedId(eitem.getItemid()));
 		
 		setButtonsSync();
 		
@@ -232,6 +250,7 @@ public class FilterController extends ElementsController {
 				// TODO Auto-generated method stub
 
 				//deleteElement((String)deleteBtn.getTag() , pipeLinear);
+				if(!disableDropDown)
 				deleteFilter((String)deleteBtn.getTag(), filterLinear);
 			}
 		});
@@ -250,7 +269,8 @@ public class FilterController extends ElementsController {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int pos, long arg3) {
 				// TODO Auto-generated method stub
-				//setMotorId((String)arg0.getTag(), pos);
+				if(!disableDropDown)
+				setMotorId((String)arg0.getTag(), pos);
 
 			}
 
@@ -261,33 +281,62 @@ public class FilterController extends ElementsController {
 			}
 		});
 
-		freqhoursspinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+//		freqhoursspinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+//
+//			@Override
+//			public void onItemSelected(AdapterView<?> arg0, View arg1,
+//					int pos, long arg3) {
+//				// TODO Auto-generated method stub
+//				setCommand((String)arg0.getTag(), pos + 1, HOUR_COMMAND);
+//			}
+//
+//			@Override
+//			public void onNothingSelected(AdapterView<?> arg0) {
+//				// TODO Auto-generated method stub
+//
+//			}
+//		});
+
+//		freqminutesspinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+//
+//			@Override
+//			public void onItemSelected(AdapterView<?> arg0, View arg1,
+//					int pos, long arg3) {
+//				// TODO Auto-generated method stub
+//				if(!disableDropDown)
+//				setCommand((String)arg0.getTag(), pos + 1, MIN_COMMAND);
+//			}
+//
+//			@Override
+//			public void onNothingSelected(AdapterView<?> arg0) {
+//				// TODO Auto-generated method stub
+//
+//			}
+//		});
+		
+		freqminutesspinner.addTextChangedListener(new TextWatcher() {
 
 			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int pos, long arg3) {
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				// TODO Auto-generated method stub
-				setCommand((String)arg0.getTag(), pos + 1, HOUR_COMMAND);
+				if(s.length() > 1){
+					FilterItem mItem = getPipelineObjectforTag((String)freqminutesspinner.getTag());
+					if(mItem != null)
+						//mItem.setMaxVolts(Editmaxvoltage.getText().toString());
+						mItem.setFrequencyminutes(Integer.parseInt(freqminutesspinner.getText().toString()));
+				}
+				
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
 				// TODO Auto-generated method stub
 
 			}
-		});
-
-		freqminutesspinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 
 			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int pos, long arg3) {
-				// TODO Auto-generated method stub
-				setCommand((String)arg0.getTag(), pos + 1, MIN_COMMAND);
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
+			public void afterTextChanged(Editable s) {
 				// TODO Auto-generated method stub
 
 			}
@@ -298,6 +347,7 @@ public class FilterController extends ElementsController {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int pos, long arg3) {
 				// TODO Auto-generated method stub
+				if(!disableDropDown)
 				setCommand((String)arg0.getTag(), pos + 1, SECOND_COMMAND);
 			}
 
@@ -307,27 +357,59 @@ public class FilterController extends ElementsController {
 
 			}
 		});
-
-		disableDropDown = false;
+		disablaDropDown = false;
 		filterLinear.addView(relativ);
 	}
 
 	public void setMotorId( String filterName , int val ) {
 
-		//FilterItem mItem = filters.get(filterName);
+		FilterItem mItem = getPipelineObjectforTag(filterName);
 		//mItem.setAssociatedElement(motorIds.get(val));
+		mItem.setAssociatedElement(pipelineIds.get(val));
+
+	}
+	
+	public int getAssociatedId( String filterName   ) {
+		FilterItem mItem = getPipelineObjectforTag(filterName);
+		ArrayList<String> items = mItem.getAllAssociatedElementsOfType(AppUtils.PIPELINE_TYPE);
+		if(items.size() > 0){
+			String assoId = items.get(0);
+			Iterator<String> ids = pipelineIds.iterator();
+			int j = 0;
+			while(ids.hasNext()) {
+				
+				String id = ids.next();
+				if(id.equals(assoId)){
+					return j;
+					
+				}
+				j++;
+			}
+		}
+		
+		return 0;
+	}
+	
+	private FilterItem getPipelineObjectforTag( String filterName ) {
+
+		FilterItem mt = null;
+		for (Elements mitem : filters) {
+			if(mitem.getItemid().equalsIgnoreCase(filterName))
+				mt = (FilterItem)mitem;
+		}
+		return mt;
 
 	}
 
 	void setCommand(String filterName , int val , int cmd){
 
-//		FilterItem mItem = filters.get(filterName);
-//		switch (cmd) {
-//		case 1:mItem.setFrequencyHours(""+val);break;
-//		case 2 :mItem.setFrequencyminutes(""+val);break;
-//		default:mItem.setDurationSeconds(""+val);break;
-//
-//		}
+		FilterItem mItem = getPipelineObjectforTag(filterName);
+		switch (cmd) {
+		case 1:mItem.setFrequencyHours(val);break;
+		case 2 :mItem.setFrequencyminutes(val);break;
+		default:mItem.setDurationSeconds(val);break;
+
+		}
 	}
 
 

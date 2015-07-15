@@ -18,6 +18,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.text.Selection;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
@@ -37,6 +38,8 @@ OnMultiChoiceClickListener{
 	ArrayAdapter<String> simple_adapter;  
 	
 	MultiSelectInterface act;
+	
+	int current = 0;
 	
 	
 
@@ -59,13 +62,18 @@ OnMultiChoiceClickListener{
 	public void onClick(DialogInterface dialog, int which, boolean isChecked) {  
 		if (mSelection != null && which < mSelection.length) {  
 			mSelection[which] = isChecked;  
-
+			current = which;
 			simple_adapter.clear();  
 			simple_adapter.add(buildSelectedItemString());  
+			act.itemSelected(this,_items[which]);
 		} else {  
 			throw new IllegalArgumentException(  
 					"Argument 'which' is out of bounds.");  
 		}  
+		if(!isChecked && _items!=null) {
+			
+			act.itemDeselected(this, _items[which]);
+		}
 	}  
 
 	@Override  
@@ -91,6 +99,11 @@ OnMultiChoiceClickListener{
 		this.act = act;
 		Arrays.fill(mSelection, false);  
 	}  
+	
+	public void clearAdapter() {
+		if(simple_adapter != null)
+			simple_adapter.clear();
+	}
 
 	public void setItems(List<String> items , MultiSelectInterface act) {  
 		_items = items.toArray(new String[items.size()]);  
@@ -187,7 +200,7 @@ OnMultiChoiceClickListener{
 					sb.append(", ");  
 				}  
 				foundOne = true;  
-				act.itemSelected(this,_items[i]);
+				//act.itemSelected(this,_items[i]);
 				sb.append(_items[i]);  
 			}  
 		}  

@@ -6,25 +6,25 @@ public class FilterItem extends Elements implements Serializable{
 
 	private static final long serialVersionUID = 46543446;
 	
-	private String frequencyHours;
+	private int frequencyHours;
 
-	private String frequencyMintutes;
+	private int frequencyMintutes;
 
-	private String durationSeconds; 
-
-
-	public void setFrequencyHours( String val ) {this.frequencyHours = val ;}
-
-	public void setFrequencyminutes( String val ) {this.frequencyMintutes = val ;}
-
-	public void setDurationSeconds( String val ) {this.durationSeconds = val ;}
+	private int durationSeconds; 
 
 
-	public String getFrequencyHours(  ) {return frequencyHours  ;}
+	public void setFrequencyHours( int val ) {this.frequencyHours = val ;}
 
-	public String getFrequencyminutes( ) {return frequencyMintutes ;}
+	public void setFrequencyminutes( int val ) {this.frequencyMintutes = val ;}
 
-	public String getDurationSeconds(  ) {return durationSeconds  ;}
+	public void setDurationSeconds( int val ) {this.durationSeconds = val ;}
+
+
+	public int getFrequencyHours(  ) {return frequencyHours  ;}
+
+	public int getFrequencyminutes( ) {return frequencyMintutes ;}
+
+	public int getDurationSeconds(  ) {return durationSeconds  ;}
 
 
 }

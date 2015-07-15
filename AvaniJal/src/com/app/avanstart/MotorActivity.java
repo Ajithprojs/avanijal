@@ -1,6 +1,9 @@
 package com.app.avanstart;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 
 import android.app.Activity;
@@ -28,7 +31,7 @@ public class MotorActivity extends Activity {
 	RelativeLayout motorLayout;
 	AlertDialog alert;
 	LinearLayout llayout;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,10 +59,10 @@ public class MotorActivity extends Activity {
 
 	private void sendConfig() {
 
-		String sms = AppUtils.buildMotorConfigSMS();
+		HashMap<String, String> smss = AppUtils.buildMotorConfigSMS();
 		Intent i = new Intent(this , SmsActivity.class);
 		i.putExtra("phone", AppUtils.phoneNum);
-		i.putExtra("msg", sms);
+		i.putExtra("MESSAGE", smss);
 		i.putExtra("elementid", "");
 		startActivityForResult(i, 1000);
 
@@ -73,18 +76,27 @@ public class MotorActivity extends Activity {
 		switch (requestCode) {
 		case 1000:
 			/// ok this is from the sms activity
-			Intent i = data;//getIntent();
-			String smsStr = i.getExtras().getString("MESSAGE");
-			if(smsStr != null){
-				MessageHolder mh = SmsParser.getInstance().getResult(smsStr);
-				if(mh != null) {
-					if(mh.isError){
-						showDialog("motor", "error in configuration");
-					}else {
+			if(data != null){
+				Intent i = data;//getIntent();
+				HashMap<String, String> smsStr = (HashMap<String, String>) i.getExtras().getSerializable("MESSAGE");
+
+				if(smsStr != null){
+					Object[] e = smsStr.keySet().toArray();
+					boolean isSuccess = true;
+					for( int m = 0 ; m < e.length ; m++ ){
+						String key = (String)e[m];
+						if(!smsStr.get(key).equals(AppUtils.SMS_CONFIG_SUCCESS)) {
+							showDialog("key", smsStr.get(key) );
+							isSuccess = false;
+							break;
+						}
+					}
+
+					if(isSuccess){
 						// configured successfully
 						setConfigured();
-						
 					}
+
 				}
 			}
 

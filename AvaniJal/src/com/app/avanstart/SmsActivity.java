@@ -3,7 +3,18 @@ package com.app.avanstart;
 
 
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Set;
+
 import com.app.avanstart.util.AppUtils;
+import com.app.controllers.SmsController;
+import com.app.interfaces.SmsInterface;
+import com.app.parsers.SmsParser;
+import com.app.parsers.SmsParser.MessageHolder;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -27,16 +38,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-@TargetApi(19) public class SmsActivity extends FragmentActivity implements LoaderCallbacks<Cursor> {
+@TargetApi(19) public class SmsActivity extends FragmentActivity implements SmsInterface {
 
 	TextView smsStatus;
 	Activity activity;
-	String SENT = "SMS_SENT";
-	String DELIVERED = "SMS_DELIVERED";
-	String RECEIVED = "SMS_RECEIVED";
-	String latestSms = "";
-	Boolean isLatest = false;
 
+	HashMap<String, String> statusHash;	
+	Boolean isLatest = false;
+	HashMap<String, String> smsMsgs;
+	Object[] keys;
+	int i = 0;
+	String phoneNum = AppUtils.phoneNum;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,86 +57,43 @@ import android.widget.Toast;
 		this.activity = this;
 		smsStatus = (TextView)findViewById(R.id.smstatuslbl);
 		Bundle b = getIntent().getExtras();
-		String phone = b.getString("phone");
-		String msg = b.getString("msg");
+		if(b.containsKey("phone")){
+			phoneNum = b.getString("phone");
+		}
+
+		smsMsgs = (HashMap<String, String>) b.getSerializable("MESSAGE");
+		statusHash = new HashMap<String, String>();
 		// Simple query to show the most recent SMS messages in the inbox
-		getSupportLoaderManager().initLoader(SmsQuery.TOKEN, null, this);
-		//sendSMS(phone, msg);
-		sendSMSTempOK(msg);
+
+		if(smsMsgs != null) {
+			keys = smsMsgs.keySet().toArray();
+			initiateSMS();
+		}
 
 	}
-	
+
+	private void initiateSMS() {
+
+		if(i < keys.length){
+			String key = (String)keys[i];
+			String sms = smsMsgs.get(key);
+			smsStatus.setText("sending sms ("+i+") of "+keys.length +" please wait..");
+			SmsController.getSmsInstance().registerSendSMS(sms, key, this, phoneNum, this);
+			i++;
+		} else {
+			onSmsReceived();
+		}
+	}
+
+
+
 	public void sendSMSTempOK(String msg) {
-		
-		SmsManager sms = SmsManager.getDefault();
-		//sms.sendTextMessage(AppUtils.phoneNum, null, msg, null, null); 
-		onSmsReceived("OK");
-	}
-	public void sendSMS(String phoneNumber, String message)
-	{        
-		
-		PendingIntent sentPI = PendingIntent.getBroadcast(activity, 0,
-				new Intent(SENT), 0);
-
-		PendingIntent deliveredPI = PendingIntent.getBroadcast(activity, 0,
-				new Intent(DELIVERED), 0);
-
-		//---when the SMS has been sent---
-		activity.registerReceiver(new BroadcastReceiver(){
-			@Override
-			public void onReceive(Context arg0, Intent arg1) {
-				switch (getResultCode())
-				{
-				case Activity.RESULT_OK:
-					Toast.makeText(activity.getBaseContext(), "SMS sent", 
-							Toast.LENGTH_SHORT).show();
-					smsStatus.setText("SMS sent");
-					break;
-				case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-					Toast.makeText(activity.getBaseContext(), "Generic failure", 
-							Toast.LENGTH_SHORT).show();
-					break;
-				case SmsManager.RESULT_ERROR_NO_SERVICE:
-					Toast.makeText(activity.getBaseContext(), "No service", 
-							Toast.LENGTH_SHORT).show();
-					break;
-				case SmsManager.RESULT_ERROR_NULL_PDU:
-					Toast.makeText(activity.getBaseContext(), "Null PDU", 
-							Toast.LENGTH_SHORT).show();
-					break;
-				case SmsManager.RESULT_ERROR_RADIO_OFF:
-					Toast.makeText(activity.getBaseContext(), "Radio off", 
-							Toast.LENGTH_SHORT).show();
-					break;
-				}
-			}
-		}, new IntentFilter(SENT));
-
-		//---when the SMS has been delivered---
-		activity.registerReceiver(new BroadcastReceiver(){
-			@Override
-			public void onReceive(Context arg0, Intent intent) {
-				switch (getResultCode())
-				{
-				case Activity.RESULT_OK:
-					Toast.makeText(activity.getBaseContext(), "SMS delivered", 
-							Toast.LENGTH_SHORT).show();
-					smsStatus.setText("SMS delivered .. waiting for response please wait");
-					isLatest = true;
-					break;
-				case Activity.RESULT_CANCELED:
-					Toast.makeText(activity.getBaseContext(), "SMS not delivered", 
-							Toast.LENGTH_SHORT).show();
-					break;                        
-				}
-
-			}
-		}, new IntentFilter(DELIVERED));   
-
 
 		SmsManager sms = SmsManager.getDefault();
-		sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);        
+		sms.sendTextMessage(AppUtils.phoneNum, null, msg, null, null); 
+		//onSmsReceived("OK");
 	}
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -133,71 +102,71 @@ import android.widget.Toast;
 		return true;
 	}
 
-	@Override
-	public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-		// TODO Auto-generated method stub
-		if (i == SmsQuery.TOKEN) {
-			// This will fetch all SMS messages in the inbox, ordered by date desc
-			return new CursorLoader(this, SmsQuery.CONTENT_URI, SmsQuery.PROJECTION, null, null,
-					SmsQuery.SORT_ORDER);
-		}
-		return null;
 
-	}
 
-	@Override
-	public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-		// TODO Auto-generated method stub
-		if (cursorLoader.getId() == SmsQuery.TOKEN && cursor != null) {
-			cursor.moveToFirst();
-			String address = cursor.getString(SmsQuery.ADDRESS);
-			String body = cursor.getString(SmsQuery.BODY);
+	private void onSmsReceived( ) {
 
-			if(address.contains(AppUtils.phoneNum)  && isLatest == true) {
-
-				latestSms = "Address=&gt; "+address+"n SMS =&gt; "+body;
-				onSmsReceived(latestSms);
-			}
-			
-		}
-
-	}
-
-	@Override
-	public void onLoaderReset(Loader<Cursor> arg0) {
-		// TODO Auto-generated method stub
-
-	}
-	
-	private void onSmsReceived( String msg ) {
-		
 		Intent intent=new Intent();  
-        intent.putExtra("MESSAGE",msg);  
-        setResult(1000,intent);  
-        finish();//finishing activity  
+		intent.putExtra("MESSAGE",statusHash);  
+		setResult(1000,intent);  
+		SmsController.getSmsInstance().destruct();
+		finish();//finishing activity  
+
+	}
+
+	@Override
+	public void onSmsSent(String smsCode) {
+		// TODO Auto-generated method stub
+		smsStatus.setText("sms ("+i+") of "+keys.length +" sent..");
+		statusHash.put(smsCode, AppUtils.SMS_SENT);
 
 	}
 
 
-	/**
-	 * A basic SmsQuery on android.provider.Telephony.Sms.Inbox
-	 */
-	private interface SmsQuery {
-		int TOKEN = 1;
 
-		static final Uri CONTENT_URI = Inbox.CONTENT_URI;
+	@Override
+	public void onSmsDelivered(String smsCode) {
+		// TODO Auto-generated method stub
+		smsStatus.setText("sms ("+i+") of "+keys.length +" Delivered..");
+		statusHash.put(smsCode, AppUtils.SMS_DELIVERED);
+	}
 
-		static final String[] PROJECTION = {
-			Inbox._ID,
-			Inbox.ADDRESS,
-			Inbox.BODY,
-		};
 
-		static final String SORT_ORDER = Inbox.DEFAULT_SORT_ORDER;
 
-		int ID = 0;
-		int ADDRESS = 1;
-		int BODY = 2;
+	@Override
+	public void onSmsFailed(String smsCode, String desc) {
+		// TODO Auto-generated method stub
+		smsStatus.setText("sms ("+i+") of "+keys.length +" Failed..");
+		statusHash.put(smsCode, desc);
+
+	}
+
+
+
+	@Override
+	public void onSmsTimeOut() {
+		// TODO Auto-generated method stub
+		//statusHash.put(smsCode, AppUtils.SMS_SENT);
+	}
+
+
+
+	@Override
+	public void onSmsRec(String smsCode,String resp) {
+		// TODO Auto-generated method stub
+		
+		MessageHolder mh = SmsParser.getInstance().getResult(resp);
+		if(mh != null) {
+			if(mh.isError){
+				statusHash.put(smsCode, mh.reason);
+				smsStatus.setText("sms ("+i+") of "+keys.length +" Failed..");
+			}else {
+				statusHash.put(smsCode, AppUtils.SMS_CONFIG_SUCCESS);
+				
+			}
+		}
+		//statusHash.put(smsCode, resp);
+		initiateSMS();
 	}
 
 }

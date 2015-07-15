@@ -43,6 +43,8 @@ public class ConfigListController implements expandedlistinterfaces {
 	AlertDialog alert1;
 
 	ConfigListViewAdapter adapter;
+	
+	int clickedVal = 0;
 
 
 	private ConfigListController() {
@@ -62,6 +64,7 @@ public class ConfigListController implements expandedlistinterfaces {
 
 		this.cxt = act;
 		refreshConfigs();
+		clickedVal = 0;
 		LayoutInflater oldlinf = (LayoutInflater) act.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
 		RelativeLayout rel = (RelativeLayout) oldlinf.inflate(R.layout.activity_configurations_list, cont, false);
 		ListView list = (ListView)rel.findViewById(R.id.configlist);
@@ -160,6 +163,7 @@ public class ConfigListController implements expandedlistinterfaces {
 		case 1:
 			/// show motor config
 			if(isElementConfigured("Motor")){
+				clickedVal = 1; 
 				showDialogWithOptions( "Configured" ,"Motors are already configured, do you want to edit?", 1, "Edit" );
 			}else{
 				navigateToMotorConfig();
@@ -172,6 +176,7 @@ public class ConfigListController implements expandedlistinterfaces {
 			if(isElementConfigured("Motor")){
 
 				if(isElementConfigured("Pipeline")){
+					clickedVal = 2; 
 					showDialogWithOptions( "Configured" ,"Pipelines are already configured, do you want to edit?", 2, "Edit" );
 				}else{
 					navigateToPipelineConfig();
@@ -187,6 +192,7 @@ public class ConfigListController implements expandedlistinterfaces {
 
 			if(isElementConfigured("Pipeline")){
 				if(isElementConfigured("Filter")){
+					clickedVal = 3; 
 					showDialogWithOptions( "Configured" ,"Filters are already configured, do you want to edit?", 3, "Edit" );
 				}else{
 					navigateToFilterConfig();
@@ -269,14 +275,15 @@ public class ConfigListController implements expandedlistinterfaces {
 
 	}
 
-	private void showDialogWithOptions( String title , String msg, final int val, String btnTitle ) {
+	private void showDialogWithOptions( String title , String msg, int val, String btnTitle ) {
+		
 		if(alert1 == null){
 
 			alert1 = new AlertDialog.Builder(cxt).create();
 			alert1.setButton(AlertDialog.BUTTON_POSITIVE, btnTitle,
 					new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int which) {
-					switch(val){
+					switch(clickedVal){
 
 					case 1 :
 						navigateToMotorConfig();

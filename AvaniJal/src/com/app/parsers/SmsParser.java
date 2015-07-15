@@ -68,6 +68,9 @@ public class SmsParser {
 				result.err1 = Integer.parseInt(msg.substring(initIndx, sysErrIndx));
 				initIndx+=spaceIndx;
 			}
+		} else {
+			result.isError = false;
+			result.reason = "invalid";
 		}
 
 		return result;

@@ -38,14 +38,8 @@ public class PipelineController extends ElementsController implements MultiSelec
 	/// holds all the motor elements
 	ArrayList<Elements> pipelines;
 
-	/// relative layout for each motor
-	RelativeLayout relativ;
-
 	/// final motor holder
 	LinearLayout pipeLinear;
-
-	RelativeLayout lin;
-
 
 	Context activity;
 
@@ -59,9 +53,10 @@ public class PipelineController extends ElementsController implements MultiSelec
 
 	ArrayList<String> motorIds = new ArrayList<String>();
 
-	ArrayList<String> selectedMotorIds = new ArrayList<String>();
 	
 	MultiSelectionSpinner typeSpinner;
+	
+	boolean isSpinnerOpen = false;
 
 
 	private PipelineController() {
@@ -91,6 +86,13 @@ public class PipelineController extends ElementsController implements MultiSelec
 			pipelines = AppUtils.confItems.getPipelineItems();
 
 		}
+		/// adding a empty object so that the dropdowns doesnt show the first object
+
+		pipeVal = 0;
+		if(typeSpinner != null)
+		typeSpinner.clearAdapter();
+		motorIds.clear();
+		motorIds.add(" ");
 		ArrayList<Elements> motors = AppUtils.confItems.getMotorItems();
 		MAX_PIPELINE = motors.size();
 		for (Elements elements : motors) {
@@ -113,7 +115,7 @@ public class PipelineController extends ElementsController implements MultiSelec
 
 
 		LayoutInflater oldlinf = (LayoutInflater) this.activity.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-		lin = (RelativeLayout) oldlinf.inflate(R.layout.pipelineconfigholder, container, false);
+		RelativeLayout lin = (RelativeLayout) oldlinf.inflate(R.layout.pipelineconfigholder, container, false);
 		pipeLinear = (LinearLayout)lin.findViewById(R.id.pipelinelayout);
 
 		addPipelineBtn = (Button)lin.findViewById(R.id.addpipelinebtn);
@@ -129,8 +131,10 @@ public class PipelineController extends ElementsController implements MultiSelec
 		for (Elements mt : tempPipes) {
 
 			disableDropDown = true;
-			if(mt.getIsConfigured())
+			if(mt.getIsConfigured()){
 			addElement(""+getPipeInt(mt.getItemid()), mt);
+			pipeVal++;
+			}
 		}
 		setButtonsSync();
 		return lin;
@@ -202,12 +206,16 @@ public class PipelineController extends ElementsController implements MultiSelec
 
 	private void addSelectedMotor( Pipelineitem pipe , String id ) {
 		
+		
+			pipe.setAssociatedElement(id);
+			//setRemoveMotorIDfromArray(id);
+	}
+	
+	private void removeSelectedMotor(Pipelineitem pipe , String id) {
+		
 		if(pipe.hasAssociatedElement(id)){
 			pipe.removeAssociatedElement(id);
-			setAddMotorToArray(id);
-		}else {
-			pipe.setAssociatedElement(id);
-			setRemoveMotorIDfromArray(id);
+			//setAddMotorToArray(id);
 		}
 	}
 
@@ -216,7 +224,7 @@ public class PipelineController extends ElementsController implements MultiSelec
 		// TODO Auto-generated method stub
 		final Pipelineitem pitem = (Pipelineitem)eitem;
 		LayoutInflater linf = (LayoutInflater) this.activity.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-		relativ = (RelativeLayout)linf.inflate(R.layout.pipelineconfi, container, false);
+		RelativeLayout relativ = (RelativeLayout)linf.inflate(R.layout.pipelineconfi, container, false);
 
 		final TextView pipelineid  = (TextView)relativ.findViewById(R.id.pipelinenumtxt);
 		final Button deleteBtn = (Button)relativ.findViewById(R.id.delebtn);
@@ -227,9 +235,10 @@ public class PipelineController extends ElementsController implements MultiSelec
 		typeSpinner.setTag(pitem.getItemid());
 		relativ.setTag(pitem.getItemid());
 
-		pipelineid.setText("Pipeline "+pipeVal);
+		pipelineid.setText("Pipeline "+pitem.getItemid());
 
 		typeSpinner.setItems(motorIds , this);
+		setAssociatedMotor(pitem);
 		setButtonsSync();
 		deleteBtn.setOnClickListener(new OnClickListener() {
 
@@ -267,17 +276,30 @@ public class PipelineController extends ElementsController implements MultiSelec
 	public void BeforeSelectDialog(MultiSelectionSpinner spinner) {
 		// TODO Auto-generated method stub
 		Pipelineitem pitem = getPipelineObjectforTag((String)spinner.getTag());
-		syncSpinnerForPiple(pitem);
+		//syncSpinnerForPiple(pitem);
+		isSpinnerOpen = true;
+		//setAssociatedMotor(pitem);
 		
-		ArrayList<String> arrIds = pitem.getAllAssociatedElementsOfType(type);
+	}
+	
+	public void setAssociatedMotor( Pipelineitem pitem ) {
+		ArrayList<String> arrIds = pitem.getAllAssociatedElementsOfType(AppUtils.MOTOR_TYPE);
 		typeSpinner.setSelection(arrIds);
 	}
 
 	@Override
 	public void itemSelected(MultiSelectionSpinner spinner,String val) {
 		// TODO Auto-generated method stub
+		if(isSpinnerOpen)
 		addSelectedMotor(getPipelineObjectforTag((String)spinner.getTag()), val);
 		
+	}
+
+	@Override
+	public void itemDeselected(MultiSelectionSpinner spinner, String val) {
+		// TODO Auto-generated method stub
+		if(isSpinnerOpen)
+			removeSelectedMotor(getPipelineObjectforTag((String)spinner.getTag()), val);
 	}  
 
 }
