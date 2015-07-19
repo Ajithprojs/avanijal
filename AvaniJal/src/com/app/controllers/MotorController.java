@@ -4,21 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import android.R.string;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -43,25 +37,13 @@ public class MotorController extends ElementsController {
 	int MAX_LOCAL = 4;
 
 	int MAX_REMOTE = 2;
-
-	/// holds all the motor elements
-	ArrayList<Elements> motors;
-
-	/// relative layout for each motor
-	RelativeLayout relativ;
-
+	
 	/// final motor holder
 	LinearLayout motorLinear;
-
-	RelativeLayout lin;
-
-	int selectedMotorType;
 
 	Context activity;
 
 	ViewGroup container;
-
-	ArrayAdapter<String> dataAdapter;
 
 	ArrayList<String> localmotonum;
 
@@ -99,13 +81,13 @@ public class MotorController extends ElementsController {
 		 * */
 
 		if(AppUtils.confItems.getMotorItems() == null)
-			motors = new ArrayList<Elements>();
+			super.elements = new ArrayList<Elements>();
 		else
 		{
-			motors = AppUtils.confItems.getMotorItems();
+			super.elements = AppUtils.confItems.getMotorItems();
 		}
 		type = AppUtils.MOTOR_TYPE;
-		super.elements = motors;
+		//super.elements = motors;
 		super.max = 6;
 		super.type = type;
 		super.activity = cxt;
@@ -125,7 +107,7 @@ public class MotorController extends ElementsController {
 
 
 		LayoutInflater oldlinf = (LayoutInflater) this.activity.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-		lin = (RelativeLayout) oldlinf.inflate(R.layout.motorconfigholder, container, false);
+		RelativeLayout lin = (RelativeLayout) oldlinf.inflate(R.layout.motorconfigholder, container, false);
 		motorLinear = (LinearLayout)lin.findViewById(R.id.motorlayout);
 
 		addLocalMotorBtn = (Button)lin.findViewById(R.id.addlocalmotorbtn);
@@ -149,7 +131,15 @@ public class MotorController extends ElementsController {
 				addRemoteMotor();
 			}
 		});
-		ArrayList<Elements> tempMotors = (ArrayList<Elements>)motors.clone();
+		
+		reloadUI();
+		return lin;
+	}
+	
+	public void reloadUI()  {
+		
+		clearUI();
+		ArrayList<Elements> tempMotors = (ArrayList<Elements>)this.elements.clone();
 		for (Elements mt : tempMotors) {
 
 			disableDropDown = true;
@@ -157,8 +147,6 @@ public class MotorController extends ElementsController {
 			if(m.getIsConfigured())
 			addElement(""+getMotorInt(m.getItemid()), m);
 		}
-
-		return lin;
 	}
 
 	public void addLocalMotor() {
@@ -194,14 +182,14 @@ public class MotorController extends ElementsController {
 		setRemoveMotorToArray(id, eitem.getMotorTypeint());
 		setButtonsSync();
 		super.addElement(id, eitem);
-		AppUtils.confItems.setMotorItems(motors);
+		AppUtils.confItems.setMotorItems(this.elements);
 	}
 
-	public void deleteElement(String id, ViewGroup vg, int mType ) {
+	public void deleteElement(String id, int mType ) {
 
 		setAddMotorToArray(id, mType);
 		setButtonsSync();
-		super.deleteElement(id, vg);
+		super.deleteElement(id);
 
 	}
 
@@ -269,6 +257,7 @@ public class MotorController extends ElementsController {
 
 	public void setButtonsSync() {
 
+		
 		addLocalMotorBtn.setText("Add Local Button ("+localmotonum.size()+")");
 		addRemoteMotorBtn.setText("Add Remote Button("+remotemotonum.size()+")");
 
@@ -283,7 +272,7 @@ public class MotorController extends ElementsController {
 		final MotorItem mitem = (MotorItem)eitem;
 		LayoutInflater linf = (LayoutInflater) this.activity.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
 
-		relativ = (RelativeLayout)linf.inflate(R.layout.motorconfiguration, container, false);
+		RelativeLayout relativ = (RelativeLayout)linf.inflate(R.layout.motorconfiguration, container, false);
 
 		final TextView motornum = (TextView)relativ.findViewById(R.id.motornumtxt);
 		final RadioGroup operations = (RadioGroup)relativ.findViewById(R.id.operationgroup);
@@ -379,7 +368,7 @@ public class MotorController extends ElementsController {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				deleteElement((String)deleteBtn.getTag() , motorLinear , mitem.getMotorTypeint());
+				deleteElement((String)deleteBtn.getTag() , mitem.getMotorTypeint());
 			}
 		});
 
@@ -605,7 +594,7 @@ public class MotorController extends ElementsController {
 	private MotorItem getMotorObjectforTag( String motorName ) {
 
 		MotorItem mt = null;
-		for (Elements mitem : motors) {
+		for (Elements mitem : this.elements) {
 			if(mitem.getItemid().equalsIgnoreCase(motorName))
 				mt = (MotorItem)mitem;
 		}
@@ -620,6 +609,14 @@ public class MotorController extends ElementsController {
 			return "Local Motor";
 		}else {
 			return "Remote Motor";
+		}
+	}
+
+	@Override
+	public void clearUI() {
+		// TODO Auto-generated method stub
+		if(motorLinear!= null) {
+			motorLinear.removeAllViews();
 		}
 	}
 

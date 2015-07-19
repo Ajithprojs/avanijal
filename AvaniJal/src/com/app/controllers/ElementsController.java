@@ -99,26 +99,26 @@ public abstract class ElementsController {
 		localVal++;
 		//add only if not existing
 		if(!hasElement(eitem)){
-			deleteElement(eitem.getItemid(), null);
+			deleteElement(eitem.getItemid());
 			elements.add(eitem);
 		}
 		//uncomment for element UI Testing
 		buildUI(eitem);
 	}
 
-	public void deleteElement(String id, ViewGroup vg ) {
+	public void deleteElement(String id ) {
 
-		if(vg != null){
-			int childcount = vg.getChildCount();
-			for (int i=0; i < childcount; i++){
-				View view = vg.getChildAt(i);
-				String oneView = (String)view.getTag();
-				if(oneView.equals(id)){
-					vg.removeView(view);
-					break;
-				}
-			}
-		}
+//		if(vg != null){
+//			int childcount = vg.getChildCount();
+//			for (int i=0; i < childcount; i++){
+//				View view = vg.getChildAt(i);
+//				String oneView = (String)view.getTag();
+//				if(oneView.equals(id)){
+//					vg.removeView(view);
+//					break;
+//				}
+//			}
+//		}
 
 		Iterator<Elements> iter = elements.iterator();
 
@@ -130,9 +130,11 @@ public abstract class ElementsController {
 				setAddElementToArray(id);
 				//setRemoveElementFromArray(id);
 				localVal--;
+				reloadUI();
 				break;
 			}
 		}
+		
 
 	}
 
@@ -148,6 +150,8 @@ public abstract class ElementsController {
 		return has;
 	}
 
+	public abstract void reloadUI();
+	public abstract void clearUI();
 	public abstract void buildUI( Elements eitem);
 
 	//uncomment for element UI Testing

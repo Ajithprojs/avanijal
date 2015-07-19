@@ -175,17 +175,15 @@ public class MotorActivity extends Activity {
 
 	private void showDialog( String motorName , String message ) {
 
-		if(alert == null){
 
-			alert = new AlertDialog.Builder(this).create();
-			alert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-					new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
-				}
-			});
+		alert = new AlertDialog.Builder(this).create();
+		alert.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+				new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
 
-		}
 
 		alert.setTitle(motorName);
 		alert.setMessage(message);
@@ -200,9 +198,9 @@ public class MotorActivity extends Activity {
 		super.onStop();
 		//syncMotorWithIds();
 		/// sync activities
-		motorLayout = null;
-		llayout.removeAllViews();
-		llayout = null;
+		//		motorLayout = null;
+		//		llayout.removeAllViews();
+		//		llayout = null;
 
 	}
 

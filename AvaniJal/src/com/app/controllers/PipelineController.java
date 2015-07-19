@@ -127,16 +127,7 @@ public class PipelineController extends ElementsController implements MultiSelec
 				addPipeline();
 			}
 		});
-		ArrayList<Elements> tempPipes = (ArrayList<Elements>)pipelines.clone();
-		for (Elements mt : tempPipes) {
-
-			disableDropDown = true;
-			if(mt.getIsConfigured()){
-			addElement(""+getPipeInt(mt.getItemid()), mt);
-			pipeVal++;
-			}
-		}
-		setButtonsSync();
+		
 		return lin;
 	}
 
@@ -155,12 +146,12 @@ public class PipelineController extends ElementsController implements MultiSelec
 
 	}
 
-	public void deletePipeline(String id, ViewGroup vg ) {
+	public void deletePipeline(String id ) {
 
 		
 		pipeVal--;
 		setButtonsSync();
-		super.deleteElement(id, vg);
+		super.deleteElement(id);
 
 	}
 
@@ -247,7 +238,7 @@ public class PipelineController extends ElementsController implements MultiSelec
 				// TODO Auto-generated method stub
 
 				//deleteElement((String)deleteBtn.getTag() , pipeLinear);
-				deletePipeline((String)deleteBtn.getTag(), pipeLinear);
+				deletePipeline((String)deleteBtn.getTag());
 			}
 		});
 		
@@ -300,6 +291,30 @@ public class PipelineController extends ElementsController implements MultiSelec
 		// TODO Auto-generated method stub
 		if(isSpinnerOpen)
 			removeSelectedMotor(getPipelineObjectforTag((String)spinner.getTag()), val);
+	}
+
+	@Override
+	public void reloadUI() {
+		// TODO Auto-generated method stub
+		clearUI();
+		ArrayList<Elements> tempPipes = (ArrayList<Elements>)pipelines.clone();
+		for (Elements mt : tempPipes) {
+
+			disableDropDown = true;
+			if(mt.getIsConfigured()){
+			addElement(""+getPipeInt(mt.getItemid()), mt);
+			pipeVal++;
+			}
+		}
+		setButtonsSync();
+	}
+
+	@Override
+	public void clearUI() {
+		// TODO Auto-generated method stub
+		if(pipeLinear != null) {
+			pipeLinear.removeAllViews();
+		}
 	}  
 
 }

@@ -23,5 +23,6 @@
     <string name="title_activity_sensor">SensorActivity</string>
     <string name="title_activity_sms">SmsActivity</string>
     <string name="title_activity_pipeline">PipelineActivity</string>
+    <string name="title_activity_elements">ElementsActivity</string>
 
 </resources>

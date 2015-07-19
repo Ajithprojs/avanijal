@@ -1,23 +1,45 @@
 package com.app.controllers;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
+import com.app.avaniadapters.CropsGridViewAdapter;
+import com.app.avanstart.ElementsConfigurationActivity;
 import com.app.avanstart.R;
 import com.app.beans.Children;
+import com.app.beans.CropItem;
 
 public class AssociationController {
-	
+
 	static AssociationController _instance;
 
 	ArrayList<Children> configs;
-	
+
 	Activity cxt;
+
+	SectionsPagerAdapter mSectionsPagerAdapter;
+	ViewPager mViewPager;
+	CropsGridViewAdapter customGridAdapter;
+	static Hashtable< String,  Object> cropConfig;
+	FragmentManager fmg;
 
 	private AssociationController() {
 
@@ -29,13 +51,190 @@ public class AssociationController {
 			_instance = new AssociationController();
 		return _instance;
 	}
-	
-	public RelativeLayout getAssociationLayout(ViewGroup cont ,Activity act) {
-		
+
+	public RelativeLayout getAssociationLayout(ViewGroup cont ,Activity act, FragmentManager _fmg) {
+
 		this.cxt = act;
+		this.fmg = _fmg;
 		LayoutInflater oldlinf = (LayoutInflater) act.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-		RelativeLayout rel = (RelativeLayout) oldlinf.inflate(R.layout.activity_association_list, cont, false);
+		RelativeLayout rel = (RelativeLayout) oldlinf.inflate(R.layout.activity_crop_list, cont, false);
+		cropConfig = new Hashtable<String, Object>();
+		mSectionsPagerAdapter = new SectionsPagerAdapter(
+				_fmg);
+		mViewPager = (ViewPager) rel.findViewById(R.id.pager);
+		mViewPager.setAdapter(mSectionsPagerAdapter);
 		return rel;
 	}
 
+	public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+		String[] cropTypes;
+		public SectionsPagerAdapter(FragmentManager fm) {
+			super(fm);
+			cropTypes = cxt.getResources().getStringArray(R.array.croptype);
+		}
+
+		@Override
+		public Fragment getItem(int position) {
+			// getItem is called to instantiate the fragment for the given page.
+			// Return a DummySectionFragment (defined as a static inner class
+			// below) with the page number as its lone argument.
+			Fragment fragment = new CropSectionFragment();
+			Bundle args = new Bundle();
+			args.putInt(CropSectionFragment.ARG_SECTION_NUMBER, position + 1);
+			fragment.setArguments(args);
+			return fragment;
+		}
+
+		@Override
+		public int getCount() {
+			// Show 3 total pages.
+			return cropTypes.length;
+		}
+
+		@Override
+		public CharSequence getPageTitle(int position) {
+
+			return cropTypes[position];
+		}
+	}
+
+	/**
+	 * A dummy fragment representing a section of the app, but that simply
+	 * displays dummy text.
+	 */
+	public static class CropSectionFragment extends Fragment {
+		/**
+		 * The fragment argument representing the section number for this
+		 * fragment.
+		 */
+
+		String[] cropTitlesIds;
+		int[] imgIds;
+		//ArrayList<CropItem> cropArray1 ;
+		Hashtable<String, CropItem> cropHolder;
+		public static final String ARG_SECTION_NUMBER = "section_number";
+		int index = 0;
+
+		public CropSectionFragment() {
+
+			cropTitlesIds = null;
+			imgIds = null;
+			cropHolder = null;
+		}
+
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+
+			View rootView = inflater.inflate(
+					R.layout.fragment_crop_selection_dummy, container, false);
+			Bundle b = this.getArguments();
+			index = b.getInt(CropSectionFragment.ARG_SECTION_NUMBER);
+			//cropArray1 = new ArrayList<CropItem>();
+			switch(index) {
+
+			case 1 :
+				/// show patram details 
+				cropTitlesIds = (String[])getResources().getStringArray(R.array.patramcrops);
+				imgIds = (int[])getResources().getIntArray(R.array.patramcropimages);
+				break;
+
+			case 2 :
+				/// show pushpam details 
+				cropTitlesIds = (String[])getResources().getStringArray(R.array.pushpamcrops);
+				imgIds = (int[])getResources().getIntArray(R.array.pushpamcropimages);
+				break;
+
+			case 3 :
+				/// show palam details 
+				cropTitlesIds = (String[])getResources().getStringArray(R.array.palamcrops);
+				imgIds = (int[])getResources().getIntArray(R.array.palamcropimages);
+				break;
+
+			default :
+				/// show dhanyam details 
+				cropTitlesIds = (String[])getResources().getStringArray(R.array.dhanyamcrops);
+				imgIds = (int[])getResources().getIntArray(R.array.dhanyamcropimages);
+				break;
+
+
+			}
+			cropHolder = new Hashtable<String, CropItem>();
+			for( int i = 0 ; i < cropTitlesIds.length ; i++ ) {
+
+				CropItem ci = new CropItem();
+				ci.cropTitle = cropTitlesIds[i];
+				ci.imgId = imgIds[i];
+				cropHolder.put(ci.cropTitle, ci);
+
+			}
+
+			LayoutInflater linf = getActivity().getLayoutInflater();
+			ScrollView sv = (ScrollView)linf.inflate(R.layout.fragment_cropconfig_scrollview, container , false);
+
+			LinearLayout linear2 = (LinearLayout) sv.findViewById(R.id.linear2);
+			LinearLayout linear3 = (LinearLayout) sv.findViewById(R.id.linear3);
+
+			RecordHolder holder = null;
+			View row = null;
+			LinearLayout mainLayout = (LinearLayout)rootView.findViewById(R.id.mainLayout);
+			mainLayout.removeAllViews();
+			for(int i = 0 ; i < cropTitlesIds.length ; i++) {
+
+
+				//if (row == null) {
+				LayoutInflater inflat = getActivity().getLayoutInflater();
+				row = inflat.inflate(R.layout.configurationitemslist, container, false);
+				holder = new RecordHolder();
+				holder.txtTitle = (TextView) row.findViewById(R.id.item_title);
+				holder.imageItem = (ImageButton) row.findViewById(R.id.item_button);
+
+				holder.tagVal = i;
+				holder.croptype = index;
+				holder.imageItem.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View obj) {
+						// TODO Auto-generated method stub
+						showCropSelection( (String)obj.getTag() );
+					}
+				});
+
+				row.setTag(holder);
+				if(i % 2 == 0){
+					linear2.addView(row);
+				}else {
+					linear3.addView(row);
+				}
+
+				CropItem item = cropHolder.get(cropTitlesIds[i]);
+				holder.txtTitle.setText(item.cropTitle);
+				holder.imageItem.setImageResource(item.imgId);
+				holder.imageItem.setTag(item.cropTitle);
+				cropConfig.put(item.cropTitle, holder);
+
+			}
+			mainLayout.addView(sv);
+			return rootView;
+		}
+
+		private void showCropSelection( String holderTitle ) {
+
+			RecordHolder holder = (RecordHolder)cropConfig.get(holderTitle);
+			Intent i = new Intent(getActivity() , ElementsConfigurationActivity.class);
+			i.putExtra("cropName", holder.txtTitle.getText());
+			i.putExtra("cropType", holder.croptype);
+			startActivityForResult(i, 1001);
+			//startActivity(i);
+
+		}
+	}
+	static class RecordHolder  {
+
+		TextView txtTitle;
+		ImageButton imageItem;
+		int tagVal;
+		int croptype;
+	}
 }

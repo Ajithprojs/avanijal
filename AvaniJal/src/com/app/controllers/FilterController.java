@@ -137,16 +137,7 @@ public class FilterController extends ElementsController {
 				addFilter();
 			}
 		});
-		ArrayList<Elements> tempFilters = (ArrayList<Elements>)filters.clone();
-		for (Elements mt : tempFilters) {
-
-			disableDropDown = true;
-			if(mt.getIsConfigured()) {
-			addElement(""+getFilterInt(mt.getItemid()), mt);
-			filterVal++;
-			}
-		}
-		setButtonsSync();
+		reloadUI();
 		return lin;
 	}
 
@@ -165,11 +156,11 @@ public class FilterController extends ElementsController {
 
 	}
 
-	public void deleteFilter(String id, ViewGroup vg ) {
+	public void deleteFilter(String id ) {
 
 		setButtonsSync();
 		filterVal--;
-		super.deleteElement(id, vg);
+		super.deleteElement(id);
 
 	}
 
@@ -251,7 +242,7 @@ public class FilterController extends ElementsController {
 
 				//deleteElement((String)deleteBtn.getTag() , pipeLinear);
 				if(!disableDropDown)
-				deleteFilter((String)deleteBtn.getTag(), filterLinear);
+				deleteFilter((String)deleteBtn.getTag());
 			}
 		});
 
@@ -409,6 +400,30 @@ public class FilterController extends ElementsController {
 		case 2 :mItem.setFrequencyminutes(val);break;
 		default:mItem.setDurationSeconds(val);break;
 
+		}
+	}
+
+	@Override
+	public void reloadUI() {
+		// TODO Auto-generated method stub
+		clearUI();
+		ArrayList<Elements> tempFilters = (ArrayList<Elements>)filters.clone();
+		for (Elements mt : tempFilters) {
+
+			disableDropDown = true;
+			if(mt.getIsConfigured()) {
+			addElement(""+getFilterInt(mt.getItemid()), mt);
+			filterVal++;
+			}
+		}
+		setButtonsSync();
+	}
+
+	@Override
+	public void clearUI() {
+		// TODO Auto-generated method stub
+		if(filterLinear != null) {
+			filterLinear.removeAllViews();
 		}
 	}
 

@@ -10,9 +10,11 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Set;
 
+import com.app.avanicomponents.AvaniTimer;
 import com.app.avanstart.util.AppUtils;
 import com.app.controllers.SmsController;
 import com.app.interfaces.SmsInterface;
+import com.app.interfaces.Timerinterface;
 import com.app.parsers.SmsParser;
 import com.app.parsers.SmsParser.MessageHolder;
 
@@ -38,7 +40,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-@TargetApi(19) public class SmsActivity extends FragmentActivity implements SmsInterface {
+@TargetApi(19) public class SmsActivity extends FragmentActivity implements SmsInterface, Timerinterface {
 
 	TextView smsStatus;
 	Activity activity;
@@ -64,11 +66,17 @@ import android.widget.Toast;
 		smsMsgs = (HashMap<String, String>) b.getSerializable("MESSAGE");
 		statusHash = new HashMap<String, String>();
 		// Simple query to show the most recent SMS messages in the inbox
-
+		/// uncomment the following to simulate sms
 		if(smsMsgs != null) {
 			keys = smsMsgs.keySet().toArray();
-			initiateSMS();
 		}
+		String key = (String)keys[0];
+		sendSMSTempOK(key);
+		/// comment the following to simulate sms
+//		if(smsMsgs != null) {
+//			keys = smsMsgs.keySet().toArray();
+//			initiateSMS();
+//		}
 
 	}
 
@@ -85,13 +93,18 @@ import android.widget.Toast;
 		}
 	}
 
+	private void startSmsTimeOut() {
+		AvaniTimer.getInstance().setTimer(this, 30);
+	}
 
 
-	public void sendSMSTempOK(String msg) {
+	public void sendSMSTempOK(String smsCode) {
 
 		SmsManager sms = SmsManager.getDefault();
-		sms.sendTextMessage(AppUtils.phoneNum, null, msg, null, null); 
-		//onSmsReceived("OK");
+		//sms.sendTextMessage(AppUtils.phoneNum, null, msg, null, null); 
+		statusHash.put(smsCode, AppUtils.SMS_CONFIG_SUCCESS);
+		startSmsTimeOut();
+		//onSmsReceived();
 	}
 
 
@@ -167,6 +180,18 @@ import android.widget.Toast;
 		}
 		//statusHash.put(smsCode, resp);
 		initiateSMS();
+	}
+
+	@Override
+	public void onTimerComplete() {
+		// TODO Auto-generated method stub
+		onSmsReceived();
+	}
+
+	@Override
+	public void onTimerCancelled(String reason) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
