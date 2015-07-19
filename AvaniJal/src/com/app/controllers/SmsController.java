@@ -156,7 +156,7 @@ import android.telephony.SmsManager;
 			String body = cursor.getString(SmsQuery.BODY);
 			long smsTime = Long.parseLong(cursor.getString(SmsQuery.DATE));
 
-			if(address.contains(AppUtils.phoneNum)  && isLatest && smsTime > currentTime) {
+			if(address.contains(AppUtils.phoneNum)  && isLatest && smsTime > currentTime && (body.toLowerCase().contains("ok") || body.toLowerCase().contains("er") )) {
 
 				String latestSms = "Address=&gt; "+address+"n SMS =&gt; "+body;
 				//onSmsReceived(latestSms);

@@ -96,6 +96,23 @@
           <item>fertigation</item>
       </string-array>
       
+      <string-array name="hptype">
+          
+          <item>>5</item>
+          <item>5</item>
+          <item>7.5</item>
+          <item>10</item>
+          <item>10+</item>
+      </string-array>
+      
+      <string-array name="pumpconntype">
+          
+          <item>Bore</item>
+          <item>Open Well</item>
+          <item>Pond</item>
+          <item>River</item>
+      </string-array>
+      
       <string-array name="motornumber">
           <item>1</item>
           <item>2</item>

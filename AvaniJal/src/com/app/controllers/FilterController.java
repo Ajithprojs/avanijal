@@ -38,11 +38,7 @@ public class FilterController extends ElementsController {
 	static FilterController _instance;
 
 	ArrayList<String> pipelineIds = new ArrayList<String>();
-	ArrayAdapter<String> dataAdapter;
 	RelativeLayout relativ;
-
-	/// holds all the motor elements
-	ArrayList<Elements> filters;
 
 	Context activity;
 
@@ -70,7 +66,7 @@ public class FilterController extends ElementsController {
 	private int MIN_COMMAND = 2;
 
 	private int SECOND_COMMAND = 3;
-	
+
 	boolean disablaDropDown = false;
 
 	private FilterController() {
@@ -95,22 +91,23 @@ public class FilterController extends ElementsController {
 		 * */
 
 		if(AppUtils.confItems.getFilterItems() == null)
-			filters = new ArrayList<Elements>();
+			this.elements = new ArrayList<Elements>();
 		else
 		{
-			filters = AppUtils.confItems.getFilterItems();
+			this.elements = AppUtils.confItems.getFilterItems();
 
 		}
 		pipelineIds.clear();
-		pipelineIds.add(" ");
+		//pipelineIds.add(" ");
 		ArrayList<Elements> pipeline = AppUtils.confItems.getPipelineItems();
-		MAX_FILTERS = pipeline.size();
+
 		for (Elements elements : pipeline) {
-			pipelineIds.add(elements.getItemid());
+			if(elements.getIsConfigured())
+				pipelineIds.add(elements.getItemid());
 		}
+		MAX_FILTERS = pipelineIds.size();
 		filterVal = 0;
 		type = AppUtils.FILTER_TYPE;
-		super.elements = filters;
 		super.max = MAX_FILTERS;
 		super.type = type;
 		super.activity = cxt;
@@ -151,7 +148,8 @@ public class FilterController extends ElementsController {
 			disableDropDown = false;
 			filterVal++;
 			super.addElement(""+filterVal, pitem);
-			AppUtils.confItems.setPipelineItems(filters);
+			//AppUtils.confItems.setPipelineItems(filters);
+			AppUtils.confItems.setFilterItems(this.elements);
 		}
 
 	}
@@ -204,7 +202,7 @@ public class FilterController extends ElementsController {
 			setAddPipelineToArray(id);
 		}
 	}
-	
+
 	@Override
 	public void buildUI(Elements eitem) {
 		// TODO Auto-generated method stub
@@ -226,14 +224,14 @@ public class FilterController extends ElementsController {
 		relativ.setTag(fitem.getItemid());
 		deleteBtn.setTag(fitem.getItemid());
 		filterid.setText("Filter "+fitem.getItemid());
-		
+
 		//freqminutesspinner.setSelection(fitem.getFrequencyminutes());
 		freqminutesspinner.setText(""+fitem.getFrequencyminutes());
 		durationsecondsspinner.setSelection(fitem.getDurationSeconds());
-		numberoffiltersSpinner.setSelection(getAssociatedId(eitem.getItemid()));
-		
+		numberoffiltersSpinner.setSelection(1+getAssociatedId(eitem.getItemid()));
+
 		setButtonsSync();
-		
+
 		deleteBtn.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -242,13 +240,13 @@ public class FilterController extends ElementsController {
 
 				//deleteElement((String)deleteBtn.getTag() , pipeLinear);
 				if(!disableDropDown)
-				deleteFilter((String)deleteBtn.getTag());
+					deleteFilter((String)deleteBtn.getTag());
 			}
 		});
 
 		if (pipelineIds.size() > 0) {
 
-			dataAdapter = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, pipelineIds);
+			ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, pipelineIds);
 			dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			numberoffiltersSpinner.setAdapter(dataAdapter);
 
@@ -261,7 +259,7 @@ public class FilterController extends ElementsController {
 					int pos, long arg3) {
 				// TODO Auto-generated method stub
 				if(!disableDropDown)
-				setMotorId((String)arg0.getTag(), pos);
+					setMotorId((String)arg0.getTag(), pos);
 
 			}
 
@@ -272,39 +270,39 @@ public class FilterController extends ElementsController {
 			}
 		});
 
-//		freqhoursspinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-//
-//			@Override
-//			public void onItemSelected(AdapterView<?> arg0, View arg1,
-//					int pos, long arg3) {
-//				// TODO Auto-generated method stub
-//				setCommand((String)arg0.getTag(), pos + 1, HOUR_COMMAND);
-//			}
-//
-//			@Override
-//			public void onNothingSelected(AdapterView<?> arg0) {
-//				// TODO Auto-generated method stub
-//
-//			}
-//		});
+		//		freqhoursspinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		//
+		//			@Override
+		//			public void onItemSelected(AdapterView<?> arg0, View arg1,
+		//					int pos, long arg3) {
+		//				// TODO Auto-generated method stub
+		//				setCommand((String)arg0.getTag(), pos + 1, HOUR_COMMAND);
+		//			}
+		//
+		//			@Override
+		//			public void onNothingSelected(AdapterView<?> arg0) {
+		//				// TODO Auto-generated method stub
+		//
+		//			}
+		//		});
 
-//		freqminutesspinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-//
-//			@Override
-//			public void onItemSelected(AdapterView<?> arg0, View arg1,
-//					int pos, long arg3) {
-//				// TODO Auto-generated method stub
-//				if(!disableDropDown)
-//				setCommand((String)arg0.getTag(), pos + 1, MIN_COMMAND);
-//			}
-//
-//			@Override
-//			public void onNothingSelected(AdapterView<?> arg0) {
-//				// TODO Auto-generated method stub
-//
-//			}
-//		});
-		
+		//		freqminutesspinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+		//
+		//			@Override
+		//			public void onItemSelected(AdapterView<?> arg0, View arg1,
+		//					int pos, long arg3) {
+		//				// TODO Auto-generated method stub
+		//				if(!disableDropDown)
+		//				setCommand((String)arg0.getTag(), pos + 1, MIN_COMMAND);
+		//			}
+		//
+		//			@Override
+		//			public void onNothingSelected(AdapterView<?> arg0) {
+		//				// TODO Auto-generated method stub
+		//
+		//			}
+		//		});
+
 		freqminutesspinner.addTextChangedListener(new TextWatcher() {
 
 			@Override
@@ -316,7 +314,7 @@ public class FilterController extends ElementsController {
 						//mItem.setMaxVolts(Editmaxvoltage.getText().toString());
 						mItem.setFrequencyminutes(Integer.parseInt(freqminutesspinner.getText().toString()));
 				}
-				
+
 			}
 
 			@Override
@@ -339,7 +337,7 @@ public class FilterController extends ElementsController {
 					int pos, long arg3) {
 				// TODO Auto-generated method stub
 				if(!disableDropDown)
-				setCommand((String)arg0.getTag(), pos + 1, SECOND_COMMAND);
+					setCommand((String)arg0.getTag(), pos + 1, SECOND_COMMAND);
 			}
 
 			@Override
@@ -359,7 +357,7 @@ public class FilterController extends ElementsController {
 		mItem.setAssociatedElement(pipelineIds.get(val));
 
 	}
-	
+
 	public int getAssociatedId( String filterName   ) {
 		FilterItem mItem = getPipelineObjectforTag(filterName);
 		ArrayList<String> items = mItem.getAllAssociatedElementsOfType(AppUtils.PIPELINE_TYPE);
@@ -368,23 +366,23 @@ public class FilterController extends ElementsController {
 			Iterator<String> ids = pipelineIds.iterator();
 			int j = 0;
 			while(ids.hasNext()) {
-				
+
 				String id = ids.next();
 				if(id.equals(assoId)){
 					return j;
-					
+
 				}
 				j++;
 			}
 		}
-		
+
 		return 0;
 	}
-	
+
 	private FilterItem getPipelineObjectforTag( String filterName ) {
 
 		FilterItem mt = null;
-		for (Elements mitem : filters) {
+		for (Elements mitem : elements) {
 			if(mitem.getItemid().equalsIgnoreCase(filterName))
 				mt = (FilterItem)mitem;
 		}
@@ -407,13 +405,13 @@ public class FilterController extends ElementsController {
 	public void reloadUI() {
 		// TODO Auto-generated method stub
 		clearUI();
-		ArrayList<Elements> tempFilters = (ArrayList<Elements>)filters.clone();
+		ArrayList<Elements> tempFilters = (ArrayList<Elements>)elements.clone();
 		for (Elements mt : tempFilters) {
 
 			disableDropDown = true;
 			if(mt.getIsConfigured()) {
-			addElement(""+getFilterInt(mt.getItemid()), mt);
-			filterVal++;
+				addElement(""+getFilterInt(mt.getItemid()), mt);
+				filterVal++;
 			}
 		}
 		setButtonsSync();
@@ -427,7 +425,24 @@ public class FilterController extends ElementsController {
 		}
 	}
 
+	@Override
+	public void destructController() {
+		// TODO Auto-generated method stub
 
-	
+
+		pipelineIds = null;
+
+		/// holds all the motor elements
+		elements = null;
+
+		filterLinear = null;
+
+		lin = null;
+
+		_instance = null;
+	}
+
+
+
 
 }

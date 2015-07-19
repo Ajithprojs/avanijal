@@ -28,7 +28,7 @@
         android:layout_marginTop="10dp"
         android:textSize="16sp"
         android:id="@+id/irrigationlbl"
-        android:text="no of wired irrigation valves :"
+        android:text="Select valve ids for wired irrigation valves :"
         
         ></TextView>
     
@@ -50,7 +50,7 @@
         android:textSize="16sp"
         android:layout_marginTop="10dp"
         android:id="@+id/plcirrigationlbl"
-        android:text="no of PLC irrigation valves :"
+        android:text="Select valve ids for PLC irrigation valves :"
         
         ></TextView>
     
@@ -72,7 +72,7 @@
         android:textSize="16sp"
         android:layout_marginTop="10dp"
         android:id="@+id/wirelessirrigationlbl"
-        android:text="no of wireless irrigation valves :"
+        android:text="Select valve ids for wireless irrigation valves :"
         
         ></TextView>
     
@@ -95,7 +95,7 @@
         android:textSize="16sp"
         android:layout_marginTop="10dp"
         android:id="@+id/fertilbl"
-        android:text="no of fertigation valves :"
+        android:text="Select valve ids for fertigation valves :"
         
         ></TextView>
     

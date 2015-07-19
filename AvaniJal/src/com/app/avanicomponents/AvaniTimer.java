@@ -11,11 +11,12 @@ public class AvaniTimer {
 	Timerinterface delegate;
 
 	private long startTime = 0L;
-	private Handler customHandler = new Handler();
+	private Handler customHandler ;
 	long timeInMilliseconds = 0L;
 	long timeSwapBuff = 0L;
 	long updatedTime = 0L;
 	long endTime = 60;
+	String taskName = "";
 
 	private AvaniTimer() {}
 
@@ -25,12 +26,35 @@ public class AvaniTimer {
 		return _instance;
 	}
 
-	public void setTimer( Timerinterface _delegate, long seconds ) {
+	public void setTimer( Timerinterface _delegate, long seconds, String _taskName ) {
 		this.delegate = _delegate;
 		this.endTime = seconds;
+		this.taskName = _taskName;
+		if(customHandler == null)
+			customHandler = new Handler();
 		startTime = SystemClock.uptimeMillis();
 		customHandler.postDelayed(updateTimerThread, 0);
 
+	}
+	
+	public void cancelTimer() {
+		customHandler.removeCallbacks(updateTimerThread);
+		reset();
+		delegate.onTimerCancelled(taskName,"Timer cancelled");
+	}
+	public void destruct() {
+		_instance = null;
+		customHandler = null;
+		delegate = null;
+	}
+	
+	public void reset() {
+		customHandler = new Handler();
+		startTime = 0L;
+		timeInMilliseconds = 0L;
+		timeSwapBuff = 0L;
+		updatedTime = 0L;
+		endTime = 60;
 	}
 
 	private Runnable updateTimerThread = new Runnable() {
@@ -45,7 +69,7 @@ public class AvaniTimer {
 			}
 			else{
 				customHandler.removeCallbacks(this);
-				delegate.onTimerComplete();
+				delegate.onTimerComplete(taskName);
 			}
 		}
 

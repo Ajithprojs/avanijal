@@ -16,7 +16,7 @@ public class MotorItem extends Elements implements Serializable{
 	private int hpVal = 0;
 
 	/// if its a 2 phase or 3 phase operation
-	private int operationType = 0; /// [0 = 2phase 1 = 3phase]
+	private int operationType = 1; /// [0 = 2phase 1 = 3phase]
 
 	/// if its irrigation or fertigation
 	private int agriType = 0; ///[0 = irrigation , 1 = fertigation]
@@ -47,15 +47,6 @@ public class MotorItem extends Elements implements Serializable{
 	//// has water level sensors
 	private Boolean HasWaterSensors = false;
 	
-	
-	/*private ArrayList<String> FilterIds;
-
-	private ArrayList<String> ValveIds;
-
-	private ArrayList<String> SensorIds;
-
-	private ArrayList<String> VenturyIds;*/
-
 	public void setPumpName(String name){ this.pumpName = name;}
 
 	public String getPumpName(){ return this.pumpName; }
@@ -70,7 +61,16 @@ public class MotorItem extends Elements implements Serializable{
 
 	public void setDeliveryType( int val ){ this.deliveryType = val; }
 
-	public void setWaterDeliveryRate( String val ) { this.waterDeliveryRate = val; }
+	public void setWaterDeliveryRate( String val ) { 
+		int intval = Integer.parseInt(val);
+		if( intval >= 100 && intval <= 2000){
+			this.waterDeliveryRate = val;
+		}else{
+			this.waterDeliveryRate = "";
+			Log.e("Element Error", "Invalid water delivery");
+		}
+		//this.waterDeliveryRate = val; 
+		}
 
 	public void setCurrentDelivery( int val ) { this.currentMeasurement = val; }
 
@@ -79,7 +79,7 @@ public class MotorItem extends Elements implements Serializable{
 
 	public void setMinVolts(String val){ 
 		int intval = Integer.parseInt(val);
-		if( intval >= 200 && intval <= 350){
+		if( intval >= 200 && intval <= 380){
 			this.minVolts = val;
 		}else{
 			this.minVolts = "";
@@ -135,13 +135,19 @@ public class MotorItem extends Elements implements Serializable{
 		switch(hpVal + 1) {
 
 		case 1 :
-			return "5";
+			return ">5";
 
 		case 2 :
+			return "5";
+			
+		case 3 :
 			return "7.5";
+		
+		case 4 :
+			return "10";
 
 		default :
-			return "10";
+			return "10+";
 		}
 	}
 

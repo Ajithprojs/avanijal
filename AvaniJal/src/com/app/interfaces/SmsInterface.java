@@ -10,6 +10,6 @@ public interface SmsInterface {
 	
 	public void onSmsFailed( String smsCode, String desc );
 	
-	public void onSmsTimeOut();
+	public void onSmsTimeOut( String smsCode );
 
 }

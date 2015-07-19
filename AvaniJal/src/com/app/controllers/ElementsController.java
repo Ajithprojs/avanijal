@@ -149,6 +149,19 @@ public abstract class ElementsController {
 		}
 		return has;
 	}
+	
+	public abstract void destructController(); {
+		
+//		ElementsController _instance = null;
+//		container = null;
+//		elementLinear= null;
+//		alert = null;
+//
+//		elements = null;
+//		activity = null;
+//		ArrayList<String> elementsnum = null;
+		
+	}
 
 	public abstract void reloadUI();
 	public abstract void clearUI();

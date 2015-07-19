@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -276,7 +277,7 @@ public class MotorController extends ElementsController {
 
 		final TextView motornum = (TextView)relativ.findViewById(R.id.motornumtxt);
 		final RadioGroup operations = (RadioGroup)relativ.findViewById(R.id.operationgroup);
-		final RadioGroup hpvalue = (RadioGroup)relativ.findViewById(R.id.hptypegroup);
+		//final RadioGroup hpvalue = (RadioGroup)relativ.findViewById(R.id.hptypegroup);
 		final RadioGroup deliverytype = (RadioGroup)relativ.findViewById(R.id.deliverytypegroup);
 		final RadioGroup currenttype = (RadioGroup)relativ.findViewById(R.id.curmeasuregroup);
 
@@ -287,16 +288,18 @@ public class MotorController extends ElementsController {
 		final EditText phoneNum = (EditText)relativ.findViewById(R.id.phonenumfield);
 		final Button deleteBtn = (Button)relativ.findViewById(R.id.delebtn);
 		final Spinner typeSpinner = (Spinner)relativ.findViewById(R.id.typespinner);
+		final Spinner hpSpinner = (Spinner)relativ.findViewById(R.id.hptypespinner);
+		final CheckBox watersensorcheckbox = (CheckBox)relativ.findViewById(R.id.watersensorbox);
 
 
-		if(mitem.getHpValeint() == 1)
-		{
-			hpvalue.check(R.id.secondhp);
-		}else if(mitem.getHpValeint() == 2){
-			hpvalue.check(R.id.thirdhp);
-		}else {
-			hpvalue.check(R.id.firsthp);
-		}
+//		if(mitem.getHpValeint() == 1)
+//		{
+//			hpvalue.check(R.id.secondhp);
+//		}else if(mitem.getHpValeint() == 2){
+//			hpvalue.check(R.id.thirdhp);
+//		}else {
+//			hpvalue.check(R.id.firsthp);
+//		}
 
 
 		if(mitem.getOperationTypeint() == 1)
@@ -336,8 +339,10 @@ public class MotorController extends ElementsController {
 		Editmaxvoltage.setText(mitem.getMaxVolts());
 		Editlitres.setText(mitem.getWaterDeliveryRate());
 
-		typeSpinner.setSelection(mitem.getAgriTypeint());
+		typeSpinner.setSelection(mitem.getPumpConnTypenum());
+		hpSpinner.setSelection(mitem.getHpValeint());
 		motornum.setText(getMotorTypeHeading(mitem.getMotorTypeint()));
+		watersensorcheckbox.setSelected(mitem.hasWaterSensor());
 
 		ArrayList<String> motonum = null;
 		if(mitem.equals("0")){
@@ -348,7 +353,7 @@ public class MotorController extends ElementsController {
 		}
 
 		operations.setTag(mitem.getItemid());
-		hpvalue.setTag(mitem.getItemid());
+		//hpvalue.setTag(mitem.getItemid());
 		deliverytype.setTag(mitem.getItemid());
 		currenttype.setTag(mitem.getItemid());
 		EditmotorName.setTag(mitem.getItemid());
@@ -356,10 +361,12 @@ public class MotorController extends ElementsController {
 		Editmaxvoltage.setTag(mitem.getItemid());
 		Editlitres.setTag(mitem.getItemid());
 		typeSpinner.setTag(mitem.getItemid());
+		hpSpinner.setTag(mitem.getItemid());
 		deleteBtn.setTag(mitem.getItemid());
 		relativ.setTag(mitem.getItemid());
 		motornum.setTag(mitem.getItemid());
 		motornum.setText(mitem.getItemid());
+		watersensorcheckbox.setTag(mitem.getItemid());
 
 
 		disableDropDown = true;
@@ -383,14 +390,14 @@ public class MotorController extends ElementsController {
 			}
 		});
 
-		hpvalue.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-			@Override
-			public void onCheckedChanged(RadioGroup rg3, int val) {
-				// TODO Auto-generated method stub
-				setMotorHPValueChanged((String)rg3.getTag(), val);
-			}
-		});
+//		hpvalue.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+//
+//			@Override
+//			public void onCheckedChanged(RadioGroup rg3, int val) {
+//				// TODO Auto-generated method stub
+//				setMotorHPValueChanged((String)rg3.getTag(), val);
+//			}
+//		});
 
 		deliverytype.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -426,6 +433,32 @@ public class MotorController extends ElementsController {
 
 			}
 		});
+		
+		hpSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				// TODO Auto-generated method stub
+				setHpType((String)arg0.getTag(), arg2);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+		
+		watersensorcheckbox.setOnClickListener(new OnClickListener() {
+			 
+	          //Run when button is clicked
+		  @Override
+		  public void onClick(View v) {
+			  setWaterSensor(watersensorcheckbox.isChecked(), (String)v.getTag());
+		  }
+		});
+	 
 
 		EditmotorName.addTextChangedListener(new TextWatcher() {
 
@@ -537,19 +570,19 @@ public class MotorController extends ElementsController {
 	}
 
 
-	public void setMotorHPValueChanged( String pumpNme , int val )  {
-
-		MotorItem mItem = getMotorObjectforTag(pumpNme);
-		if(mItem != null)
-			if(val == R.id.firsthp){
-				mItem.setHpVal(0);
-			}else if(val == R.id.secondhp){
-				mItem.setHpVal(1);
-			}else {
-				mItem.setHpVal(2);
-			}
-
-	}
+//	public void setMotorHPValueChanged( String pumpNme , int val )  {
+//
+//		MotorItem mItem = getMotorObjectforTag(pumpNme);
+//		if(mItem != null)
+//			if(val == R.id.firsthp){
+//				mItem.setHpVal(0);
+//			}else if(val == R.id.secondhp){
+//				mItem.setHpVal(1);
+//			}else {
+//				mItem.setHpVal(2);
+//			}
+//
+//	}
 
 	public void setMotorOperationTypeChanged( String pumpNme , int val )  {
 
@@ -588,7 +621,20 @@ public class MotorController extends ElementsController {
 	public void setAgriType( String pumpName , int val ) {
 		MotorItem mItem = getMotorObjectforTag(pumpName);
 		if(mItem != null)
-			mItem.setAgriType(val);
+			mItem.setPumpConn(val);
+	}
+	
+	public void setHpType( String pumpName , int val ) {
+		MotorItem mItem = getMotorObjectforTag(pumpName);
+		if(mItem != null)
+			mItem.setHpVal(val);
+	}
+	
+	public void setWaterSensor(boolean val, String pumpName) {
+		MotorItem mItem = getMotorObjectforTag(pumpName);
+		if(mItem != null)
+			mItem.setWaterSensor(val);
+			
 	}
 
 	private MotorItem getMotorObjectforTag( String motorName ) {
@@ -618,6 +664,24 @@ public class MotorController extends ElementsController {
 		if(motorLinear!= null) {
 			motorLinear.removeAllViews();
 		}
+	}
+
+	@Override
+	public void destructController() {
+		// TODO Auto-generated method stub
+		
+		
+		/// final motor holder
+		motorLinear = null;;
+
+		container = null;
+
+		localmotonum = null;
+
+		remotemotonum = null;
+		
+		_instance = null;
+
 	}
 
 }

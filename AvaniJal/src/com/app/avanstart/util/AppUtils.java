@@ -52,6 +52,8 @@ public class AppUtils {
 	public static String SMS_FAILED = "failed";
 	
 	public static String SMS_CONFIG_SUCCESS = "success";
+	
+	public static String SMS_TIMEOUT = "timeout";
 
 	public static String phoneNum = "9739287569";
 	//public static String phoneNum = "9986003200";
@@ -227,6 +229,7 @@ public class AppUtils {
 		return crcStr;
 
 	}
+	
 	
 	public static int getIntFromString( String val ) {
 		

@@ -208,6 +208,10 @@ public class DashBoardActivity extends FragmentActivity {
 		// Pass any configuration change to the drawer toggls
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
+	
+	private void destructControllers() {
+		
+	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -232,9 +236,10 @@ public class DashBoardActivity extends FragmentActivity {
 					}
 				}
 			}
+			ConfigListController.getInstance().destructControllers();
 			break;
 
-
+			
 
 		default:
 			break;
@@ -259,7 +264,8 @@ public class DashBoardActivity extends FragmentActivity {
 			View rootView = getCurrentView(i, container);//ConfigListController.getInstance().getConfigLayout(container, getActivity());
 			return rootView;
 		}
-
+		
+		
 		private View getCurrentView( int pos, ViewGroup container ){
 
 			AppUtils.confItems = (ConfigItem)DataOperations.getDataFromFile(AppUtils.CONFIG_FILE_NAME, getActivity());

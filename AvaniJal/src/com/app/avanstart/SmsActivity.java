@@ -75,26 +75,31 @@ import android.widget.Toast;
 		/// comment the following to simulate sms
 //		if(smsMsgs != null) {
 //			keys = smsMsgs.keySet().toArray();
-//			initiateSMS();
+//			initiateSMS(true);
 //		}
 
 	}
 
-	private void initiateSMS() {
+	private void initiateSMS( boolean cont ) {
 
-		if(i < keys.length){
+		if(i < keys.length && cont){
 			String key = (String)keys[i];
 			String sms = smsMsgs.get(key);
 			smsStatus.setText("sending sms ("+i+") of "+keys.length +" please wait..");
 			SmsController.getSmsInstance().registerSendSMS(sms, key, this, phoneNum, this);
+			startSmsTimeOut(60, key);
 			i++;
 		} else {
 			onSmsReceived();
 		}
 	}
 
-	private void startSmsTimeOut() {
-		AvaniTimer.getInstance().setTimer(this, 30);
+	private void startSmsTimeOut(int seconds, String taskname) {
+		AvaniTimer.getInstance().setTimer(this, seconds, taskname);
+	}
+	
+	private void cancelSMSTimer() {
+		AvaniTimer.getInstance().cancelTimer();
 	}
 
 
@@ -103,7 +108,7 @@ import android.widget.Toast;
 		SmsManager sms = SmsManager.getDefault();
 		//sms.sendTextMessage(AppUtils.phoneNum, null, msg, null, null); 
 		statusHash.put(smsCode, AppUtils.SMS_CONFIG_SUCCESS);
-		startSmsTimeOut();
+		startSmsTimeOut(4, smsCode);
 		//onSmsReceived();
 	}
 
@@ -122,7 +127,9 @@ import android.widget.Toast;
 		Intent intent=new Intent();  
 		intent.putExtra("MESSAGE",statusHash);  
 		setResult(1000,intent);  
+		cancelSMSTimer();
 		SmsController.getSmsInstance().destruct();
+		AvaniTimer.getInstance().destruct();
 		finish();//finishing activity  
 
 	}
@@ -151,15 +158,19 @@ import android.widget.Toast;
 		// TODO Auto-generated method stub
 		smsStatus.setText("sms ("+i+") of "+keys.length +" Failed..");
 		statusHash.put(smsCode, desc);
+		initiateSMS(false);
 
 	}
 
 
 
 	@Override
-	public void onSmsTimeOut() {
+	public void onSmsTimeOut( String smsCode ) {
 		// TODO Auto-generated method stub
 		//statusHash.put(smsCode, AppUtils.SMS_SENT);
+		smsStatus.setText("sms ("+i+") of "+keys.length +" Timeout..");
+		statusHash.put(smsCode, AppUtils.SMS_TIMEOUT);
+		initiateSMS(false);
 	}
 
 
@@ -179,17 +190,18 @@ import android.widget.Toast;
 			}
 		}
 		//statusHash.put(smsCode, resp);
-		initiateSMS();
+		initiateSMS(true);
 	}
 
 	@Override
-	public void onTimerComplete() {
+	public void onTimerComplete( String taskName ) {
 		// TODO Auto-generated method stub
 		onSmsReceived();
+		//onSmsTimeOut(taskName);
 	}
 
 	@Override
-	public void onTimerCancelled(String reason) {
+	public void onTimerCancelled( String taskName, String reason) {
 		// TODO Auto-generated method stub
 		
 	}

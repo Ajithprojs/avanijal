@@ -73,6 +73,12 @@ public class ConfigListController implements expandedlistinterfaces {
 		list.setAdapter(adapter);
 		return rel;
 	}
+	
+	public void destructControllers() {
+		MotorController.getInstance().destructController();
+		PipelineController.getInstance().destructController();
+		FilterController.getInstance().destructController();
+	}
 	private ArrayList<Children> createAvaniGroups() {
 
 		ArrayList<Children> groups = new ArrayList<Children>();
@@ -168,7 +174,7 @@ public class ConfigListController implements expandedlistinterfaces {
 			}else{
 				navigateToMotorConfig();
 			}
-
+			//navigateToMotorConfig();
 			break;
 
 		case 2:
@@ -181,7 +187,7 @@ public class ConfigListController implements expandedlistinterfaces {
 				}else{
 					navigateToPipelineConfig();
 				}
-
+				//navigateToPipelineConfig();
 
 			}else {
 				showDialog("Error", "Pipeline cannot be configured unless Motor is configured");
@@ -197,7 +203,7 @@ public class ConfigListController implements expandedlistinterfaces {
 				}else{
 					navigateToFilterConfig();
 				}
-
+				//navigateToFilterConfig();
 			}else {
 				showDialog("Error", "Filters cannot be configured unless Pipeline is configured");
 			}
@@ -256,7 +262,7 @@ public class ConfigListController implements expandedlistinterfaces {
 	}
 
 	private void showDialog( String motorName , String message ) {
-
+		alert = null;
 		if(alert == null){
 
 			alert = new AlertDialog.Builder(cxt).create();
@@ -276,7 +282,7 @@ public class ConfigListController implements expandedlistinterfaces {
 	}
 
 	private void showDialogWithOptions( String title , String msg, int val, String btnTitle ) {
-		
+		alert1 = null;
 		if(alert1 == null){
 
 			alert1 = new AlertDialog.Builder(cxt).create();

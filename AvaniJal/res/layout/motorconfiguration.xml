@@ -90,7 +90,18 @@
         	android:textSize="14sp"
         />
     
-    <RadioGroup 
+    <Spinner 
+		    
+		    android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/hplabel"
+            android:layout_below="@id/motorname"
+            android:id="@+id/hptypespinner"
+            android:entries="@array/hptype"
+		    
+		 />
+    
+    <!-- <RadioGroup 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/hplabel"
@@ -124,14 +135,14 @@
             android:text="@string/tenhp"
             
             />
-    </RadioGroup>
+    </RadioGroup> -->
     
     <TextView 
         	android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/phaselabel"
             android:text="Operation :"
-            android:layout_below="@id/hptypegroup"
+            android:layout_below="@id/hptypespinner"
             android:layout_marginTop="5dp"
         	android:layout_marginLeft="10dp"
         	android:textSize="14sp"
@@ -140,7 +151,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/phaselabel"
-        android:layout_below="@id/hptypegroup"
+        android:layout_below="@id/hptypespinner"
         android:orientation="horizontal"
         android:id="@+id/operationgroup"
         >
@@ -285,7 +296,7 @@
         	android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/typelabel"
-            android:text="Type :"
+            android:text="Source :"
             android:layout_below="@id/curmeasuregroup"
         	android:layout_marginLeft="10dp"
         	android:textSize="14dp"
@@ -297,7 +308,7 @@
             android:layout_toRightOf="@id/typelabel"
             android:layout_below="@id/curmeasuregroup"
             android:id="@+id/typespinner"
-            android:entries="@array/motortype"
+            android:entries="@array/pumpconntype"
 		    
 		    />
 		
@@ -313,4 +324,30 @@
             android:visibility="invisible"
             android:id="@+id/phonenumfield"
             />
+		<!-- <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:paddingBottom="10dp"
+        android:layout_toRightOf="@id/motorimage"
+        android:layout_below="@id/phonenumfield"
+        android:orientation="horizontal"
+        android:text = "wanter sensor:"
+        android:id="@+id/watersensorlabel"
+        /> -->
+        <CheckBox
+        android:id="@+id/watersensorbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:paddingBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/phonenumfield"
+        android:orientation="horizontal"
+        android:text="has wanter sensor" />
+        
+        
+      
+		
+		
 </RelativeLayout>

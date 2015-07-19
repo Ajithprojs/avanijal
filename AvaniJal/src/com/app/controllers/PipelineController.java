@@ -23,6 +23,7 @@ import com.app.avanicomponents.MultiSelectionSpinner;
 import com.app.avanstart.R;
 import com.app.avanstart.util.AppUtils;
 import com.app.beans.Elements;
+import com.app.beans.MotorItem;
 import com.app.beans.Pipelineitem;
 import com.app.interfaces.MultiSelectInterface;
 
@@ -35,8 +36,6 @@ public class PipelineController extends ElementsController implements MultiSelec
 
 	int pipeVal = 0;
 
-	/// holds all the motor elements
-	ArrayList<Elements> pipelines;
 
 	/// final motor holder
 	LinearLayout pipeLinear;
@@ -45,7 +44,6 @@ public class PipelineController extends ElementsController implements MultiSelec
 
 	ViewGroup container;
 
-	ArrayAdapter<String> dataAdapter;
 
 	Boolean disableDropDown = false;
 
@@ -53,9 +51,9 @@ public class PipelineController extends ElementsController implements MultiSelec
 
 	ArrayList<String> motorIds = new ArrayList<String>();
 
-	
+
 	MultiSelectionSpinner typeSpinner;
-	
+
 	boolean isSpinnerOpen = false;
 
 
@@ -80,26 +78,28 @@ public class PipelineController extends ElementsController implements MultiSelec
 		 * */
 
 		if(AppUtils.confItems.getPipelineItems() == null)
-			pipelines = new ArrayList<Elements>();
+			super.elements = new ArrayList<Elements>();
 		else
 		{
-			pipelines = AppUtils.confItems.getPipelineItems();
-
+			super.elements = AppUtils.confItems.getPipelineItems();
 		}
 		/// adding a empty object so that the dropdowns doesnt show the first object
-
+		MAX_PIPELINE = 0;
 		pipeVal = 0;
+		disableDropDown = false;
+		isSpinnerOpen = false;
 		if(typeSpinner != null)
-		typeSpinner.clearAdapter();
+			typeSpinner.clearAdapter();
 		motorIds.clear();
 		motorIds.add(" ");
 		ArrayList<Elements> motors = AppUtils.confItems.getMotorItems();
-		MAX_PIPELINE = motors.size();
+
 		for (Elements elements : motors) {
-			motorIds.add(elements.getItemid());
+			if(elements.getIsConfigured())
+				motorIds.add(elements.getItemid());
 		}
+		MAX_PIPELINE = motorIds.size() - 1;
 		type = AppUtils.PIPELINE_TYPE;
-		super.elements = pipelines;
 		super.max = MAX_PIPELINE;
 		super.type = type;
 		super.activity = cxt;
@@ -127,9 +127,10 @@ public class PipelineController extends ElementsController implements MultiSelec
 				addPipeline();
 			}
 		});
-		
+		reloadUI();
 		return lin;
 	}
+
 
 	public void addPipeline() {
 
@@ -141,14 +142,14 @@ public class PipelineController extends ElementsController implements MultiSelec
 			disableDropDown = false;
 			pipeVal++;
 			super.addElement(""+pipeVal, pitem);
-			AppUtils.confItems.setPipelineItems(pipelines);
+			AppUtils.confItems.setPipelineItems(this.elements);
 		}
 
 	}
 
 	public void deletePipeline(String id ) {
 
-		
+
 		pipeVal--;
 		setButtonsSync();
 		super.deleteElement(id);
@@ -196,14 +197,14 @@ public class PipelineController extends ElementsController implements MultiSelec
 	}
 
 	private void addSelectedMotor( Pipelineitem pipe , String id ) {
-		
-		
-			pipe.setAssociatedElement(id);
-			//setRemoveMotorIDfromArray(id);
+
+
+		pipe.setAssociatedElement(id);
+		//setRemoveMotorIDfromArray(id);
 	}
-	
+
 	private void removeSelectedMotor(Pipelineitem pipe , String id) {
-		
+
 		if(pipe.hasAssociatedElement(id)){
 			pipe.removeAssociatedElement(id);
 			//setAddMotorToArray(id);
@@ -241,7 +242,7 @@ public class PipelineController extends ElementsController implements MultiSelec
 				deletePipeline((String)deleteBtn.getTag());
 			}
 		});
-		
+
 
 		pipeLinear.addView(relativ);
 
@@ -250,7 +251,7 @@ public class PipelineController extends ElementsController implements MultiSelec
 	private Pipelineitem getPipelineObjectforTag( String pipeName ) {
 
 		Pipelineitem mt = null;
-		for (Elements mitem : pipelines) {
+		for (Elements mitem : elements) {
 			if(mitem.getItemid().equalsIgnoreCase(pipeName))
 				mt = (Pipelineitem)mitem;
 		}
@@ -270,9 +271,9 @@ public class PipelineController extends ElementsController implements MultiSelec
 		//syncSpinnerForPiple(pitem);
 		isSpinnerOpen = true;
 		//setAssociatedMotor(pitem);
-		
+
 	}
-	
+
 	public void setAssociatedMotor( Pipelineitem pitem ) {
 		ArrayList<String> arrIds = pitem.getAllAssociatedElementsOfType(AppUtils.MOTOR_TYPE);
 		typeSpinner.setSelection(arrIds);
@@ -282,8 +283,8 @@ public class PipelineController extends ElementsController implements MultiSelec
 	public void itemSelected(MultiSelectionSpinner spinner,String val) {
 		// TODO Auto-generated method stub
 		if(isSpinnerOpen)
-		addSelectedMotor(getPipelineObjectforTag((String)spinner.getTag()), val);
-		
+			addSelectedMotor(getPipelineObjectforTag((String)spinner.getTag()), val);
+
 	}
 
 	@Override
@@ -297,13 +298,13 @@ public class PipelineController extends ElementsController implements MultiSelec
 	public void reloadUI() {
 		// TODO Auto-generated method stub
 		clearUI();
-		ArrayList<Elements> tempPipes = (ArrayList<Elements>)pipelines.clone();
+		ArrayList<Elements> tempPipes = (ArrayList<Elements>)elements.clone();
 		for (Elements mt : tempPipes) {
 
 			disableDropDown = true;
 			if(mt.getIsConfigured()){
-			addElement(""+getPipeInt(mt.getItemid()), mt);
-			pipeVal++;
+				addElement(""+getPipeInt(mt.getItemid()), mt);
+				pipeVal++;
 			}
 		}
 		setButtonsSync();
@@ -315,6 +316,15 @@ public class PipelineController extends ElementsController implements MultiSelec
 		if(pipeLinear != null) {
 			pipeLinear.removeAllViews();
 		}
+	}
+
+	@Override
+	public void destructController() {
+		// TODO Auto-generated method stub
+		_instance = null;
+		pipeLinear = null;
+		motorIds = null;
+
 	}  
 
 }
