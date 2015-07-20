@@ -209,8 +209,9 @@ public class DashBoardActivity extends FragmentActivity {
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 	
-	private void destructControllers() {
-		
+	public static void destructControllers() {
+		ConfigListController.getInstance().destructControllers();
+		AssociationController.getInstance().destructController();
 	}
 
 	@Override
@@ -238,8 +239,6 @@ public class DashBoardActivity extends FragmentActivity {
 			}
 			ConfigListController.getInstance().destructControllers();
 			break;
-
-			
 
 		default:
 			break;
@@ -272,7 +271,7 @@ public class DashBoardActivity extends FragmentActivity {
 			if(AppUtils.confItems == null) {
 				AppUtils.confItems = new ConfigItem();
 			}
-
+			destructControllers();
 			switch(pos){
 
 			default:

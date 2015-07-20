@@ -43,31 +43,31 @@ public class SmsParser {
 			result.isError = true;
 			result.reason = smsFailReason;
 
-			int initIndx = errMsgStrtIndx + spaceIndx;
-
-			/// get the errorfield
-			if( msg.substring(initIndx, fieldIndx) != null ){
-				result.failedField = Integer.parseInt(msg.substring(initIndx, fieldIndx));
-				initIndx+=spaceIndx;
-			}
-
-			/// get the error 1 field
-			if( msg.substring(initIndx, err1Indx) != null ){
-				result.err1 = Integer.parseInt(msg.substring(initIndx, err1Indx));
-				initIndx+=spaceIndx;
-			}
-
-			//// get the error 2 field
-			if( msg.substring(initIndx, err2Indx) != null ){
-				result.err1 = Integer.parseInt(msg.substring(initIndx, err2Indx));
-				initIndx+=spaceIndx;
-			}
-
-			//// get the system err field
-			if( msg.substring(initIndx, sysErrIndx) != null ){
-				result.err1 = Integer.parseInt(msg.substring(initIndx, sysErrIndx));
-				initIndx+=spaceIndx;
-			}
+//			int initIndx = errMsgStrtIndx + spaceIndx;
+//
+//			/// get the errorfield
+//			if( msg.substring(initIndx, fieldIndx) != null ){
+//				result.failedField = Integer.parseInt(msg.substring(initIndx, fieldIndx));
+//				initIndx+=spaceIndx;
+//			}
+//
+//			/// get the error 1 field
+//			if( msg.substring(initIndx, err1Indx) != null ){
+//				result.err1 = Integer.parseInt(msg.substring(initIndx, err1Indx));
+//				initIndx+=spaceIndx;
+//			}
+//
+//			//// get the error 2 field
+//			if( msg.substring(initIndx, err2Indx) != null ){
+//				result.err1 = Integer.parseInt(msg.substring(initIndx, err2Indx));
+//				initIndx+=spaceIndx;
+//			}
+//
+//			//// get the system err field
+//			if( msg.substring(initIndx, sysErrIndx) != null ){
+//				result.err1 = Integer.parseInt(msg.substring(initIndx, sysErrIndx));
+//				initIndx+=spaceIndx;
+//			}
 		} else {
 			result.isError = false;
 			result.reason = "invalid";

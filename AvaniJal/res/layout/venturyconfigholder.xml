@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+     <ImageView 
+        
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/lineseperator"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/sep1"   
+        />
+     
+     <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sep1"
+        android:text="Ventury Configuration"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="5dp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:id="@+id/venturylbl"
+         />
+     
+      <ImageView 
+        
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/lineseperator"
+        android:layout_below="@id/venturylbl"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/sep2"   
+        />
+    
+
+    <ImageView 
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ventury"
+        android:id="@+id/venturyimg"
+        android:layout_below="@id/sep2"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        />
+    
+    <ListView 
+        android:layout_width="120dp"
+        android:layout_height="180dp"
+        android:id="@+id/valveholder"
+        android:layout_toRightOf="@id/venturyimg"
+        android:layout_below="@id/sep2"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentRight="true"
+        ></ListView>
+  
+     <ImageView 
+        
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/lineseperator"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_below="@id/valveholder"
+        android:id="@+id/sep3"   
+        />
+     
+     <TextView 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sep3"
+        android:layout_marginLeft="5dp"
+        android:text="Fertigation Configuration"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:id="@+id/fertilbl"
+         />
+     
+      <ImageView 
+        
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/lineseperator"
+        android:layout_below="@id/fertilbl"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/sep4"   
+        />
+      
+      <ImageView 
+        
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/motors"
+        android:id="@+id/fertiimg"
+        android:layout_below="@id/sep4"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        />
+    
+    <ListView 
+        android:layout_width="120dp"
+        android:layout_height="180dp"
+        android:id="@+id/fertiholder"
+        android:layout_below="@id/sep4"
+        android:layout_toRightOf="@id/fertiimg"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_alignParentRight="true"
+        ></ListView>
+
+</RelativeLayout>

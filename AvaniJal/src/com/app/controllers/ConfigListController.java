@@ -22,6 +22,7 @@ import com.app.avanstart.PipelineActivity;
 import com.app.avanstart.R;
 import com.app.avanstart.SensorActivity;
 import com.app.avanstart.ValveActivity;
+import com.app.avanstart.VenturyFertigationActivity;
 import com.app.avanstart.util.AppUtils;
 import com.app.beans.Children;
 import com.app.beans.ConfigItem;
@@ -85,7 +86,7 @@ public class ConfigListController implements expandedlistinterfaces {
 
 		/// lets create group for configuration , association and provisioning
 		String[] elements = this.cxt.getResources().getStringArray(R.array.elements);
-		int[] eleimgs = {R.drawable.motors, R.drawable.motors , R.drawable.filters , R.drawable.valves , R.drawable.sensors, R.drawable.sensors};
+		int[] eleimgs = {R.drawable.motors, R.drawable.motors , R.drawable.filters , R.drawable.valves , R.drawable.ventury, R.drawable.sensors};
 		int j = 0;
 		Hashtable<String, ConfigStatus> cghash = AppUtils.confItems.getElementConfigStatus();
 		for (String string : elements) {
@@ -214,6 +215,19 @@ public class ConfigListController implements expandedlistinterfaces {
 
 			navigateToValveConfig();
 			break;
+			
+		case 5 :
+			if(isElementConfigured("Valve") && isElementConfigured("Motor") && isElementConfigured("Pipeline")){
+				if(isElementConfigured("Ventury")){
+					clickedVal = 5; 
+					showDialogWithOptions( "Configured" ,"Ventury and Fertigation are already configured, do you want to edit?", 3, "Edit" );
+				}else{
+					navigateToVenturyAndFertigation();
+				}
+			}else {
+				showDialog("Error", "Ventury cannot be configured unless Valve and Motors are configured");
+			}
+			break;
 
 		default:
 			navigateToSensorConfig();
@@ -246,6 +260,11 @@ public class ConfigListController implements expandedlistinterfaces {
 	private void navigateToValveConfig() {
 
 		Intent i = new Intent( cxt , ValveActivity.class );
+		cxt.startActivityForResult(i, 2001);
+	}
+	
+	private void navigateToVenturyAndFertigation() {
+		Intent i = new Intent( cxt , VenturyFertigationActivity.class );
 		cxt.startActivityForResult(i, 2001);
 	}
 
@@ -299,6 +318,9 @@ public class ConfigListController implements expandedlistinterfaces {
 						break;
 					case 3:
 						navigateToFilterConfig();
+						break;
+					case 5 :
+						navigateToVenturyAndFertigation();
 						break;
 
 					default:

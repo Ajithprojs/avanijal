@@ -67,16 +67,16 @@ import android.widget.Toast;
 		statusHash = new HashMap<String, String>();
 		// Simple query to show the most recent SMS messages in the inbox
 		/// uncomment the following to simulate sms
-		if(smsMsgs != null) {
-			keys = smsMsgs.keySet().toArray();
-		}
-		String key = (String)keys[0];
-		sendSMSTempOK(key);
-		/// comment the following to simulate sms
 //		if(smsMsgs != null) {
 //			keys = smsMsgs.keySet().toArray();
-//			initiateSMS(true);
 //		}
+//		String key = (String)keys[0];
+//		sendSMSTempOK(key);
+		/// comment the following to simulate sms
+		if(smsMsgs != null) {
+			keys = smsMsgs.keySet().toArray();
+			initiateSMS(true);
+		}
 
 	}
 
@@ -196,8 +196,8 @@ import android.widget.Toast;
 	@Override
 	public void onTimerComplete( String taskName ) {
 		// TODO Auto-generated method stub
-		onSmsReceived();
-		//onSmsTimeOut(taskName);
+		//onSmsReceived();
+		onSmsTimeOut(taskName);
 	}
 
 	@Override

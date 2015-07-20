@@ -13,6 +13,7 @@ public class ConfigItem implements Serializable{
 	private ArrayList<Elements> pipelineItems = new ArrayList<Elements>();
 	private ArrayList<Elements> filterItems = new ArrayList<Elements>();
 	private ArrayList<Elements> valveItems = new ArrayList<Elements>();
+	private ArrayList<Elements> venturyFertigationItems = new ArrayList<Elements>();
 	private Hashtable<String, SensorItem> sensorItems = new Hashtable<String, SensorItem>();
 
 	public void setElementConfigStatus(Hashtable<String, ConfigStatus> configst) {
@@ -39,7 +40,12 @@ public class ConfigItem implements Serializable{
 
 		this.valveItems = obj;
 	}
+	
+	public void setVenturyItems(ArrayList<Elements> obj) {
 
+		this.venturyFertigationItems = obj;
+	}
+	
 	public void setSensorItems(Hashtable<String, SensorItem> obj) {
 
 		this.sensorItems = obj;
@@ -69,6 +75,12 @@ public class ConfigItem implements Serializable{
 
 		return valveItems ;
 	}
+	
+	public ArrayList<Elements> getVenturyFertigationItems() {
+
+		return venturyFertigationItems ;
+	}
+	
 
 	public Hashtable<String, SensorItem> getSensorItems() {
 

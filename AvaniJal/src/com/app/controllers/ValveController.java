@@ -66,18 +66,22 @@ public class ValveController implements MultiSelectInterface {
 			MultiSelectionSpinner spinner1 = (MultiSelectionSpinner)relativ.findViewById(R.id.wirednumberirrivalve);
 			spinner1.setTag(WIRED_VALVE);
 			spinner1.setItems(activity.getResources().getStringArray(R.array.irrigationnvalvenumber) ,this);
-			
-			MultiSelectionSpinner spinner2 = (MultiSelectionSpinner)relativ.findViewById(R.id.plcnumberirrivalve);
-			spinner1.setTag(PLC_VALVE);
-			spinner2.setItems(activity.getResources().getStringArray(R.array.irrigationnvalvenumber) , this);
-			
-			MultiSelectionSpinner spinner3 = (MultiSelectionSpinner)relativ.findViewById(R.id.wirelessnumberirrivalve);
-			spinner1.setTag(WIRELESS_VALVE);
-			spinner3.setItems(activity.getResources().getStringArray(R.array.irrigationnvalvenumber), this);
-			
-			MultiSelectionSpinner spinner4 = (MultiSelectionSpinner)relativ.findViewById(R.id.numberfertivalve);
-			spinner1.setTag(FERT_VALVE);
-			spinner4.setItems(activity.getResources().getStringArray(R.array.fertigationvalvenumber), this);
+			ArrayList<String> selectedIds = new ArrayList<String>();
+			for (Elements ele : valves) {
+				selectedIds.add(ele.getItemid());
+			}
+			spinner1.setSelection(selectedIds);
+//			MultiSelectionSpinner spinner2 = (MultiSelectionSpinner)relativ.findViewById(R.id.plcnumberirrivalve);
+//			spinner1.setTag(PLC_VALVE);
+//			spinner2.setItems(activity.getResources().getStringArray(R.array.irrigationnvalvenumber) , this);
+//			
+//			MultiSelectionSpinner spinner3 = (MultiSelectionSpinner)relativ.findViewById(R.id.wirelessnumberirrivalve);
+//			spinner1.setTag(WIRELESS_VALVE);
+//			spinner3.setItems(activity.getResources().getStringArray(R.array.irrigationnvalvenumber), this);
+//			
+//			MultiSelectionSpinner spinner4 = (MultiSelectionSpinner)relativ.findViewById(R.id.numberfertivalve);
+//			spinner1.setTag(FERT_VALVE);
+//			spinner4.setItems(activity.getResources().getStringArray(R.array.fertigationvalvenumber), this);
 			
 			AppUtils.confItems.setValveItems(valves);
 			
@@ -94,7 +98,7 @@ public class ValveController implements MultiSelectInterface {
 	@Override
 	public void itemSelected(MultiSelectionSpinner spinner, String val) {
 		// TODO Auto-generated method stub
-		String id = AppUtils.VALVE_TYPE+val;
+		String id = val;
 		ValveItems valve = new ValveItems();
 		valve.setItemid(id);
 		valve.setType((String)spinner.getTag());
@@ -110,7 +114,7 @@ public class ValveController implements MultiSelectInterface {
 	@Override
 	public void itemDeselected(MultiSelectionSpinner spinner, String val) {
 		// TODO Auto-generated method stub
-		String id = AppUtils.VALVE_TYPE+val;
+		String id = val;
 		Iterator<Elements> iter = valves.iterator();
 		while(iter.hasNext()){
 			ValveItems vitem = (ValveItems)iter.next();

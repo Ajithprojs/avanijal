@@ -30,7 +30,7 @@ public class AppUtils {
 	public static CropItem cropItems;
 
 	public static String MOTOR_TYPE = "M";
-	
+
 	public static String PIPELINE_TYPE = "P";
 
 	public static String FILTER_TYPE = "F";
@@ -39,34 +39,40 @@ public class AppUtils {
 
 	public static String SENSOR_TYPE = "sensor";
 
-	public static String VENTURY_TYPE = "ventury";
-	
+	public static String VENTURY_TYPE = "U";
+
+	public static String FERTIGATION_TYPE = "R";
+
 	//// sms statuses
-	
+
 	public static String SMS_SENT = "sent";
-	
+
 	public static String SMS_RECEIVED = "received";
-	
+
 	public static String SMS_DELIVERED = "delivered";
-	
+
 	public static String SMS_FAILED = "failed";
-	
+
 	public static String SMS_CONFIG_SUCCESS = "success";
-	
+
 	public static String SMS_TIMEOUT = "timeout";
 
 	public static String phoneNum = "9739287569";
 	//public static String phoneNum = "9986003200";
-	
+
 	public static String CONFIG_FILE_NAME = "config";
-	
+
 	public static String USER_FILE_NAME = "user";
-	
+
 	public static int MAX_MOTOR_PER_SMS = 2;
-	
+
 	public static String seperator = " ";
 
-	
+	public static String[] VenturyValves = {VALVE_TYPE + "1",VALVE_TYPE + "2", VALVE_TYPE +"3",VALVE_TYPE +"4"};
+
+	public static String[] FertigationMotors = {MOTOR_TYPE + "2", MOTOR_TYPE + "3"};
+
+
 	///for config
 
 	//*AC M1 0 250 420 0 0 800 0 1 1 1234567890 (motor1, 5HP, 250-420V, 3 phase, bore, 800lt/min, starter control, 
@@ -76,11 +82,11 @@ public class AppUtils {
 
 		/// lets first build for the motors
 		HashMap<String, String> smss = new HashMap<String, String>();
-		
+
 		ConfigItem cItem = AppUtils.confItems;
 		ArrayList<Elements> mtItems =  cItem.getMotorItems();
 		if(mtItems != null) {
-			
+
 			int j = 1;
 			int i = mtItems.size();
 			int r = 0;
@@ -90,17 +96,17 @@ public class AppUtils {
 				j = i % MAX_MOTOR_PER_SMS;
 				n = MAX_MOTOR_PER_SMS;
 			}
-				
+
 			for( x = 1 ; x <= j ; x++ ){
-				
+
 				StringBuffer finalSb = new StringBuffer();
 				for(int y = 0 ; y < n; y++){
 					Elements m = mtItems.get(r);
 					StringBuffer sb = new StringBuffer();
 					MotorItem me = (MotorItem)m;
-//					if(y!= 0){
-//						sb.append(" ");
-//					}
+					//					if(y!= 0){
+					//						sb.append(" ");
+					//					}
 					sb.append("*AC"+ seperator);
 					sb.append(""+me.getItemid() + seperator);
 					sb.append(""+me.getHpValeint()+ seperator);
@@ -114,22 +120,22 @@ public class AppUtils {
 					sb.append(""+(me.hasWaterSensor() ? 1:0)+ seperator);
 					//sb.append(" "+me.getMotorTypeint()+ seperator);
 					if(me.getPhoneNum().length()>=10)
-					sb.append(""+me.getPhoneNum()+ seperator);
+						sb.append(""+me.getPhoneNum()+ seperator);
 					finalSb.append(sb.toString());
 					r++;
 				}
-				
+
 				finalSb.append("*en");
 				smss.put("motor batch :"+x, finalSb.toString());
 			}
-			
+
 		}
 		return smss;
 
 	}
-	
+
 	public static HashMap<String, String> buildPipeLineConfigSms() {
-		
+
 		HashMap<String, String> smss = new HashMap<String, String>();
 		StringBuffer sb = new StringBuffer();
 		/// lets  build for the filters
@@ -140,18 +146,43 @@ public class AppUtils {
 			Pipelineitem ele = (Pipelineitem)iter.next();
 			sb.append("*AC"+ seperator);
 			sb.append(ele.getItemid()+ seperator);
-			
+
 			ArrayList<String> assoids = ele.getAllAssociatedElementsOfType(MOTOR_TYPE);
 			Iterator<String> assoiter = assoids.iterator();
 			while(assoiter.hasNext()){
 				String str = assoiter.next();
 				sb.append(str+ seperator);
 			}
-			
+
 		}
-		
+
 		sb.append("*en"+ seperator);
 		smss.put("pipeline", sb.toString());
+		return smss;
+	}
+
+	public static HashMap<String, String> buildVenturyConfigSms() {
+
+		HashMap<String, String> smss = new HashMap<String, String>();
+		StringBuffer sb = new StringBuffer();
+		/// lets  build for the filters
+		ConfigItem cItem = AppUtils.confItems;
+		ArrayList<Elements> ventury = cItem.getVenturyFertigationItems();
+		Iterator<Elements> iter = ventury.iterator();
+		while(iter.hasNext()) {
+			Elements ele = (Elements)iter.next();
+			sb.append("*AC"+ seperator);
+			String newItem = "";
+			if(ele.getItemid().contains(AppUtils.MOTOR_TYPE))
+				newItem = replaceLetter(ele.getItemid(), AppUtils.MOTOR_TYPE, AppUtils.FERTIGATION_TYPE);
+			else if(ele.getItemid().contains(AppUtils.VALVE_TYPE))
+				newItem = replaceLetter(ele.getItemid(), AppUtils.VALVE_TYPE, AppUtils.VENTURY_TYPE);
+			
+			sb.append(newItem+ seperator);
+		}
+
+		sb.append("*en"+ seperator);
+		smss.put("ventury", sb.toString());
 		return smss;
 	}
 
@@ -160,10 +191,10 @@ public class AppUtils {
 		HashMap<String, String> smss = new HashMap<String, String>();
 		StringBuffer sb = new StringBuffer();
 		/// lets  build for the filters
-		
+
 		ConfigItem cItem = AppUtils.confItems;
 		ArrayList<Elements> ftItems = cItem.getFilterItems();
-		
+
 		Iterator<Elements> iter = ftItems.iterator();
 		while(iter.hasNext()) {
 			sb.append("*AC"+ seperator);
@@ -173,39 +204,47 @@ public class AppUtils {
 			while(asso.hasNext()){
 				sb.append(asso.next()+ seperator);
 			}
-			
+
 			//sb.append(" "+ele.getFrequencyHours()+" ");
 			sb.append(ele.getFrequencyminutes()+ seperator);
 			sb.append(ele.getDurationSeconds()+ seperator);
-			
+
 		}
 		sb.append("*en"+ seperator);
 		smss.put("filter", sb.toString());
 		return smss;
 	}
-	
+
 	public static HashMap<String, String> buildValveConfigSms() {
 
 		HashMap<String, String> smss = new HashMap<String, String>();
 		StringBuffer sb = new StringBuffer();
 		/// lets  build for the filters
-		
+
 		ConfigItem cItem = AppUtils.confItems;
 		ArrayList<Elements> ftItems = cItem.getValveItems();
-		
+
 		Iterator<Elements> iter = ftItems.iterator();
 		while(iter.hasNext()) {
-			
+
 			ValveItems ele = (ValveItems)iter.next();
 			sb.append("*AC"+ seperator);
 			sb.append(ele.getItemid()+ seperator);
-			
+
 		}
 		sb.append("*en");
 		smss.put("valve", sb.toString());
 		return smss;
 	}
-	
+
+	public static String replaceLetter( String str , String item, String newItem ) {
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append(newItem);
+		int strtIndx = str.indexOf(item);
+		sb.append(str.substring(strtIndx + item.length()));
+		return sb.toString();
+	}
 
 	public static String getsmsidfromID(String id) {
 
@@ -229,12 +268,12 @@ public class AppUtils {
 		return crcStr;
 
 	}
-	
-	
+
+
 	public static int getIntFromString( String val ) {
-		
+
 		if(val.length() > 0){
-			
+
 			return Integer.parseInt(val);
 		}
 		return 0;
