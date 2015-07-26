@@ -1,14 +1,6 @@
 package com.app.avanstart;
 
-
-
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Set;
 
 import com.app.avanicomponents.AvaniTimer;
 import com.app.avanstart.util.AppUtils;
@@ -20,25 +12,12 @@ import com.app.parsers.SmsParser.MessageHolder;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Telephony.Sms.Inbox;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.telephony.SmsManager;
 import android.view.Menu;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 @TargetApi(19) public class SmsActivity extends FragmentActivity implements SmsInterface, Timerinterface {
 
@@ -62,7 +41,7 @@ import android.widget.Toast;
 		if(b.containsKey("phone")){
 			phoneNum = b.getString("phone");
 		}
-
+		phoneNum = AppUtils.getCurrentPhoneNum(this);
 		smsMsgs = (HashMap<String, String>) b.getSerializable("MESSAGE");
 		statusHash = new HashMap<String, String>();
 		// Simple query to show the most recent SMS messages in the inbox
@@ -86,9 +65,9 @@ import android.widget.Toast;
 			String key = (String)keys[i];
 			String sms = smsMsgs.get(key);
 			smsStatus.setText("sending sms ("+i+") of "+keys.length +" please wait..");
-			SmsController.getSmsInstance().registerSendSMS(sms, key, this, phoneNum, this);
-			startSmsTimeOut(60, key);
+			startSmsTimeOut(50, key);
 			i++;
+			SmsController.getSmsInstance().registerSendSMS(sms, key, this, phoneNum, this);
 		} else {
 			onSmsReceived();
 		}
@@ -127,7 +106,7 @@ import android.widget.Toast;
 		Intent intent=new Intent();  
 		intent.putExtra("MESSAGE",statusHash);  
 		setResult(1000,intent);  
-		cancelSMSTimer();
+		SmsController.getSmsInstance().unRegisterReceivers();
 		SmsController.getSmsInstance().destruct();
 		AvaniTimer.getInstance().destruct();
 		finish();//finishing activity  
@@ -158,6 +137,7 @@ import android.widget.Toast;
 		// TODO Auto-generated method stub
 		smsStatus.setText("sms ("+i+") of "+keys.length +" Failed..");
 		statusHash.put(smsCode, desc);
+		cancelSMSTimer();
 		initiateSMS(false);
 
 	}
@@ -170,6 +150,7 @@ import android.widget.Toast;
 		//statusHash.put(smsCode, AppUtils.SMS_SENT);
 		smsStatus.setText("sms ("+i+") of "+keys.length +" Timeout..");
 		statusHash.put(smsCode, AppUtils.SMS_TIMEOUT);
+		cancelSMSTimer();
 		initiateSMS(false);
 	}
 
@@ -189,6 +170,7 @@ import android.widget.Toast;
 				
 			}
 		}
+		cancelSMSTimer();
 		//statusHash.put(smsCode, resp);
 		initiateSMS(true);
 	}

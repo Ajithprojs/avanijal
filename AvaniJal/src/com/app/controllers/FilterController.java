@@ -35,7 +35,6 @@ import com.app.beans.Pipelineitem;
 public class FilterController extends ElementsController {
 
 
-	static FilterController _instance;
 
 	ArrayList<String> pipelineIds = new ArrayList<String>();
 	RelativeLayout relativ;
@@ -69,19 +68,19 @@ public class FilterController extends ElementsController {
 
 	boolean disablaDropDown = false;
 
-	private FilterController() {
+	public FilterController() {
 
 
 	}
 
-	public static FilterController getInstance() {
-
-		if(_instance == null)
-			_instance = new FilterController();
-
-		return _instance;
-
-	}
+//	public static FilterController getInstance() {
+//
+//		if(_instance == null)
+//			_instance = new FilterController();
+//
+//		return _instance;
+//
+//	}
 
 	private void init(Context cxt) {
 

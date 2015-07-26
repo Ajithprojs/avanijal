@@ -57,18 +57,18 @@ public class PipelineController extends ElementsController implements MultiSelec
 	boolean isSpinnerOpen = false;
 
 
-	private PipelineController() {
+	public PipelineController() {
 
 
 	}
 
-	public static PipelineController getInstance() {
-
-		if(_instance == null)
-			_instance = new PipelineController();
-		return _instance;
-
-	}
+//	public static PipelineController getInstance() {
+//
+//		if(_instance == null)
+//			_instance = new PipelineController();
+//		return _instance;
+//
+//	}
 
 	private void init(Context cxt) {
 

@@ -24,7 +24,6 @@ import com.app.interfaces.MultiSelectInterface;
 public class ValveController implements MultiSelectInterface {
 	
 	
-	static ValveController _instance;
 
 	ArrayList<Elements> valves;
 	
@@ -36,19 +35,19 @@ public class ValveController implements MultiSelectInterface {
 	
 	private String FERT_VALVE = "fertigation";
 
-	private ValveController() {
+	public ValveController() {
 
 
 	}
 
-	public static ValveController getInstance() {
-
-		if(_instance == null)
-			_instance = new ValveController();
-
-		return _instance;
-
-	}
+//	public static ValveController getInstance() {
+//
+//		if(_instance == null)
+//			_instance = new ValveController();
+//
+//		return _instance;
+//
+//	}
 	
 	public RelativeLayout createValveLayout(ViewGroup container , LinearLayout llayout , Activity activity) {
 		

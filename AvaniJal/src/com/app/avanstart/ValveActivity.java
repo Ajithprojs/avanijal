@@ -24,8 +24,8 @@ import com.app.controllers.ValveController;
 
 public class ValveActivity extends Activity {
 
-	RelativeLayout valveLayout;
 	AlertDialog alert;
+	private ValveController valve;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,8 +46,12 @@ public class ValveActivity extends Activity {
 		});
 		
 		LinearLayout llayout = (LinearLayout)findViewById(R.id.valvelayout);
-		valveLayout = ValveController.getInstance().createValveLayout(null, null, this);
-		llayout.addView(valveLayout);
+		llayout.addView(valve().createValveLayout(null, null, this));
+	}
+	
+	private ValveController valve() {
+		if(valve == null) valve = new ValveController();
+		return valve;
 	}
 	
 	private void sendConfig() {
@@ -110,7 +114,7 @@ public class ValveActivity extends Activity {
 			Elements ele = iter.next();
 			ele.setIsConfigured(true);
 		}
-		showDialog("valve", "Configured Successfully");
+		//showDialog("valve", "Configured Successfully");
 		Intent intent=new Intent();  
 		intent.putExtra("status","configured");
 		String[] values = this.getResources().getStringArray(R.array.elements);

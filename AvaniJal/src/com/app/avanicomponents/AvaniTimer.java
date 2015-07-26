@@ -54,7 +54,7 @@ public class AvaniTimer {
 		timeInMilliseconds = 0L;
 		timeSwapBuff = 0L;
 		updatedTime = 0L;
-		endTime = 60;
+		endTime = 50;
 	}
 
 	private Runnable updateTimerThread = new Runnable() {

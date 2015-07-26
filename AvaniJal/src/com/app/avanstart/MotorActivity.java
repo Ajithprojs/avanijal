@@ -23,14 +23,15 @@ import com.app.beans.ConfigItem;
 import com.app.beans.Elements;
 import com.app.beans.MotorItem;
 import com.app.controllers.MotorController;
+import com.app.controllers.SmsController;
 import com.app.parsers.SmsParser;
 import com.app.parsers.SmsParser.MessageHolder;
 
 public class MotorActivity extends Activity {
 
-	RelativeLayout motorLayout;
 	AlertDialog alert;
 	LinearLayout llayout;
+	MotorController motor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +49,18 @@ public class MotorActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				if(applyMotorValidations())
+				if(true)//applyMotorValidations())
 					sendConfig();
 			}
 		});
 		llayout = (LinearLayout)findViewById(R.id.finalmotorlayout);
-		motorLayout = MotorController.getInstance().getMotorLayout(null, this, null);
-		llayout.addView(motorLayout);
+		llayout.addView(motor().getMotorLayout(null, this, null));
+	}
+	
+	public MotorController motor() {
+		if(motor == null) motor = new MotorController();
+		return motor;
+		
 	}
 
 	private void sendConfig() {
@@ -81,6 +87,7 @@ public class MotorActivity extends Activity {
 				HashMap<String, String> smsStr = (HashMap<String, String>) i.getExtras().getSerializable("MESSAGE");
 
 				if(smsStr != null){
+					SmsController.getSmsInstance().unRegisterReceivers();
 					Object[] e = smsStr.keySet().toArray();
 					boolean isSuccess = true;
 					for( int m = 0 ; m < e.length ; m++ ){
@@ -167,9 +174,7 @@ public class MotorActivity extends Activity {
 				valid = false;
 				break;
 			}
-
 		}
-
 		return valid;
 	}
 
@@ -183,8 +188,6 @@ public class MotorActivity extends Activity {
 				dialog.dismiss();
 			}
 		});
-
-
 		alert.setTitle(motorName);
 		alert.setMessage(message);
 		alert.show();
@@ -196,12 +199,6 @@ public class MotorActivity extends Activity {
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
-		//syncMotorWithIds();
-		/// sync activities
-		//		motorLayout = null;
-		//		llayout.removeAllViews();
-		//		llayout = null;
-
 	}
 
 

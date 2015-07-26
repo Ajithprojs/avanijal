@@ -76,9 +76,9 @@ public class ConfigListController implements expandedlistinterfaces {
 	}
 	
 	public void destructControllers() {
-		MotorController.getInstance().destructController();
-		PipelineController.getInstance().destructController();
-		FilterController.getInstance().destructController();
+		//MotorController.getInstance().destructController();
+		//PipelineController.getInstance().destructController();
+		//FilterController.getInstance().destructController();
 	}
 	private ArrayList<Children> createAvaniGroups() {
 

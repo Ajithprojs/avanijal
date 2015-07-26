@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +62,7 @@ public class AssociationController {
 		fmg = null;
 		mSectionsPagerAdapter = null;
 		cropConfig = null;
+		
 		_instance = null;
 	}
 
@@ -71,6 +73,13 @@ public class AssociationController {
 		LayoutInflater oldlinf = (LayoutInflater) act.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
 		RelativeLayout rel = (RelativeLayout) oldlinf.inflate(R.layout.activity_crop_list, cont, false);
 		cropConfig = new Hashtable<String, Object>();
+		if(mViewPager != null) {
+			mViewPager.removeAllViews();
+			mViewPager = null;
+		}
+		if(mSectionsPagerAdapter != null) {
+			mSectionsPagerAdapter = null;
+		}
 		mSectionsPagerAdapter = new SectionsPagerAdapter(
 				_fmg);
 		mViewPager = (ViewPager) rel.findViewById(R.id.pager);
@@ -78,7 +87,7 @@ public class AssociationController {
 		return rel;
 	}
 
-	public class SectionsPagerAdapter extends FragmentPagerAdapter implements FragmentInterface {
+	public class SectionsPagerAdapter extends FragmentStatePagerAdapter implements FragmentInterface {
 
 		String[] cropTypes;
 		public SectionsPagerAdapter(FragmentManager fm) {

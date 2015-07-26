@@ -20,7 +20,6 @@ import com.app.interfaces.CheckboxInterface;
 
 public class VenturyController extends ElementsController implements CheckboxInterface{
 
-	static VenturyController _instance;
 
 	/// final motor holder
 	LinearLayout venturyLinear;
@@ -38,18 +37,18 @@ public class VenturyController extends ElementsController implements CheckboxInt
 
 
 
-	private VenturyController() {
+	public VenturyController() {
 
 
 	}
 
-	public static VenturyController getInstance() {
-
-		if(_instance == null)
-			_instance = new VenturyController();
-		return _instance;
-
-	}
+//	public static VenturyController getInstance() {
+//
+//		if(_instance == null)
+//			_instance = new VenturyController();
+//		return _instance;
+//
+//	}
 	
 	public void destruct() {
 		motorIds = null;

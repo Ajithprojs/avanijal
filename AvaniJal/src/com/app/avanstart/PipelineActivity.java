@@ -27,8 +27,8 @@ import android.widget.RelativeLayout;
 
 public class PipelineActivity extends Activity {
 
-	RelativeLayout pipelineLayout;
 	AlertDialog alert;
+	PipelineController pipeline;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +50,12 @@ public class PipelineActivity extends Activity {
 			}
 		});
 		LinearLayout llayout = (LinearLayout)findViewById(R.id.finalpipelinelayout);
-		pipelineLayout = PipelineController.getInstance().getPipelineLayout(null, this, null);
-		llayout.addView(pipelineLayout);
+		llayout.addView(pipeline().getPipelineLayout(null, this, null));
+	}
+	
+	private PipelineController pipeline() {
+		if(pipeline == null) pipeline = new PipelineController();
+		return pipeline;
 	}
 
 	private void sendConfig() {
@@ -114,7 +118,7 @@ public class PipelineActivity extends Activity {
 			Elements ele = iter.next();
 			ele.setIsConfigured(true);
 		}
-		showDialog("Pipeline", "Configured Successfully");
+		//showDialog("Pipeline", "Configured Successfully");
 		Intent intent=new Intent();  
 		intent.putExtra("status","configured");
 		String[] values = this.getResources().getStringArray(R.array.elements);

@@ -18,23 +18,21 @@ import com.app.beans.SensorItem;
 public class SensorController {
 
 
-	static SensorController _instance;
-
 	Hashtable<String, SensorItem> sensors;
 
-	private SensorController() {
+	public SensorController() {
 
 
 	}
 
-	public static SensorController getInstance() {
-
-		if(_instance == null)
-			_instance = new SensorController();
-
-		return _instance;
-
-	}
+//	public static SensorController getInstance() {
+//
+//		if(_instance == null)
+//			_instance = new SensorController();
+//
+//		return _instance;
+//
+//	}
 
 
 	public RelativeLayout createSensorLayout(ViewGroup container , LinearLayout llayout , Activity activity) {

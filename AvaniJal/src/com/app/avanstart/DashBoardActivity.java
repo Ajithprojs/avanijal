@@ -211,7 +211,7 @@ public class DashBoardActivity extends FragmentActivity {
 	
 	public static void destructControllers() {
 		ConfigListController.getInstance().destructControllers();
-		AssociationController.getInstance().destructController();
+		//AssociationController.getInstance().destructController();
 	}
 
 	@Override
@@ -279,6 +279,7 @@ public class DashBoardActivity extends FragmentActivity {
 			case 1:
 				return ProvisionController.getInstance().getProvisioningLayout(container, getActivity());
 			case 2:
+				//return new AssociationController().getAssociationLayout(container, getActivity(),getActivity().getSupportFragmentManager());
 				return AssociationController.getInstance().getAssociationLayout(container, getActivity(),getActivity().getSupportFragmentManager());
 			case 3:
 				return ProvisionController.getInstance().getProvisioningLayout(container, getActivity());

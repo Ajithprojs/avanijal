@@ -1,19 +1,12 @@
 package com.app.avanstart.util;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 
-import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
-import android.provider.Telephony;
-import android.telephony.SmsManager;
 
 import com.app.beans.ConfigItem;
 import com.app.beans.CropItem;
@@ -21,7 +14,9 @@ import com.app.beans.Elements;
 import com.app.beans.FilterItem;
 import com.app.beans.MotorItem;
 import com.app.beans.Pipelineitem;
+import com.app.beans.User;
 import com.app.beans.ValveItems;
+import com.app.modals.DataOperations;
 
 public class AppUtils {
 
@@ -71,6 +66,16 @@ public class AppUtils {
 	public static String[] VenturyValves = {VALVE_TYPE + "1",VALVE_TYPE + "2", VALVE_TYPE +"3",VALVE_TYPE +"4"};
 
 	public static String[] FertigationMotors = {MOTOR_TYPE + "2", MOTOR_TYPE + "3"};
+	
+	public static String getCurrentPhoneNum( Context cxt ) {
+		
+		String phone = AppUtils.phoneNum;
+		User u = (User)DataOperations.getDataFromFile(AppUtils.USER_FILE_NAME, cxt);
+		if(u != null) {
+			phone = u.getMobile();
+		}	
+		return phone;
+	}
 
 
 	///for config
@@ -93,7 +98,7 @@ public class AppUtils {
 			int x =0 ;
 			int n = i;
 			if( i > MAX_MOTOR_PER_SMS) {
-				j = i % MAX_MOTOR_PER_SMS;
+				j = i / MAX_MOTOR_PER_SMS;
 				n = MAX_MOTOR_PER_SMS;
 			}
 

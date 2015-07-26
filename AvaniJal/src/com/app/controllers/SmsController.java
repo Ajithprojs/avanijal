@@ -1,12 +1,10 @@
 package com.app.controllers;
 
 
-import java.util.Date;
 
+import com.app.avanicomponents.AvaniTimer;
 import com.app.avanstart.util.AppUtils;
 import com.app.interfaces.SmsInterface;
-import com.app.parsers.SmsParser;
-import com.app.parsers.SmsParser.MessageHolder;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -36,6 +34,7 @@ import android.telephony.SmsManager;
 	String msgId;
 	Boolean isLatest = false;
 	long currentTime;
+	String phoneNum;
 	//int x = 0 ;
 	
 
@@ -67,6 +66,7 @@ import android.telephony.SmsManager;
 		init();
 		this.msgId = msgId;
 		this._delegate = _delegate;
+		this.phoneNum = phoneNum;
 		sendSMS(phoneNum, sms);
 
 	}
@@ -81,57 +81,64 @@ import android.telephony.SmsManager;
 
 		PendingIntent deliveredPI = PendingIntent.getBroadcast(activity, 0,
 				new Intent(DELIVERED), 0);
+		
+		unRegisterReceivers();
 
 		//---when the SMS has been sent---
-		activity.registerReceiver(new BroadcastReceiver(){
-			@Override
-			public void onReceive(Context arg0, Intent arg1) {
-				switch (getResultCode())
-				{
-				case Activity.RESULT_OK:
-					_delegate.onSmsSent(msgId);
-					break;
-				case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-					_delegate.onSmsFailed(msgId, "Generic Failure");
-					break;
-				case SmsManager.RESULT_ERROR_NO_SERVICE:
-					_delegate.onSmsFailed(msgId, "No Sms Service available, check if you have network");
-					break;
-				case SmsManager.RESULT_ERROR_NULL_PDU:
-					_delegate.onSmsFailed(msgId, "Null PDU");
-					break;
-				case SmsManager.RESULT_ERROR_RADIO_OFF:
-					_delegate.onSmsFailed(msgId, "Radio Off");
-					break;
-				}
-			}
-		}, new IntentFilter(SENT));
+		activity.registerReceiver(msendReceiver, new IntentFilter(SENT));
 
 		//---when the SMS has been delivered---
-		activity.registerReceiver(new BroadcastReceiver(){
-			@Override
-			public void onReceive(Context arg0, Intent intent) {
-				switch (getResultCode())
-				{
-				case Activity.RESULT_OK:
-					_delegate.onSmsDelivered(msgId);
-					isLatest = true;
-					break;
-				case Activity.RESULT_CANCELED:
-					_delegate.onSmsFailed(msgId, "Sms cancelled");
-					break;                        
-				}
-
-			}
-		}, new IntentFilter(DELIVERED));   
+		activity.registerReceiver(mDeliverReceiver, new IntentFilter(DELIVERED));   
 
 
 		SmsManager sms = SmsManager.getDefault();
+		isLatest = true;
 		sms.sendTextMessage(phoneNumber, null, message, sentPI, deliveredPI);        
 	}
+	
+	BroadcastReceiver msendReceiver = new BroadcastReceiver(){
+		@Override
+		public void onReceive(Context arg0, Intent arg1) {
+			switch (getResultCode())
+			{
+			case Activity.RESULT_OK:
+				_delegate.onSmsSent(msgId);
+				break;
+			case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+				_delegate.onSmsFailed(msgId, "Generic Failure");
+				break;
+			case SmsManager.RESULT_ERROR_NO_SERVICE:
+				_delegate.onSmsFailed(msgId, "No Sms Service available, check if you have network");
+				break;
+			case SmsManager.RESULT_ERROR_NULL_PDU:
+				_delegate.onSmsFailed(msgId, "Null PDU");
+				break;
+			case SmsManager.RESULT_ERROR_RADIO_OFF:
+				_delegate.onSmsFailed(msgId, "Radio Off");
+				break;
+			}
+		}
+	};
+	
+	BroadcastReceiver mDeliverReceiver = new BroadcastReceiver(){
+		@Override
+		public void onReceive(Context arg0, Intent intent) {
+			switch (getResultCode())
+			{
+			case Activity.RESULT_OK:
+				_delegate.onSmsDelivered(msgId);
+				isLatest = true;
+				break;
+			case Activity.RESULT_CANCELED:
+				_delegate.onSmsFailed(msgId, "Sms cancelled");
+				break;                        
+			}
+
+		}
+	};
 
 	public void messageSuccess( String msg ) {
-		
+		AvaniTimer.getInstance().cancelTimer();
 		_delegate.onSmsRec(msgId, msg);
 	}
 
@@ -146,6 +153,16 @@ import android.telephony.SmsManager;
 		return null;
 
 	}
+	
+	public void unRegisterReceivers() {
+		try {
+			activity.unregisterReceiver(msendReceiver);
+			activity.unregisterReceiver(mDeliverReceiver);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
@@ -156,10 +173,11 @@ import android.telephony.SmsManager;
 			String body = cursor.getString(SmsQuery.BODY);
 			long smsTime = Long.parseLong(cursor.getString(SmsQuery.DATE));
 
-			if(address.contains(AppUtils.phoneNum)  && isLatest && smsTime > currentTime && (body.toLowerCase().contains("ok") || body.toLowerCase().contains("er") )) {
+			if(address.contains(phoneNum)  && isLatest && smsTime > currentTime && (body.toLowerCase().contains("ok") || body.toLowerCase().contains("er") )) {
 
 				String latestSms = "Address=&gt; "+address+"n SMS =&gt; "+body;
 				//onSmsReceived(latestSms);
+				isLatest = false;
 				messageSuccess(latestSms);
 			}
 

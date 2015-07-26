@@ -33,7 +33,7 @@ import com.app.beans.MotorItem;
 public class MotorController extends ElementsController {
 
 
-	static MotorController _instance;
+	//static MotorController _instance;
 
 	int MAX_LOCAL = 4;
 
@@ -61,18 +61,18 @@ public class MotorController extends ElementsController {
 	Button addRemoteMotorBtn ;
 
 
-	private MotorController() {
+	public MotorController() {
 
 
 	}
 
-	public static MotorController getInstance() {
-
-		if(_instance == null)
-			_instance = new MotorController();
-		return _instance;
-
-	}
+//	public static MotorController getInstance() {
+//
+//		if(_instance == null)
+//			_instance = new MotorController();
+//		return _instance;
+//
+//	}
 
 	private void init(Context cxt) {
 

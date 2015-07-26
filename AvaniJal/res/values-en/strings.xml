@@ -98,7 +98,7 @@
       
       <string-array name="hptype">
           
-          <item>>5</item>
+          <item>-5</item>
           <item>5</item>
           <item>7.5</item>
           <item>10</item>

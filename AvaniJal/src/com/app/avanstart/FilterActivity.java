@@ -30,7 +30,7 @@ import com.app.parsers.SmsParser.MessageHolder;
 
 public class FilterActivity extends Activity {
 
-	RelativeLayout filterLayout;
+	FilterController filter;
 	ArrayAdapter<String> dataAdapter;
 	boolean changeFilterNum = false;
 	AlertDialog alert;
@@ -59,8 +59,12 @@ public class FilterActivity extends Activity {
 
 		int nofilters = 0;
 		LinearLayout llayout = (LinearLayout)findViewById(R.id.finalfilterlayout);
-		filterLayout = FilterController.getInstance().createFilterLayout(null, null, this, nofilters);
-		llayout.addView(filterLayout);
+		llayout.addView(filter().createFilterLayout(null, null, this, nofilters));
+	}
+	
+	private FilterController filter() {
+		if(filter == null) filter = new FilterController();
+		return filter;
 	}
 
 	private void sendConfig() {
@@ -121,7 +125,7 @@ public class FilterActivity extends Activity {
 			Elements ele = iter.next();
 			ele.setIsConfigured(true);
 		}
-		showDialog("Pipeline", "Configured Successfully");
+		//showDialog("Pipeline", "Configured Successfully");
 		Intent intent=new Intent();  
 		intent.putExtra("status","configured");
 		String[] values = this.getResources().getStringArray(R.array.elements);

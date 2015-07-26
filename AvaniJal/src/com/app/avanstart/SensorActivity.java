@@ -12,8 +12,7 @@ import com.app.controllers.SensorController;
 
 public class SensorActivity extends Activity {
 
-	RelativeLayout sensorLayout;
-
+	private SensorController sensor;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -22,12 +21,14 @@ public class SensorActivity extends Activity {
 		if(AppUtils.confItems == null) {
 			AppUtils.confItems = new ConfigItem();
 		}
-		
 		LinearLayout llayout = (LinearLayout)findViewById(R.id.sensorlayout);
-		sensorLayout = SensorController.getInstance().createSensorLayout(null, null, this);
-		llayout.addView(sensorLayout);
+		llayout.addView(sensor().createSensorLayout(null, null, this));
 		
-		
+	}
+	
+	private SensorController sensor() {
+		if(sensor == null) sensor = new SensorController();
+		return sensor;
 	}
 
 	@Override

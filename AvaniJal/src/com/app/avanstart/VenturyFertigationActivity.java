@@ -25,7 +25,7 @@ import android.widget.RelativeLayout;
 
 public class VenturyFertigationActivity extends Activity {
 
-	RelativeLayout VenturyLayout;
+	VenturyController ventury;
 	AlertDialog alert;
 	AlertDialog alert1;
 	
@@ -50,8 +50,12 @@ public class VenturyFertigationActivity extends Activity {
 			}
 		});
 		LinearLayout llayout = (LinearLayout)findViewById(R.id.finalventurylayout);
-		VenturyLayout = VenturyController.getInstance().getVenturyLayout(null, this, null);
-		llayout.addView(VenturyLayout);
+		llayout.addView(ventury().getVenturyLayout(null, this, null));
+	}
+	
+	private VenturyController ventury() {
+		if(ventury == null) ventury = new VenturyController();
+		return ventury;
 	}
 	
 	private void showDialogWithOptions( String title , String msg, int val, String btnTitle ) {
@@ -104,7 +108,6 @@ public class VenturyFertigationActivity extends Activity {
 	@Override
 	public void finish() {
 		// TODO Auto-generated method stub
-		VenturyController.getInstance().destruct();
 		super.finish();
 		
 	}
