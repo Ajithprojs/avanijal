@@ -9,6 +9,7 @@ public class RecordHolder {
 	private ImageButton imageItem;
 	private int tagVal;
 	private int croptype;
+	private int imgId;
 	public TextView getTxtTitle() {
 		return txtTitle;
 	}
@@ -32,6 +33,12 @@ public class RecordHolder {
 	}
 	public void setCroptype(int croptype) {
 		this.croptype = croptype;
+	}
+	public int getImgId() {
+		return imgId;
+	}
+	public void setImgId(int imgId) {
+		this.imgId = imgId;
 	}
 
 }

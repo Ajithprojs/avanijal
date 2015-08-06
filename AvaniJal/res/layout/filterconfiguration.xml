@@ -65,21 +65,36 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/sep2"
         android:layout_toRightOf="@id/filterimage"
-        android:textSize="16sp"
+        android:textSize="18sp"
+        android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
         android:id="@+id/filtercountlbl"
-        android:text="Select Pipeline :"
+        android:text="Selected Pipeline : "
         
         ></TextView>
     
-    <Spinner
+    <TextView  
+        
+       android:layout_width="140dp"
+        android:layout_height="wrap_content"
+       android:layout_toRightOf="@id/filtercountlbl"
+        android:layout_below="@id/sep2"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:textSize="18sp"
+        android:id="@+id/motorfilterspinner"
+        android:text=""
+        
+        ></TextView>
+    
+    <!-- <Spinner
         
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/filtercountlbl"
         android:layout_below="@id/sep2"
         android:id="@+id/motorfilterspinner"
-        ></Spinner>
+        ></Spinner> -->
     
     <TextView  
         

@@ -27,6 +27,8 @@ import com.app.avanicomponents.CropSectionFragment;
 import com.app.avanstart.CropSelectionActivity;
 import com.app.avanstart.ElementsConfigurationActivity;
 import com.app.avanstart.R;
+import com.app.avanstart.util.AppUtils;
+import com.app.beans.AssociationItem;
 import com.app.beans.Children;
 import com.app.beans.CropItem;
 import com.app.beans.RecordHolder;
@@ -56,13 +58,13 @@ public class AssociationController {
 			_instance = new AssociationController();
 		return _instance;
 	}
-	
+
 	public void destructController() {
 		configs = null;
 		fmg = null;
 		mSectionsPagerAdapter = null;
 		cropConfig = null;
-		
+
 		_instance = null;
 	}
 
@@ -70,6 +72,7 @@ public class AssociationController {
 
 		this.cxt = act;
 		this.fmg = _fmg;
+		if(AppUtils.assoItems == null) AppUtils.assoItems = new AssociationItem();
 		LayoutInflater oldlinf = (LayoutInflater) act.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
 		RelativeLayout rel = (RelativeLayout) oldlinf.inflate(R.layout.activity_crop_list, cont, false);
 		cropConfig = new Hashtable<String, Object>();
@@ -89,10 +92,18 @@ public class AssociationController {
 
 	public class SectionsPagerAdapter extends FragmentStatePagerAdapter implements FragmentInterface {
 
-		String[] cropTypes;
+		ArrayList<String> cropTypes = new ArrayList<String>();
+		String currentTitle;
 		public SectionsPagerAdapter(FragmentManager fm) {
 			super(fm);
-			cropTypes = cxt.getResources().getStringArray(R.array.croptype);
+			int count = AppUtils.assoItems.getCropItemsCount();
+			if(count > 0) {
+				cropTypes.add("Associated");
+			}
+			String[] str = cxt.getResources().getStringArray(R.array.croptype);
+			for (String string : str) {
+				cropTypes.add(string);
+			}
 		}
 
 		@Override
@@ -111,28 +122,30 @@ public class AssociationController {
 		@Override
 		public int getCount() {
 			// Show 3 total pages.
-			return cropTypes.length;
+			return cropTypes.size();
 		}
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-
-			return cropTypes[position];
+			currentTitle = cropTypes.get(position);
+			return currentTitle;//cropTypes.get(position);
 		}
 		@Override
 		public void onItemClicked(Object obj) {
 			// TODO Auto-generated method stub
 			if(obj!=null){
-			RecordHolder rec = (RecordHolder)obj;
-			Intent i = new Intent(cxt , CropSelectionActivity.class);
-			i.putExtra("cropName", rec.getTxtTitle().getText());
-			i.putExtra("cropType", rec.getCroptype());
-			cxt.startActivityForResult(i, 1001);
+				RecordHolder rec = (RecordHolder)obj;
+				Intent i = new Intent(cxt , CropSelectionActivity.class);
+				i.putExtra("currentTitle", cropTypes.get(rec.getCroptype()));
+				i.putExtra("cropName", rec.getTxtTitle().getText());
+				i.putExtra("cropType", cropTypes.get(rec.getCroptype()));
+				i.putExtra("imgid", rec.getImgId());
+				cxt.startActivityForResult(i, 2003);
 			}
 		}
 	}
 
-	
+
 
 	/**
 	 * A dummy fragment representing a section of the app, but that simply

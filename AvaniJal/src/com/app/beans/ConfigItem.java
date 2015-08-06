@@ -7,7 +7,7 @@ import java.util.Hashtable;
 
 public class ConfigItem implements Serializable{
 
-	private static final long serialVersionUID = 46543445; 
+	private static final long serialVersionUID = 46543905; 
 	private Hashtable<String, ConfigStatus> elementConfigstatus = new Hashtable<String, ConfigStatus>() ; 
 	private ArrayList<Elements> motorItems = new ArrayList<Elements>();
 	private ArrayList<Elements> pipelineItems = new ArrayList<Elements>();

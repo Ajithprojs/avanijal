@@ -209,25 +209,27 @@ public class FilterController extends ElementsController {
 		LayoutInflater linf = (LayoutInflater) this.activity.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
 		relativ = (RelativeLayout)linf.inflate(R.layout.filterconfiguration, container, false);
 
-		Spinner numberoffiltersSpinner = (Spinner)relativ.findViewById(R.id.motorfilterspinner);
+		//Spinner numberoffiltersSpinner = (Spinner)relativ.findViewById(R.id.motorfilterspinner);
 		//Spinner freqhoursspinner = (Spinner)relativ.findViewById(R.id.filterfrequencyhours);
+		TextView pipelinelabel = (TextView)relativ.findViewById(R.id.motorfilterspinner);
 		final EditText freqminutesspinner = (EditText)relativ.findViewById(R.id.filterfrequencyminutes);
 		Spinner durationsecondsspinner = (Spinner)relativ.findViewById(R.id.filterdurationseconds);
 		final Button deleteBtn = (Button)relativ.findViewById(R.id.delebtn);
 		final TextView filterid  = (TextView)relativ.findViewById(R.id.filternumtxt);
 
-		numberoffiltersSpinner.setTag(fitem.getItemid());
+		//numberoffiltersSpinner.setTag(fitem.getItemid());
 		//freqhoursspinner.setTag(fitem.getItemid());
 		freqminutesspinner.setTag(fitem.getItemid());
 		durationsecondsspinner.setTag(fitem.getItemid());
 		relativ.setTag(fitem.getItemid());
 		deleteBtn.setTag(fitem.getItemid());
 		filterid.setText("Filter "+fitem.getItemid());
+		pipelinelabel.setText(AppUtils.replaceLetter(fitem.getItemid(), "F", "P"));
 
 		//freqminutesspinner.setSelection(fitem.getFrequencyminutes());
 		freqminutesspinner.setText(""+fitem.getFrequencyminutes());
 		durationsecondsspinner.setSelection(fitem.getDurationSeconds());
-		numberoffiltersSpinner.setSelection(1+getAssociatedId(eitem.getItemid()));
+		//numberoffiltersSpinner.setSelection(1+getAssociatedId(eitem.getItemid()));
 
 		setButtonsSync();
 
@@ -243,31 +245,31 @@ public class FilterController extends ElementsController {
 			}
 		});
 
-		if (pipelineIds.size() > 0) {
+//		if (pipelineIds.size() > 0) {
+//
+//			ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, pipelineIds);
+//			dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//			numberoffiltersSpinner.setAdapter(dataAdapter);
+//
+//		}
 
-			ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(activity, android.R.layout.simple_spinner_item, pipelineIds);
-			dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			numberoffiltersSpinner.setAdapter(dataAdapter);
-
-		}
-
-		numberoffiltersSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int pos, long arg3) {
-				// TODO Auto-generated method stub
-				if(!disableDropDown)
-					setMotorId((String)arg0.getTag(), pos);
-
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-
-			}
-		});
+//		numberoffiltersSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+//
+//			@Override
+//			public void onItemSelected(AdapterView<?> arg0, View arg1,
+//					int pos, long arg3) {
+//				// TODO Auto-generated method stub
+//				if(!disableDropDown)
+//					setMotorId((String)arg0.getTag(), pos);
+//
+//			}
+//
+//			@Override
+//			public void onNothingSelected(AdapterView<?> arg0) {
+//				// TODO Auto-generated method stub
+//
+//			}
+//		});
 
 		//		freqhoursspinner.setOnItemSelectedListener(new OnItemSelectedListener() {
 		//

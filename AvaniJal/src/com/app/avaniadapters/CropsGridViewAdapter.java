@@ -48,8 +48,8 @@ public class CropsGridViewAdapter extends ArrayAdapter<CropItem> {
 		   holder = (RecordHolder) row.getTag();
 		  }
 		  CropItem item = data.get(position);
-		  holder.txtTitle.setText(item.cropTitle);
-		  holder.imageItem.setImageResource(item.imgId);
+		  holder.txtTitle.setText(item.getCropTitle());
+		  holder.imageItem.setImageResource(item.getImgId());
 		  return row;
 	}
 

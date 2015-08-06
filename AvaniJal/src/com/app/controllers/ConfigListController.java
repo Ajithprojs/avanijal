@@ -86,7 +86,7 @@ public class ConfigListController implements expandedlistinterfaces {
 
 		/// lets create group for configuration , association and provisioning
 		String[] elements = this.cxt.getResources().getStringArray(R.array.elements);
-		int[] eleimgs = {R.drawable.motors, R.drawable.motors , R.drawable.filters , R.drawable.valves , R.drawable.ventury, R.drawable.sensors};
+		int[] eleimgs = {R.drawable.motors, R.drawable.pipelines , R.drawable.filters , R.drawable.valves , R.drawable.ventury, R.drawable.sensors};
 		int j = 0;
 		Hashtable<String, ConfigStatus> cghash = AppUtils.confItems.getElementConfigStatus();
 		for (String string : elements) {

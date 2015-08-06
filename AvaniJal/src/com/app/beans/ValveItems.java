@@ -7,7 +7,7 @@ import android.R.integer;
 
 public class ValveItems extends Elements implements Serializable {
 	
-	private static final long serialVersionUID = 46543437;
+	private static final long serialVersionUID = 46540437;
 	private int valveId;
 	private Hashtable<String, integer> valveConfig;
 	

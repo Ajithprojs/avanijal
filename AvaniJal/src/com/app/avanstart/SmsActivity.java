@@ -46,9 +46,9 @@ import android.widget.TextView;
 		statusHash = new HashMap<String, String>();
 		// Simple query to show the most recent SMS messages in the inbox
 		/// uncomment the following to simulate sms
-//		if(smsMsgs != null) {
-//			keys = smsMsgs.keySet().toArray();
-//		}
+		if(smsMsgs != null) {
+			keys = smsMsgs.keySet().toArray();
+		}
 //		String key = (String)keys[0];
 //		sendSMSTempOK(key);
 		/// comment the following to simulate sms

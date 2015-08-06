@@ -18,6 +18,7 @@ package com.app.avanstart;
 
 
 import com.app.avanstart.util.AppUtils;
+import com.app.beans.AssociationItem;
 import com.app.beans.ConfigItem;
 import com.app.controllers.AssociationController;
 import com.app.controllers.ConfigListController;
@@ -39,6 +40,7 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -86,6 +88,7 @@ public class DashBoardActivity extends FragmentActivity {
 	private String[] mDrawerTitles;
 	public Context cxt;
 	FragmentManager fmg;
+	Fragment fragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -170,7 +173,7 @@ public class DashBoardActivity extends FragmentActivity {
 
 	private void selectItem(int position) {
 		// update the main content by replacing fragments
-		Fragment fragment = new PlanetFragment();
+		PlanetFragment fragment = new PlanetFragment();
 		Bundle args = new Bundle();
 		args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
 		fragment.setArguments(args);
@@ -208,7 +211,7 @@ public class DashBoardActivity extends FragmentActivity {
 		// Pass any configuration change to the drawer toggls
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
-	
+
 	public static void destructControllers() {
 		ConfigListController.getInstance().destructControllers();
 		//AssociationController.getInstance().destructController();
@@ -240,60 +243,99 @@ public class DashBoardActivity extends FragmentActivity {
 			ConfigListController.getInstance().destructControllers();
 			break;
 
+		case 2003:
+			/// ok this is from the config screen
+			if(data!=null){
+
+				Intent i = data;
+				Bundle b = i.getExtras();
+				if(b!=null){
+					if(b.containsKey("status")){
+						String status = b.getString("status");
+						String elementName = b.getString("element");
+						if(status.equals("configured")){
+							DataOperations.saveDataToFile(AppUtils.assoItems, AppUtils.ASSO_FILE_NAME, cxt);
+							refreshFragment();
+						}
+					}
+				}
+			}
+			//ConfigListController.getInstance().destructControllers();
+			break;
+
 		default:
 			break;
 		}
 	}
 
+	private void refreshFragment() {
+
+		/*Fragment fragment = new PlanetFragment();
+		Bundle args = new Bundle();
+		args.putInt(PlanetFragment.ARG_PLANET_NUMBER, 2);
+		fragment.setArguments(args);
+
+		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
+		ft.detach(fragment);
+		//fragment = null;
+		//fragment = new PlanetFragment();
+		ft.attach(fragment);
+		ft.replace(R.id.content_frame, fragment).commit();*/
+		//ft.commit();
+		selectItem(2);
+	}
+
 	/**
 	 * Fragment that appears in the "content_frame", shows a planet
 	 */
-	public static class PlanetFragment extends Fragment {
-		public static final String ARG_PLANET_NUMBER = "planet_number";
+}
+ class PlanetFragment extends Fragment {
+	public static final String ARG_PLANET_NUMBER = "planet_number";
 
-		public PlanetFragment() {
-			// Empty constructor required for fragment subclasses
-		}
+	public PlanetFragment() {
+		// Empty constructor required for fragment subclasses
+	}
 
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			//View rootView = inflater.inflate(R.layout.fragment_planet, container, false);
-			int i = getArguments().getInt(ARG_PLANET_NUMBER);
-			View rootView = getCurrentView(i, container);//ConfigListController.getInstance().getConfigLayout(container, getActivity());
-			return rootView;
-		}
-		
-		
-		private View getCurrentView( int pos, ViewGroup container ){
-
-			AppUtils.confItems = (ConfigItem)DataOperations.getDataFromFile(AppUtils.CONFIG_FILE_NAME, getActivity());
-			if(AppUtils.confItems == null) {
-				AppUtils.confItems = new ConfigItem();
-			}
-			destructControllers();
-			switch(pos){
-
-			default:
-				return ConfigListController.getInstance().getConfigLayout(container, getActivity());
-			case 1:
-				return ProvisionController.getInstance().getProvisioningLayout(container, getActivity());
-			case 2:
-				//return new AssociationController().getAssociationLayout(container, getActivity(),getActivity().getSupportFragmentManager());
-				return AssociationController.getInstance().getAssociationLayout(container, getActivity(),getActivity().getSupportFragmentManager());
-			case 3:
-				return ProvisionController.getInstance().getProvisioningLayout(container, getActivity());
-			case 4:
-				return IrrigationController.getInstance().getIrrigationLayout(container, getActivity());
-			case 5:
-				return HistoryController.getInstance().getHistoryLayout(container, getActivity());
-			case 6:
-				return SettingsController.getInstance().getSettingsLayout(container, getActivity());
-			}
-		}
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		//View rootView = inflater.inflate(R.layout.fragment_planet, container, false);
+		int i = getArguments().getInt(ARG_PLANET_NUMBER);
+		View rootView = getCurrentView(i, container);//ConfigListController.getInstance().getConfigLayout(container, getActivity());
+		return rootView;
 	}
 
 
+	private View getCurrentView( int pos, ViewGroup container ){
+
+		AppUtils.confItems = (ConfigItem)DataOperations.getDataFromFile(AppUtils.CONFIG_FILE_NAME, getActivity());
+		AppUtils.assoItems = (AssociationItem)DataOperations.getDataFromFile(AppUtils.ASSO_FILE_NAME, getActivity());
+		if(AppUtils.confItems == null) {
+			AppUtils.confItems = new ConfigItem();
+		}
+		if(AppUtils.assoItems == null) {
+			AppUtils.assoItems = new AssociationItem();
+		}
+		//destructControllers();
+		switch(pos){
+
+		default:
+			return ConfigListController.getInstance().getConfigLayout(container, getActivity());
+		case 1:
+			return ProvisionController.getInstance().getProvisioningLayout(container, getActivity());
+		case 2:
+			//return new AssociationController().getAssociationLayout(container, getActivity(),getActivity().getSupportFragmentManager());
+			return AssociationController.getInstance().getAssociationLayout(container, getActivity(),getActivity().getSupportFragmentManager());
+		case 3:
+			return ProvisionController.getInstance().getProvisioningLayout(container, getActivity());
+		case 4:
+			return IrrigationController.getInstance().getIrrigationLayout(container, getActivity());
+		case 5:
+			return HistoryController.getInstance().getHistoryLayout(container, getActivity());
+		case 6:
+			return SettingsController.getInstance().getSettingsLayout(container, getActivity());
+		}
+	}
 }
 
 

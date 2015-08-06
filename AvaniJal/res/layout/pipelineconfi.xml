@@ -54,7 +54,7 @@
         
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/motors"
+        android:src="@drawable/pipelines"
         android:layout_below="@id/sep2"
         android:id="@+id/pipelineimage"
         android:layout_marginTop="5dp"

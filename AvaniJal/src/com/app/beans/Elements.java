@@ -16,6 +16,18 @@ public  class Elements implements Serializable {
 	////is configured by sending sms success
 
 	private boolean isConfigured;
+	
+	/// is associated by sending sms success
+	
+	private boolean isAssociated;
+	
+	/// is used for irrigation
+	
+	private boolean forIrrigation;
+	
+	/// is used for fertigation
+	
+	private boolean forFertigation;
 
 	/// other elements associated ids
 	private ArrayList<String> ids = new ArrayList<String>();
@@ -85,5 +97,29 @@ public  class Elements implements Serializable {
 	public String getType() {return this.type ;}
 	public Boolean getIsEnabled() {return this.isEnabled ;}
 	public Boolean getIsConfigured() {return this.isConfigured ;}
+
+	public boolean isAssociated() {
+		return isAssociated;
+	}
+
+	public void setAssociated(boolean isAssociated) {
+		this.isAssociated = isAssociated;
+	}
+
+	public boolean isForIrrigation() {
+		return forIrrigation;
+	}
+
+	public void setForIrrigation(boolean forIrrigation) {
+		this.forIrrigation = forIrrigation;
+	}
+
+	public boolean isForFertigation() {
+		return forFertigation;
+	}
+
+	public void setForFertigation(boolean forFertigation) {
+		this.forFertigation = forFertigation;
+	}
 
 }

@@ -8,6 +8,8 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
 
+import com.app.avanstart.R;
+import com.app.beans.AssociationItem;
 import com.app.beans.ConfigItem;
 import com.app.beans.CropItem;
 import com.app.beans.Elements;
@@ -22,7 +24,7 @@ public class AppUtils {
 
 	public static ConfigItem confItems;
 
-	public static CropItem cropItems;
+	public static AssociationItem assoItems ;
 
 	public static String MOTOR_TYPE = "M";
 
@@ -56,6 +58,8 @@ public class AppUtils {
 	//public static String phoneNum = "9986003200";
 
 	public static String CONFIG_FILE_NAME = "config";
+	
+	public static String ASSO_FILE_NAME = "association";
 
 	public static String USER_FILE_NAME = "user";
 
@@ -66,9 +70,16 @@ public class AppUtils {
 	public static String[] VenturyValves = {VALVE_TYPE + "1",VALVE_TYPE + "2", VALVE_TYPE +"3",VALVE_TYPE +"4"};
 
 	public static String[] FertigationMotors = {MOTOR_TYPE + "2", MOTOR_TYPE + "3"};
-	
+
+	//// image titles
+
+	public final static int PUSHPAM_IMAGES = 768;
+	public final static int PHALAM_IMAGES = 769;
+	public final static int PATRAM_IMAGES = 770;
+	public final static int DHANYAM_IMAGES = 771;
+
 	public static String getCurrentPhoneNum( Context cxt ) {
-		
+
 		String phone = AppUtils.phoneNum;
 		User u = (User)DataOperations.getDataFromFile(AppUtils.USER_FILE_NAME, cxt);
 		if(u != null) {
@@ -182,7 +193,7 @@ public class AppUtils {
 				newItem = replaceLetter(ele.getItemid(), AppUtils.MOTOR_TYPE, AppUtils.FERTIGATION_TYPE);
 			else if(ele.getItemid().contains(AppUtils.VALVE_TYPE))
 				newItem = replaceLetter(ele.getItemid(), AppUtils.VALVE_TYPE, AppUtils.VENTURY_TYPE);
-			
+
 			sb.append(newItem+ seperator);
 		}
 
@@ -206,9 +217,9 @@ public class AppUtils {
 			FilterItem ele = (FilterItem)iter.next();
 			sb.append(ele.getItemid()+ seperator);
 			Iterator<String> asso = ele.getAllAssociatedElementsOfType(PIPELINE_TYPE).iterator();
-			while(asso.hasNext()){
-				sb.append(asso.next()+ seperator);
-			}
+//			while(asso.hasNext()){
+//				sb.append(asso.next()+ seperator);
+//			}
 
 			//sb.append(" "+ele.getFrequencyHours()+" ");
 			sb.append(ele.getFrequencyminutes()+ seperator);
@@ -241,9 +252,37 @@ public class AppUtils {
 		smss.put("valve", sb.toString());
 		return smss;
 	}
+	
+	public static HashMap<String, String> buildCropAssociationSms( String title , CropItem crop ) {
+
+		HashMap<String, String> smss = new HashMap<String, String>();
+		StringBuffer sb = new StringBuffer();
+		/// lets  build for the filters
+		
+		ArrayList<String> pipelines = crop.getAllAssociatedElementsOfType(AppUtils.PIPELINE_TYPE);
+		
+		ArrayList<String> valves = crop.getAllAssociatedElementsOfType(AppUtils.VALVE_TYPE);
+
+		Iterator<String> iter = pipelines.iterator();
+		sb.append("*AS"+ seperator);
+		while(iter.hasNext()) {
+
+			String ele = iter.next();
+			sb.append(ele+ seperator);
+		}
+		Iterator<String> iterv = valves.iterator();
+		while(iterv.hasNext()) {
+
+			String ele = iterv.next();
+			sb.append(ele+ seperator);
+		}
+		sb.append("*en");
+		smss.put(title, sb.toString());
+		return smss;
+	}
 
 	public static String replaceLetter( String str , String item, String newItem ) {
-		
+
 		StringBuffer sb = new StringBuffer();
 		sb.append(newItem);
 		int strtIndx = str.indexOf(item);
@@ -263,6 +302,27 @@ public class AppUtils {
 
 		return val;
 
+	}
+
+	public static int[] getImagesForContext( Context cxt , int arrTitles ){
+
+		int[] images = null;
+		
+		switch(arrTitles)  {
+		case PUSHPAM_IMAGES :
+			images = new int[]{R.drawable.carrot,R.drawable.potato,R.drawable.rice};
+			break;
+		case PATRAM_IMAGES :
+			images = new int[]{R.drawable.carrot,R.drawable.potato,R.drawable.rice};
+			break;
+		case PHALAM_IMAGES :
+			images = new int[]{R.drawable.carrot,R.drawable.potato,R.drawable.rice};
+			break;
+		case DHANYAM_IMAGES :
+			images = new int[]{R.drawable.carrot,R.drawable.potato,R.drawable.rice};
+			break;
+		}
+		return images;
 	}
 
 
