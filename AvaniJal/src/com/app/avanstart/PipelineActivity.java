@@ -60,7 +60,7 @@ public class PipelineActivity extends Activity {
 
 	private void sendConfig() {
 
-		HashMap<String, String> sms = AppUtils.buildPipeLineConfigSms();
+		HashMap<String, String> sms = AppUtils.buildPipeLineConfigSms(pipeline.elements);
 		Intent i = new Intent(this , SmsActivity.class);
 		i.putExtra("phone", AppUtils.phoneNum);
 		i.putExtra("MESSAGE", sms);
@@ -112,11 +112,12 @@ public class PipelineActivity extends Activity {
 
 	private void setConfigured() {
 
-		ArrayList<Elements> pipelines = AppUtils.confItems.getPipelineItems();
+		ArrayList<Elements> pipelines = pipeline.elements;//AppUtils.confItems.getAllPipelineItems();
 		Iterator<Elements> iter = pipelines.iterator();
 		while(iter.hasNext()){
 			Elements ele = iter.next();
 			ele.setIsConfigured(true);
+			AppUtils.confItems.addPipelineItems(ele);
 		}
 		//showDialog("Pipeline", "Configured Successfully");
 		Intent intent=new Intent();  
@@ -132,7 +133,7 @@ public class PipelineActivity extends Activity {
 	private Boolean applyPiplelineValidations() {
 
 		Boolean valid = true;
-		ArrayList<Elements> pipes = AppUtils.confItems.getPipelineItems();
+		ArrayList<Elements> pipes = pipeline.elements;//AppUtils.confItems.getAllPipelineItems();
 		for (Elements m : pipes) {
 			Pipelineitem pt = (Pipelineitem)m;
 			ArrayList<String> ids = pt.getAllAssociatedElementsOfType(AppUtils.MOTOR_TYPE);

@@ -66,14 +66,6 @@ public class MotorController extends ElementsController {
 
 	}
 
-//	public static MotorController getInstance() {
-//
-//		if(_instance == null)
-//			_instance = new MotorController();
-//		return _instance;
-//
-//	}
-
 	private void init(Context cxt) {
 
 		/*
@@ -81,12 +73,12 @@ public class MotorController extends ElementsController {
 		 * 
 		 * */
 
-		if(AppUtils.confItems.getMotorItems() == null)
-			super.elements = new ArrayList<Elements>();
-		else
-		{
-			super.elements = AppUtils.confItems.getMotorItems();
-		}
+//		if(AppUtils.confItems.getAllMotorItems() == null)
+//			super.elements = new ArrayList<Elements>();
+//		else
+//		{
+//			super.elements = (ArrayList<Elements>) AppUtils.confItems.getAllMotorItems().clone();
+//		}
 		type = AppUtils.MOTOR_TYPE;
 		//super.elements = motors;
 		super.max = 6;
@@ -140,7 +132,7 @@ public class MotorController extends ElementsController {
 	public void reloadUI()  {
 		
 		clearUI();
-		ArrayList<Elements> tempMotors = (ArrayList<Elements>)this.elements.clone();
+		ArrayList<Elements> tempMotors = AppUtils.confItems.getAllMotorItems();// (ArrayList<Elements>)this.elements.clone();
 		for (Elements mt : tempMotors) {
 
 			disableDropDown = true;
@@ -183,7 +175,7 @@ public class MotorController extends ElementsController {
 		setRemoveMotorToArray(id, eitem.getMotorTypeint());
 		setButtonsSync();
 		super.addElement(id, eitem);
-		AppUtils.confItems.setMotorItems(this.elements);
+		//AppUtils.confItems.setMotorItems(this.elements);
 	}
 
 	public void deleteElement(String id, int mType ) {

@@ -80,9 +80,9 @@ public class VenturyController extends ElementsController implements CheckboxInt
 		
 		motorIds.clear();
 		valveIds.clear();
-		ArrayList<Elements> motors = AppUtils.confItems.getMotorItems();
+		ArrayList<Elements> motors = AppUtils.confItems.getAllMotorItems();
 		ArrayList<Elements> valves = AppUtils.confItems.getValveItems();
-		ArrayList<Elements> pipeline = AppUtils.confItems.getPipelineItems();
+		ArrayList<Elements> pipeline = AppUtils.confItems.getAllPipelineItems();
 
 		for (Elements elements : pipeline) {
 			if(elements.getIsConfigured())

@@ -73,14 +73,6 @@ public class FilterController extends ElementsController {
 
 	}
 
-//	public static FilterController getInstance() {
-//
-//		if(_instance == null)
-//			_instance = new FilterController();
-//
-//		return _instance;
-//
-//	}
 
 	private void init(Context cxt) {
 
@@ -89,16 +81,16 @@ public class FilterController extends ElementsController {
 		 * 
 		 * */
 
-		if(AppUtils.confItems.getFilterItems() == null)
-			this.elements = new ArrayList<Elements>();
-		else
-		{
-			this.elements = AppUtils.confItems.getFilterItems();
-
-		}
+//		if(AppUtils.confItems.getFilterItems() == null)
+//			this.elements = new ArrayList<Elements>();
+//		else
+//		{
+//			this.elements = AppUtils.confItems.getFilterItems();
+//
+//		}
 		pipelineIds.clear();
 		//pipelineIds.add(" ");
-		ArrayList<Elements> pipeline = AppUtils.confItems.getPipelineItems();
+		ArrayList<Elements> pipeline = AppUtils.confItems.getAllPipelineItems();
 
 		for (Elements elements : pipeline) {
 			if(elements.getIsConfigured())
@@ -406,7 +398,7 @@ public class FilterController extends ElementsController {
 	public void reloadUI() {
 		// TODO Auto-generated method stub
 		clearUI();
-		ArrayList<Elements> tempFilters = (ArrayList<Elements>)elements.clone();
+		ArrayList<Elements> tempFilters = AppUtils.confItems.getFilterItems();//(ArrayList<Elements>)elements.clone();
 		for (Elements mt : tempFilters) {
 
 			disableDropDown = true;

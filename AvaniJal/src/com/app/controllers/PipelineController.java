@@ -62,14 +62,6 @@ public class PipelineController extends ElementsController implements MultiSelec
 
 	}
 
-//	public static PipelineController getInstance() {
-//
-//		if(_instance == null)
-//			_instance = new PipelineController();
-//		return _instance;
-//
-//	}
-
 	private void init(Context cxt) {
 
 		/*
@@ -77,12 +69,12 @@ public class PipelineController extends ElementsController implements MultiSelec
 		 * 
 		 * */
 
-		if(AppUtils.confItems.getPipelineItems() == null)
-			super.elements = new ArrayList<Elements>();
-		else
-		{
-			super.elements = AppUtils.confItems.getPipelineItems();
-		}
+//		if(AppUtils.confItems.getAllPipelineItems() == null)
+//			super.elements = new ArrayList<Elements>();
+//		else
+//		{
+//			super.elements = AppUtils.confItems.getAllPipelineItems();
+//		}
 		/// adding a empty object so that the dropdowns doesnt show the first object
 		MAX_PIPELINE = 0;
 		pipeVal = 0;
@@ -92,7 +84,7 @@ public class PipelineController extends ElementsController implements MultiSelec
 			typeSpinner.clearAdapter();
 		motorIds.clear();
 		motorIds.add(" ");
-		ArrayList<Elements> motors = AppUtils.confItems.getMotorItems();
+		ArrayList<Elements> motors = AppUtils.confItems.getAllMotorItems();
 
 		for (Elements elements : motors) {
 			if(elements.getIsConfigured())
@@ -139,10 +131,11 @@ public class PipelineController extends ElementsController implements MultiSelec
 		}else {
 
 			Pipelineitem pitem = new Pipelineitem();
+			pitem.setIsConfigured(false);
 			disableDropDown = false;
 			pipeVal++;
 			super.addElement(""+pipeVal, pitem);
-			AppUtils.confItems.setPipelineItems(this.elements);
+			//AppUtils.confItems.setPipelineItems(this.elements);
 		}
 
 	}
@@ -298,7 +291,7 @@ public class PipelineController extends ElementsController implements MultiSelec
 	public void reloadUI() {
 		// TODO Auto-generated method stub
 		clearUI();
-		ArrayList<Elements> tempPipes = (ArrayList<Elements>)elements.clone();
+		ArrayList<Elements> tempPipes = AppUtils.confItems.getAllPipelineItems();//(ArrayList<Elements>)elements.clone();
 		for (Elements mt : tempPipes) {
 
 			disableDropDown = true;

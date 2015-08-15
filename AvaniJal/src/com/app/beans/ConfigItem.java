@@ -20,16 +20,28 @@ public class ConfigItem implements Serializable{
 
 		this.elementConfigstatus = configst;
 	}
-
-	public void setMotorItems(ArrayList<Elements> obj) {
-
-		this.motorItems = obj;
+	
+	public void addMotorItems(Elements obj) {
+		if(motorItems.contains(obj)) {
+			motorItems.remove(obj);
+		}
+		motorItems.add(obj);
+	}
+	public ArrayList<Elements> getAllMotorItems() {
+		return motorItems;
 	}
 
-	public void setPipelineItems(ArrayList<Elements> obj) {
-
-		this.pipelineItems = obj;
+	public void addPipelineItems(Elements obj) {
+		if(pipelineItems.contains(obj)) {
+			pipelineItems.remove(obj);
+		}
+		pipelineItems.add(obj);
 	}
+	
+//	public void setPipelineItems(ArrayList<Elements> obj) {
+//
+//		this.pipelineItems = obj;
+//	}
 
 	public void setFilterItems(ArrayList<Elements> obj) {
 
@@ -56,12 +68,7 @@ public class ConfigItem implements Serializable{
 		return elementConfigstatus;
 	}
 
-	public ArrayList<Elements>  getMotorItems() {
-
-		return motorItems;
-	}
-
-	public ArrayList<Elements>  getPipelineItems() {
+	public ArrayList<Elements>  getAllPipelineItems() {
 
 		return pipelineItems;
 	}

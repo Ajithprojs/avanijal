@@ -99,7 +99,7 @@ public class CropSelectionActivity extends FragmentActivity implements MultiSele
 			this.crop.setCropTitle(cropName);
 		}
 
-		pipes = AppUtils.confItems.getPipelineItems();
+		pipes = AppUtils.confItems.getAllPipelineItems();
 
 		List<String> pipeIds = new ArrayList<String>();
 		for (Elements pipe : pipes) {
@@ -250,7 +250,7 @@ public class CropSelectionActivity extends FragmentActivity implements MultiSele
 	private void setConfigured() {
 
 		ArrayList<Elements> valvelines = AppUtils.confItems.getValveItems();
-		ArrayList<Elements> pipelines = AppUtils.confItems.getPipelineItems();
+		ArrayList<Elements> pipelines = AppUtils.confItems.getAllPipelineItems();
 		crop.setIsConfigured(true);
 		ArrayList<String> confvalves = crop.getAllAssociatedElementsOfType(AppUtils.VALVE_TYPE);
 		ArrayList<String> confpipes = crop.getAllAssociatedElementsOfType(AppUtils.PIPELINE_TYPE);
@@ -275,7 +275,7 @@ public class CropSelectionActivity extends FragmentActivity implements MultiSele
 			}
 			
 		}
-		AppUtils.confItems.setPipelineItems(pipelines);
+		//AppUtils.confItems.setPipelineItems(pipelines);
 		Intent intent=new Intent();  
 		intent.putExtra("status","configured");
 		AppUtils.assoItems.setCropItem(cropName, crop);

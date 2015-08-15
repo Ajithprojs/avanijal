@@ -113,13 +113,13 @@ public class AppUtils {
 	//*AC M1 0 250 420 0 0 800 0 1 1 1234567890 (motor1, 5HP, 250-420V, 3 phase, bore, 800lt/min, starter control, 
 	//w.sensors installed, , remote, ph#)
 
-	public static HashMap<String, String> buildMotorConfigSMS() {
+	public static HashMap<String, String> buildMotorConfigSMS(ArrayList<Elements> items) {
 
 		/// lets first build for the motors
 		HashMap<String, String> smss = new HashMap<String, String>();
 
-		ConfigItem cItem = AppUtils.confItems;
-		ArrayList<Elements> mtItems =  cItem.getMotorItems();
+		//ConfigItem cItem = AppUtils.confItems;
+		ArrayList<Elements> mtItems =  items;//cItem.getMotorItems();
 		if(mtItems != null) {
 
 			int j = 1;
@@ -169,13 +169,13 @@ public class AppUtils {
 
 	}
 
-	public static HashMap<String, String> buildPipeLineConfigSms() {
+	public static HashMap<String, String> buildPipeLineConfigSms(ArrayList<Elements> item) {
 
 		HashMap<String, String> smss = new HashMap<String, String>();
 		StringBuffer sb = new StringBuffer();
 		/// lets  build for the filters
 		ConfigItem cItem = AppUtils.confItems;
-		ArrayList<Elements> pipelines = cItem.getPipelineItems();
+		ArrayList<Elements> pipelines = item;//cItem.getPipelineItems();
 		Iterator<Elements> iter = pipelines.iterator();
 		while(iter.hasNext()) {
 			Pipelineitem ele = (Pipelineitem)iter.next();

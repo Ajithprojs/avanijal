@@ -312,7 +312,7 @@ public class DashBoardActivity extends FragmentActivity {
 							ConfigListController.getInstance().addConfigToElement(elementName);
 							DataOperations.saveDataToFile(AppUtils.confItems, AppUtils.CONFIG_FILE_NAME, cxt);
 							//refreshFragment(0);
-							
+
 						}
 					}
 				}
@@ -333,7 +333,7 @@ public class DashBoardActivity extends FragmentActivity {
 						if(status.equals("configured")){
 							DataOperations.saveDataToFile(AppUtils.assoItems, AppUtils.ASSO_FILE_NAME, cxt);
 							refreshFragment(2);
-							
+
 						}
 					}
 				}

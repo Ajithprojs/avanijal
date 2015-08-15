@@ -99,7 +99,7 @@ public abstract class ElementsController {
 		localVal++;
 		//add only if not existing
 		if(!hasElement(eitem)){
-			deleteElement(eitem.getItemid());
+			//deleteElement(eitem.getItemid());
 			elements.add(eitem);
 		}
 		//uncomment for element UI Testing

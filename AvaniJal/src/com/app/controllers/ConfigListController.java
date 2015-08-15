@@ -159,7 +159,20 @@ public class ConfigListController implements expandedlistinterfaces {
 	public boolean isElementConfigured( String eleName ) {
 
 		Hashtable<String, ConfigStatus> cghash = AppUtils.confItems.getElementConfigStatus();
-		return cghash.get(eleName).getISConfigured();
+		//return cghash.get(eleName).getISConfigured();
+		Boolean val;
+		if(cghash == null) {
+			val =  false;
+		}
+		if(cghash.containsKey(eleName))
+		{
+			ConfigStatus cs = cghash.get(eleName);
+			val =  cs.getISConfigured();
+		}
+		else{ 
+			val = false;
+		}
+		return val;
 	}
 
 

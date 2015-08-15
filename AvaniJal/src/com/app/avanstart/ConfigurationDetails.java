@@ -37,7 +37,7 @@ public class ConfigurationDetails extends Activity implements expandedlistinterf
 		ConfigItem item = AppUtils.confItems;
 
 		//// this is for motor items
-		if(item.getMotorItems() != null) {
+		if(item.getAllMotorItems() != null) {
 
 
 			Enumeration<String> allKeys = null;//item.motorItems.keys();

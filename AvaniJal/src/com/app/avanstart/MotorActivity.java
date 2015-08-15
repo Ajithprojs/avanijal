@@ -49,7 +49,7 @@ public class MotorActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				if(true)//applyMotorValidations())
+				if(applyMotorValidations())
 					sendConfig();
 			}
 		});
@@ -64,8 +64,8 @@ public class MotorActivity extends Activity {
 	}
 
 	private void sendConfig() {
-
-		HashMap<String, String> smss = AppUtils.buildMotorConfigSMS();
+		
+		HashMap<String, String> smss = AppUtils.buildMotorConfigSMS(motor.elements);
 		Intent i = new Intent(this , SmsActivity.class);
 		i.putExtra("phone", AppUtils.phoneNum);
 		i.putExtra("MESSAGE", smss);
@@ -116,11 +116,16 @@ public class MotorActivity extends Activity {
 
 	private void setConfigured() {
 
-		ArrayList<Elements> motors = AppUtils.confItems.getMotorItems();
-		Iterator<Elements> iter = motors.iterator();
+		ArrayList<Elements> motorItems =  motor.elements;
+//		for (Elements elements : motorItems) {
+//			AppUtils.confItems.addMotorItems(elements);
+//		}
+//		ArrayList<Elements> motors = AppUtils.confItems.getAllMotorItems();
+		Iterator<Elements> iter = motorItems.iterator();
 		while(iter.hasNext()){
 			Elements ele = iter.next();
 			ele.setIsConfigured(true);
+			AppUtils.confItems.addMotorItems(ele);
 		}
 		//showDialog("Motors", "Configured Successfully");
 		Intent intent=new Intent();  
@@ -136,7 +141,7 @@ public class MotorActivity extends Activity {
 	private Boolean applyMotorValidations() {
 
 		Boolean valid = true;
-		ArrayList<Elements> motors = AppUtils.confItems.getMotorItems();
+		ArrayList<Elements> motors = motor.elements;//AppUtils.confItems.getMotorItems();
 
 		for (Elements m : motors) {
 
