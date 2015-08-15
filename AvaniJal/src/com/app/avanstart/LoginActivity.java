@@ -3,6 +3,9 @@ package com.app.avanstart;
 import java.util.Locale;
 
 import com.app.avanstart.util.AppUtils;
+import com.app.beans.AssociationItem;
+import com.app.beans.ConfigItem;
+import com.app.beans.IrrigationItem;
 import com.app.beans.User;
 import com.app.modals.DataOperations;
 
@@ -331,6 +334,18 @@ public class LoginActivity extends Activity {
 		//Intent i = new Intent(this , ElementsConfigurationActivity.class);
 
 		//Intent i = new Intent(this , ConfigurationsList.class);
+		AppUtils.confItems = (ConfigItem)DataOperations.getDataFromFile(AppUtils.CONFIG_FILE_NAME, this);
+		if(AppUtils.confItems == null) {
+			AppUtils.confItems = new ConfigItem();
+		}
+		AppUtils.assoItems = (AssociationItem)DataOperations.getDataFromFile(AppUtils.ASSO_FILE_NAME, this);
+		if(AppUtils.assoItems == null) {
+			AppUtils.assoItems = new AssociationItem();
+		}
+		AppUtils.irriItems = (IrrigationItem)DataOperations.getDataFromFile(AppUtils.IRRI_FILE_NAME, this);
+		if(AppUtils.irriItems == null) {
+			AppUtils.irriItems = new IrrigationItem();
+		}
 		Intent i = new Intent(this , DashBoardActivity.class);
 		startActivity(i);
 

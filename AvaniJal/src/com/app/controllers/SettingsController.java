@@ -42,7 +42,7 @@ public class SettingsController implements expandedlistinterfaces{
 		RelativeLayout rel = (RelativeLayout) oldlinf.inflate(R.layout.activity_settings_list, cont, false);
 		ListView list = (ListView)rel.findViewById(R.id.settinglist);
 		ConfigListViewAdapter adapter = new ConfigListViewAdapter(act,
-				createAvaniGroups() , this);
+				createAvaniGroups(), AppUtils.confItems.getElementConfigStatus() , this);
 		list.setAdapter(adapter);
 		return rel;
 	}

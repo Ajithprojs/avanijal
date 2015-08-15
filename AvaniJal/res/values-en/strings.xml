@@ -90,7 +90,7 @@
           <item>Pipeline</item>
           <item>Filter</item>
           <item>Valve</item>
-          <item>Ventury</item>
+          <item>Fertigation</item>
           <item>Sensor</item>
       </string-array>
       
@@ -428,6 +428,9 @@
         <item>Time Based</item>
         <item>Volume Based</item>
     </string-array>
+    <string name="timeirri">Time Based</string>
+    <string name="volumeirri">Volume Based</string>
+      
     <string-array name="irragation_valve_test">
         <item>V1</item>
         <item>V4</item>

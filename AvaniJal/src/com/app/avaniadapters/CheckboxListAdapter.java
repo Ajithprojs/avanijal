@@ -19,7 +19,7 @@ public class CheckboxListAdapter extends ArrayAdapter<CheckBoxItem> {
 	private ArrayList<CheckBoxItem> valueList;
 	Context cxt;
 	CheckboxInterface delegate;
-
+	
 	public CheckboxListAdapter(Context context, int textViewResourceId, 
 			ArrayList<CheckBoxItem> countryList, CheckboxInterface _delegate) {
 		super(context, textViewResourceId, countryList);

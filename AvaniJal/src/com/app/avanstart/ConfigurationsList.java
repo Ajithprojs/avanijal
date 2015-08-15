@@ -12,6 +12,7 @@ import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 import com.app.avaniadapters.ConfigListViewAdapter;
+import com.app.avanstart.util.AppUtils;
 import com.app.beans.Children;
 import com.app.beans.ConfigGroup;
 import com.app.beans.ConfigStatus;
@@ -42,7 +43,7 @@ public class ConfigurationsList extends Activity implements expandedlistinterfac
 		t.setAdapter( adapter );*/
 		ListView list = (ListView)findViewById(R.id.configlist);
 		ConfigListViewAdapter adapter = new ConfigListViewAdapter(this,
-				createAvaniGroups() , this);
+				createAvaniGroups(), AppUtils.confItems.getElementConfigStatus() , this);
 		list.setAdapter(adapter);
 	}
 

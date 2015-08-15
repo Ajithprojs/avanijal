@@ -49,13 +49,13 @@ import android.widget.TextView;
 		if(smsMsgs != null) {
 			keys = smsMsgs.keySet().toArray();
 		}
-//		String key = (String)keys[0];
-//		sendSMSTempOK(key);
+		String key = (String)keys[0];
+		sendSMSTempOK(key);
 		/// comment the following to simulate sms
-		if(smsMsgs != null) {
-			keys = smsMsgs.keySet().toArray();
-			initiateSMS(true);
-		}
+//		if(smsMsgs != null) {
+//			keys = smsMsgs.keySet().toArray();
+//			initiateSMS(true);
+//		}
 
 	}
 
@@ -178,8 +178,8 @@ import android.widget.TextView;
 	@Override
 	public void onTimerComplete( String taskName ) {
 		// TODO Auto-generated method stub
-		//onSmsReceived();
-		onSmsTimeOut(taskName);
+		onSmsReceived();
+		//onSmsTimeOut(taskName);
 	}
 
 	@Override

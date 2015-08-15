@@ -70,7 +70,7 @@ public class ConfigListController implements expandedlistinterfaces {
 		RelativeLayout rel = (RelativeLayout) oldlinf.inflate(R.layout.activity_configurations_list, cont, false);
 		ListView list = (ListView)rel.findViewById(R.id.configlist);
 		adapter = new ConfigListViewAdapter(act,
-				createAvaniGroups() , this);
+				createAvaniGroups() , AppUtils.confItems.getElementConfigStatus(), this);
 		list.setAdapter(adapter);
 		return rel;
 	}
@@ -86,7 +86,7 @@ public class ConfigListController implements expandedlistinterfaces {
 
 		/// lets create group for configuration , association and provisioning
 		String[] elements = this.cxt.getResources().getStringArray(R.array.elements);
-		int[] eleimgs = {R.drawable.motors, R.drawable.pipelines , R.drawable.filters , R.drawable.valves , R.drawable.ventury, R.drawable.sensors};
+		int[] eleimgs = {R.drawable.motors, R.drawable.pipelines , R.drawable.filters , R.drawable.valves , R.drawable.fertigation, R.drawable.sensors};
 		int j = 0;
 		Hashtable<String, ConfigStatus> cghash = AppUtils.confItems.getElementConfigStatus();
 		for (String string : elements) {
@@ -154,6 +154,7 @@ public class ConfigListController implements expandedlistinterfaces {
 		AppUtils.confItems.setElementConfigStatus(cghash);
 		adapter.notifyDataSetChanged();
 	}
+	
 
 	public boolean isElementConfigured( String eleName ) {
 

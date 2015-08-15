@@ -1,0 +1,188 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".IrrigationActivity"
+    android:background="@drawable/mainbg"
+    android:orientation="vertical"
+    android:weightSum="50"
+     >
+     
+    <!-- Displaying the crop information for the selected irrigation -->
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+    	android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:weightSum="100"
+        android:layout_weight="10"
+        >
+        
+        <LinearLayout
+            android:layout_width="0dp"
+    		android:layout_height="match_parent"
+    		android:orientation="vertical"
+    		android:background="@drawable/carrot"
+    		android:id="@+id/imgbglayout"
+    		android:layout_weight="30"
+            >
+            <TextView 
+                android:layout_width="fill_parent"
+    			android:layout_height="wrap_content"
+    			android:textColor="@android:color/black"
+    			android:text="crop name"
+    			android:layout_weight="50"
+    			android:textSize="16sp"
+    			android:id="@+id/cropholder"
+    			android:gravity="center|bottom"
+    			android:layout_marginBottom="2dp"
+                />
+        </LinearLayout>
+        
+        <LinearLayout
+            
+            android:layout_width="0dp"
+    		android:layout_height="match_parent"
+    		android:orientation="vertical"
+    		android:layout_weight="50"
+            >
+  
+            <TextView
+                android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:id="@+id/acretext"
+    			android:textColor="@android:color/black"
+    			android:textSize="18sp"
+            	android:text="Acre Value"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:id="@+id/selectedpipeline"
+    			android:textColor="@android:color/black"
+    			android:textSize="18sp"
+    			android:gravity="bottom"
+            	android:text="pipeline selected"
+                />
+            
+        </LinearLayout>
+    </LinearLayout>
+	
+    <!--  End of the crop information  -->
+    
+    <!-- Adding the spinner to select the type of irrigation -->
+    
+    <LinearLayout
+            android:layout_width="fill_parent"
+    		android:layout_height="0dp"
+    		android:orientation="horizontal"
+    		android:layout_weight="5"
+            >
+            <!-- <TextView 
+                android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:textColor="@android:color/black"
+    			android:text="Type of Irrigtion :"
+    			android:textSize="18sp"
+    			android:id="@+id/spinnerlbl"
+                />
+            <Spinner 
+                android:layout_width="fill_parent"
+    			android:layout_height="wrap_content"
+    			android:id="@+id/irritypespinner"
+                android:entries="@array/irrigation_spinner"
+                /> -->
+                
+           <RadioGroup 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/irrigroup"
+        
+        >
+        
+        <RadioButton 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/timerirri"
+            android:textSize="14sp"
+            android:text="@string/timeirri"
+            
+            />
+        <RadioButton 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/volumeirri"
+            android:textSize="14sp"
+            android:text="@string/volumeirri"
+            
+            />
+      
+    </RadioGroup>
+        </LinearLayout>
+        
+    <!--  End of the spinner select   -->
+    
+    <!-- Displaying the valves for irrigation -->
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+    	android:layout_height="0dp"
+    	android:orientation="vertical"
+    	android:layout_weight="30"
+        >
+        <TextView 
+            android:layout_width="match_parent"
+    		android:layout_height="30dp"
+            android:textColor="@android:color/black"
+            android:background="@android:color/darker_gray"
+            android:id="@+id/pipelineheading"
+            android:text="Valves for Irrigation"
+            android:textSize="20sp"
+            android:gravity="center"
+            />
+        
+            <ListView 
+        
+        android:id="@+id/valveslist"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        ></ListView> 
+       </LinearLayout>
+       
+    <!--  End of the irrigation valves   -->
+    
+    <!-- Displaying the start and stop irrigation -->
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+    	android:layout_height="0dp"
+    	android:orientation="horizontal"
+    	android:gravity="center_horizontal"
+    	android:layout_weight="5"
+        >
+            
+        <Button 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Irrigation"
+            android:id="@+id/startirribtn"
+            />
+        <Button 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             android:text="Stop Irrigation"
+             android:id="@+id/stopirribtn"
+            />
+    
+       </LinearLayout>
+    
+    
+    <!--  End of the start stop buttons layout   -->
+    
+
+</LinearLayout>

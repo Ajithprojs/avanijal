@@ -210,9 +210,9 @@ public class VenturyController extends ElementsController implements CheckboxInt
 	}
 
 	@Override
-	public void itemSelected(CheckBoxItem cItem) {
+	public void itemSelected(Object c) {
 		// TODO Auto-generated method stub
-
+		CheckBoxItem cItem = (CheckBoxItem)c;
 		if(!containsItem(cItem.getName())) {
 			Elements ele = new Elements();
 			ele.setItemid(cItem.getName());
@@ -223,8 +223,9 @@ public class VenturyController extends ElementsController implements CheckboxInt
 	}
 
 	@Override
-	public void itemDeselected(CheckBoxItem cItem) {
+	public void itemDeselected(Object c) {
 		// TODO Auto-generated method stub
+		CheckBoxItem cItem = (CheckBoxItem)c;
 		if(containsItem(cItem.getName())){
 			deleteItem(cItem.getName());
 		}

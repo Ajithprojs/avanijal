@@ -1,7 +1,9 @@
 package com.app.avanstart.util;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 
 import android.content.Context;
@@ -14,6 +16,7 @@ import com.app.beans.ConfigItem;
 import com.app.beans.CropItem;
 import com.app.beans.Elements;
 import com.app.beans.FilterItem;
+import com.app.beans.IrrigationItem;
 import com.app.beans.MotorItem;
 import com.app.beans.Pipelineitem;
 import com.app.beans.User;
@@ -22,9 +25,11 @@ import com.app.modals.DataOperations;
 
 public class AppUtils {
 
-	public static ConfigItem confItems;
+	public static ConfigItem confItems = new ConfigItem();
 
-	public static AssociationItem assoItems ;
+	public static AssociationItem assoItems = new AssociationItem() ;
+
+	public static IrrigationItem irriItems = new IrrigationItem();
 
 	public static String MOTOR_TYPE = "M";
 
@@ -39,6 +44,8 @@ public class AppUtils {
 	public static String VENTURY_TYPE = "U";
 
 	public static String FERTIGATION_TYPE = "R";
+
+	public static String IRRIGATION_TYPE = "I";
 
 	//// sms statuses
 
@@ -58,8 +65,10 @@ public class AppUtils {
 	//public static String phoneNum = "9986003200";
 
 	public static String CONFIG_FILE_NAME = "config";
-	
+
 	public static String ASSO_FILE_NAME = "association";
+
+	public static String IRRI_FILE_NAME = "irrigation";
 
 	public static String USER_FILE_NAME = "user";
 
@@ -70,6 +79,16 @@ public class AppUtils {
 	public static String[] VenturyValves = {VALVE_TYPE + "1",VALVE_TYPE + "2", VALVE_TYPE +"3",VALVE_TYPE +"4"};
 
 	public static String[] FertigationMotors = {MOTOR_TYPE + "2", MOTOR_TYPE + "3"};
+	
+	///// adding the menu item names
+	
+    public static String menu_config = "Configuration";
+    public static String menu_prov = "Provisioning";
+    public static String menu_asso = "Association";
+    public static String menu_crop = "Crop List";
+    public static String menu_irri = "Irrigation";
+    public static String menu_history = "History";
+    public static String menu_settings = "Settings";
 
 	//// image titles
 
@@ -217,9 +236,9 @@ public class AppUtils {
 			FilterItem ele = (FilterItem)iter.next();
 			sb.append(ele.getItemid()+ seperator);
 			Iterator<String> asso = ele.getAllAssociatedElementsOfType(PIPELINE_TYPE).iterator();
-//			while(asso.hasNext()){
-//				sb.append(asso.next()+ seperator);
-//			}
+			//			while(asso.hasNext()){
+			//				sb.append(asso.next()+ seperator);
+			//			}
 
 			//sb.append(" "+ele.getFrequencyHours()+" ");
 			sb.append(ele.getFrequencyminutes()+ seperator);
@@ -252,15 +271,15 @@ public class AppUtils {
 		smss.put("valve", sb.toString());
 		return smss;
 	}
-	
+
 	public static HashMap<String, String> buildCropAssociationSms( String title , CropItem crop ) {
 
 		HashMap<String, String> smss = new HashMap<String, String>();
 		StringBuffer sb = new StringBuffer();
 		/// lets  build for the filters
-		
+
 		ArrayList<String> pipelines = crop.getAllAssociatedElementsOfType(AppUtils.PIPELINE_TYPE);
-		
+
 		ArrayList<String> valves = crop.getAllAssociatedElementsOfType(AppUtils.VALVE_TYPE);
 
 		Iterator<String> iter = pipelines.iterator();
@@ -278,6 +297,64 @@ public class AppUtils {
 		}
 		sb.append("*en");
 		smss.put(title, sb.toString());
+		return smss;
+	}
+
+	/*
+	 * *TI P1-4 Vxx yyy: V1 30 V2 250 V5 30 V10 60 V11 45 *RI. First in First out priority.
+
+	 * 
+	 * */
+
+	public static HashMap<String, String> buildTimeCropIrrigationSms( String pipeline , Hashtable<String, String> irrival,  int mode ) {
+
+		HashMap<String, String> smss = new HashMap<String, String>();
+		StringBuffer sb = new StringBuffer();
+
+		if(mode == 1){
+			sb.append("*TI"+ seperator);
+		} else if (mode == 2){
+			sb.append("*VI"+ seperator);
+		}
+		sb.append(pipeline+ seperator);
+		Enumeration<String> allkeys = irrival.keys();
+		while(allkeys.hasMoreElements()) {
+
+			String ele = allkeys.nextElement();
+			String val = irrival.get(ele);
+			if(val.length() > 0){
+				sb.append(ele+ seperator);
+				sb.append(irrival.get(ele)+ seperator);
+			}
+		}
+
+		//return sb.toString();
+		sb.append("*en");
+		smss.put("irrigation", sb.toString());
+		return smss;
+	}
+
+	public static HashMap<String, String> buildTimeCropStopIrrigationSms( String pipeline , Hashtable<String, String> irrival,  int mode ) {
+
+		HashMap<String, String> smss = new HashMap<String, String>();
+		StringBuffer sb = new StringBuffer();
+
+		if(mode == 1){
+			sb.append("*TI"+ seperator);
+		} else if (mode == 2){
+			sb.append("*VI"+ seperator);
+		}
+		sb.append(pipeline+ seperator);
+		Enumeration<String> allkeys = irrival.keys();
+		while(allkeys.hasMoreElements()) {
+
+			String ele = allkeys.nextElement();
+			sb.append(ele+ seperator);
+			sb.append(irrival.get(ele)+ seperator);
+		}
+
+		//return sb.toString();
+		smss.put("irrigation", sb.toString());
 		return smss;
 	}
 
@@ -307,7 +384,7 @@ public class AppUtils {
 	public static int[] getImagesForContext( Context cxt , int arrTitles ){
 
 		int[] images = null;
-		
+
 		switch(arrTitles)  {
 		case PUSHPAM_IMAGES :
 			images = new int[]{R.drawable.carrot,R.drawable.potato,R.drawable.rice};

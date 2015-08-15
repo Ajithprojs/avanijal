@@ -17,21 +17,22 @@ on * Copyright 2013 The Android Open Source Project
 package com.app.avanstart;
 
 
+import java.util.ArrayList;
+import java.util.Hashtable;
+
 import com.app.avanstart.util.AppUtils;
 import com.app.beans.AssociationItem;
 import com.app.beans.ConfigItem;
+import com.app.beans.ConfigStatus;
+import com.app.beans.IrrigationItem;
 import com.app.controllers.AssociationController;
 import com.app.controllers.ConfigListController;
-import com.app.controllers.ElementsController;
 import com.app.controllers.HistoryController;
 import com.app.controllers.IrrigationController;
 import com.app.controllers.ProvisionController;
 import com.app.controllers.SettingsController;
 import com.app.modals.DataOperations;
-import com.app.parsers.SmsParser;
-import com.app.parsers.SmsParser.MessageHolder;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -40,7 +41,6 @@ import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -85,10 +85,10 @@ public class DashBoardActivity extends FragmentActivity {
 
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
-	private String[] mDrawerTitles;
+	public static String[] mDrawerTitles;
 	public Context cxt;
 	FragmentManager fmg;
-	Fragment fragment;
+	//Fragment fragment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +96,7 @@ public class DashBoardActivity extends FragmentActivity {
 		setContentView(R.layout.activity_dashboard);
 
 		mTitle = mDrawerTitle = getTitle();
-		mDrawerTitles = getResources().getStringArray(R.array.avanimenuitems);
+		mDrawerTitles = getNavigationTitles();
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 		this.cxt = this;
@@ -136,12 +136,85 @@ public class DashBoardActivity extends FragmentActivity {
 		if (savedInstanceState == null) {
 			selectItem(0);
 		}
+		if(AppUtils.assoItems != null) {
+			if(AppUtils.assoItems.getCropItemsCount() > 0) {
+				int pos = 0;
+				for( int i = 0 ; i < mDrawerTitles.length ; i++ ) {
+					if(mDrawerTitles[i] == AppUtils.menu_irri){
+						pos = i;
+						break;
+					}
+				}
+				selectItem(pos);
+			}
+		}
 		fmg = getSupportFragmentManager();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		return super.onCreateOptionsMenu(menu);
+	}
+
+	private String[] getNavigationTitles() {
+		ArrayList<String> titleHolder = new ArrayList<String>();
+		titleHolder.add(AppUtils.menu_config);
+		if(isElementConfigured("Motor") && isElementConfigured("Pipeline") && isElementConfigured("Valve")) {
+			titleHolder.add(AppUtils.menu_prov);
+			titleHolder.add(AppUtils.menu_asso);
+		}
+		if(AppUtils.assoItems != null) {
+			if(AppUtils.assoItems.getCropItemsCount() > 0) {
+				titleHolder.add(AppUtils.menu_irri);
+			}
+		}
+		titleHolder.add(AppUtils.menu_history);
+		titleHolder.add(AppUtils.menu_settings);
+		String[] strArray = new String[titleHolder.size()];
+		strArray = titleHolder.toArray(strArray);
+		return strArray;
+	}
+
+	public boolean isElementConfigured( String eleName ) {
+
+		Hashtable<String, ConfigStatus> cghash = AppUtils.confItems.getElementConfigStatus();
+		Boolean val;
+		if(cghash == null) {
+			val =  false;
+		}
+		if(cghash.containsKey(eleName))
+		{
+			ConfigStatus cs = cghash.get(eleName);
+			val =  cs.getISConfigured();
+		}
+		else{ 
+			val = false;
+		}
+		return val;
+	}
+
+	public boolean isElementAssociated( String eleName ) {
+
+		Hashtable<String, ConfigStatus> cghash = AppUtils.assoItems.getElementConfigstatus();
+		Boolean val;
+		if(cghash == null) {
+			val =  false;
+		}
+		if(cghash.containsKey(eleName))
+		{
+			ConfigStatus cs = cghash.get(eleName);
+			val =  cs.getISConfigured();
+		}
+		else{ 
+			val = false;
+		}
+		return val;
+	}
+
+	public void RefreshTitles() {
+		mDrawerTitles = getNavigationTitles();
+		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+				R.layout.drawer_list_item, mDrawerTitles));
 	}
 
 	/* Called whenever we call invalidateOptionsMenu() */
@@ -173,7 +246,7 @@ public class DashBoardActivity extends FragmentActivity {
 
 	private void selectItem(int position) {
 		// update the main content by replacing fragments
-		PlanetFragment fragment = new PlanetFragment();
+		Fragment fragment = new PlanetFragment();
 		Bundle args = new Bundle();
 		args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
 		fragment.setArguments(args);
@@ -186,6 +259,8 @@ public class DashBoardActivity extends FragmentActivity {
 		setTitle(mDrawerTitles[position]);
 		mDrawerLayout.closeDrawer(mDrawerList);
 	}
+
+
 
 	@Override
 	public void setTitle(CharSequence title) {
@@ -236,6 +311,8 @@ public class DashBoardActivity extends FragmentActivity {
 						if(status.equals("configured")){
 							ConfigListController.getInstance().addConfigToElement(elementName);
 							DataOperations.saveDataToFile(AppUtils.confItems, AppUtils.CONFIG_FILE_NAME, cxt);
+							//refreshFragment(0);
+							
 						}
 					}
 				}
@@ -255,7 +332,31 @@ public class DashBoardActivity extends FragmentActivity {
 						String elementName = b.getString("element");
 						if(status.equals("configured")){
 							DataOperations.saveDataToFile(AppUtils.assoItems, AppUtils.ASSO_FILE_NAME, cxt);
-							refreshFragment();
+							refreshFragment(2);
+							
+						}
+					}
+				}
+			}
+			//ConfigListController.getInstance().destructControllers();
+			break;
+
+		case 2004:
+			/// ok this is from the irrigation screen
+			if(data!=null){
+
+				Intent i = data;
+				Bundle b = i.getExtras();
+				if(b!=null){
+					if(b.containsKey("status")){
+						String status = b.getString("status");
+						String elementName = b.getString("element");
+						if(status.equals("Active")){
+							IrrigationController.getInstance().addConfigToElement(elementName);
+							DataOperations.saveDataToFile(AppUtils.irriItems, AppUtils.IRRI_FILE_NAME, cxt);
+							//refreshFragment();
+						} else {
+							IrrigationController.getInstance().removeConfigToElement(elementName);
 						}
 					}
 				}
@@ -266,76 +367,90 @@ public class DashBoardActivity extends FragmentActivity {
 		default:
 			break;
 		}
+		RefreshTitles();
 	}
 
-	private void refreshFragment() {
+	private void refreshFragment(int val) {
 
-		/*Fragment fragment = new PlanetFragment();
-		Bundle args = new Bundle();
-		args.putInt(PlanetFragment.ARG_PLANET_NUMBER, 2);
-		fragment.setArguments(args);
-
-		FragmentTransaction ft = this.getSupportFragmentManager().beginTransaction();
-		ft.detach(fragment);
-		//fragment = null;
-		//fragment = new PlanetFragment();
-		ft.attach(fragment);
-		ft.replace(R.id.content_frame, fragment).commit();*/
-		//ft.commit();
-		selectItem(2);
+		selectItem(val);
 	}
 
 	/**
 	 * Fragment that appears in the "content_frame", shows a planet
 	 */
+
+	public static class PlanetFragment extends Fragment {
+		public static final String ARG_PLANET_NUMBER = "planet_number";
+
+		public PlanetFragment() {
+			// Empty constructor required for fragment subclasses
+		}
+
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			//View rootView = inflater.inflate(R.layout.fragment_planet, container, false);
+			int i = getArguments().getInt(ARG_PLANET_NUMBER);
+			View rootView = getCurrentView(i, container);//ConfigListController.getInstance().getConfigLayout(container, getActivity());
+			return rootView;
+		}
+
+		private View getCurrentView( int pos, ViewGroup container ){
+
+			//			AppUtils.confItems = (ConfigItem)DataOperations.getDataFromFile(AppUtils.CONFIG_FILE_NAME, getActivity());
+			//			AppUtils.assoItems = (AssociationItem)DataOperations.getDataFromFile(AppUtils.ASSO_FILE_NAME, getActivity());
+			//			AppUtils.irriItems = (IrrigationItem)DataOperations.getDataFromFile(AppUtils.IRRI_FILE_NAME, getActivity());
+			if(AppUtils.confItems == null) {
+				AppUtils.confItems = new ConfigItem();
+			}
+			if(AppUtils.assoItems == null) {
+				AppUtils.assoItems = new AssociationItem();
+			}
+			if(AppUtils.irriItems == null) {
+				AppUtils.irriItems = new IrrigationItem();
+			}
+			//destructControllers();
+
+
+			if(mDrawerTitles[pos].equals(AppUtils.menu_config))
+				return ConfigListController.getInstance().getConfigLayout(container, getActivity());
+			else if(mDrawerTitles[pos].equals(AppUtils.menu_prov)) {
+				return ProvisionController.getInstance().getProvisioningLayout(container, getActivity());
+			}
+			else if(mDrawerTitles[pos].equals(AppUtils.menu_asso)) {
+				return AssociationController.getInstance().getAssociationLayout(container, getActivity(),getActivity().getSupportFragmentManager());
+			}
+			else if(mDrawerTitles[pos].equals(AppUtils.menu_irri)) {
+				return IrrigationController.getInstance().getIrrigationLayout(container, getActivity());
+			}
+			else if(mDrawerTitles[pos].equals(AppUtils.menu_history)) {
+				return HistoryController.getInstance().getHistoryLayout(container, getActivity());
+			}else{
+				return SettingsController.getInstance().getSettingsLayout(container, getActivity());
+			}
+
+
+
+			//			switch(pos){
+			//
+			//			default:
+			//				return ConfigListController.getInstance().getConfigLayout(container, getActivity());
+			//			case 1:
+			//				return ProvisionController.getInstance().getProvisioningLayout(container, getActivity());
+			//			case 2:
+			//				//return new AssociationController().getAssociationLayout(container, getActivity(),getActivity().getSupportFragmentManager());
+			//				return AssociationController.getInstance().getAssociationLayout(container, getActivity(),getActivity().getSupportFragmentManager());
+			//			case 3:
+			//				return ProvisionController.getInstance().getProvisioningLayout(container, getActivity());
+			//			case 4:
+			//				return IrrigationController.getInstance().getIrrigationLayout(container, getActivity());
+			//			case 5:
+			//				return HistoryController.getInstance().getHistoryLayout(container, getActivity());
+			//			case 6:
+			//				return SettingsController.getInstance().getSettingsLayout(container, getActivity());
+			//
+			//			}
+		}
+	}
 }
- class PlanetFragment extends Fragment {
-	public static final String ARG_PLANET_NUMBER = "planet_number";
-
-	public PlanetFragment() {
-		// Empty constructor required for fragment subclasses
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		//View rootView = inflater.inflate(R.layout.fragment_planet, container, false);
-		int i = getArguments().getInt(ARG_PLANET_NUMBER);
-		View rootView = getCurrentView(i, container);//ConfigListController.getInstance().getConfigLayout(container, getActivity());
-		return rootView;
-	}
-
-
-	private View getCurrentView( int pos, ViewGroup container ){
-
-		AppUtils.confItems = (ConfigItem)DataOperations.getDataFromFile(AppUtils.CONFIG_FILE_NAME, getActivity());
-		AppUtils.assoItems = (AssociationItem)DataOperations.getDataFromFile(AppUtils.ASSO_FILE_NAME, getActivity());
-		if(AppUtils.confItems == null) {
-			AppUtils.confItems = new ConfigItem();
-		}
-		if(AppUtils.assoItems == null) {
-			AppUtils.assoItems = new AssociationItem();
-		}
-		//destructControllers();
-		switch(pos){
-
-		default:
-			return ConfigListController.getInstance().getConfigLayout(container, getActivity());
-		case 1:
-			return ProvisionController.getInstance().getProvisioningLayout(container, getActivity());
-		case 2:
-			//return new AssociationController().getAssociationLayout(container, getActivity(),getActivity().getSupportFragmentManager());
-			return AssociationController.getInstance().getAssociationLayout(container, getActivity(),getActivity().getSupportFragmentManager());
-		case 3:
-			return ProvisionController.getInstance().getProvisioningLayout(container, getActivity());
-		case 4:
-			return IrrigationController.getInstance().getIrrigationLayout(container, getActivity());
-		case 5:
-			return HistoryController.getInstance().getHistoryLayout(container, getActivity());
-		case 6:
-			return SettingsController.getInstance().getSettingsLayout(container, getActivity());
-		}
-	}
-}
-
 

@@ -31,11 +31,11 @@ public class ConfigListViewAdapter extends BaseAdapter{
 	private  ArrayList<Children> groups;
 	Hashtable<String, ConfigStatus> cghash ;
 
-	public ConfigListViewAdapter(Context act , ArrayList<Children> groups , expandedlistinterfaces del) {
+	public ConfigListViewAdapter(Context act , ArrayList<Children> groups, Hashtable<String, ConfigStatus> configstatus , expandedlistinterfaces del) {
 
 		this.groups = groups;
 		this.delegate = del;
-		cghash = AppUtils.confItems.getElementConfigStatus();
+		cghash = configstatus;
 		inflater = (LayoutInflater) act.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
 	}
 

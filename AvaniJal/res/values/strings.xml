@@ -25,5 +25,6 @@
     <string name="title_activity_pipeline">PipelineActivity</string>
     <string name="title_activity_elements">ElementsActivity</string>
     <string name="title_activity_ventury_fertigation">VenturyFertigationActivity</string>
+    <string name="title_activity_irrigation">IrrigationActivity</string>
 
 </resources>
