@@ -141,6 +141,19 @@ public class MotorController extends ElementsController {
 			addElement(""+getMotorInt(m.getItemid()), m);
 		}
 	}
+	
+	public void reloadCurrentElements() {
+		
+		clearUI();
+		for (Elements mt : this.elements) {
+
+//			disableDropDown = true;
+//			MotorItem m  = (MotorItem)mt;
+//			if(m.getIsConfigured())
+//			addElement(""+getMotorInt(m.getItemid()), m);
+			buildUI(mt);
+		}
+	}
 
 	public void addLocalMotor() {
 

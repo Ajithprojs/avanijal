@@ -318,6 +318,15 @@ public class PipelineController extends ElementsController implements MultiSelec
 		pipeLinear = null;
 		motorIds = null;
 
+	}
+
+	@Override
+	public void reloadCurrentElements() {
+		// TODO Auto-generated method stub
+		clearUI();
+		for (Elements mt : this.elements) {
+			buildUI(mt);
+		}
 	}  
 
 }

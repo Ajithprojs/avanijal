@@ -79,16 +79,16 @@ public class AppUtils {
 	public static String[] VenturyValves = {VALVE_TYPE + "1",VALVE_TYPE + "2", VALVE_TYPE +"3",VALVE_TYPE +"4"};
 
 	public static String[] FertigationMotors = {MOTOR_TYPE + "2", MOTOR_TYPE + "3"};
-	
+
 	///// adding the menu item names
-	
-    public static String menu_config = "Configuration";
-    public static String menu_prov = "Provisioning";
-    public static String menu_asso = "Association";
-    public static String menu_crop = "Crop List";
-    public static String menu_irri = "Irrigation";
-    public static String menu_history = "History";
-    public static String menu_settings = "Settings";
+
+	public static String menu_config = "Configuration";
+	public static String menu_prov = "Provisioning";
+	public static String menu_asso = "Association";
+	public static String menu_crop = "Crop List";
+	public static String menu_irri = "Irrigation";
+	public static String menu_history = "History";
+	public static String menu_settings = "Settings";
 
 	//// image titles
 
@@ -221,14 +221,14 @@ public class AppUtils {
 		return smss;
 	}
 
-	public static HashMap<String, String> buildFilterConfigSms() {
+	public static HashMap<String, String> buildFilterConfigSms(ArrayList<Elements> filters) {
 
 		HashMap<String, String> smss = new HashMap<String, String>();
 		StringBuffer sb = new StringBuffer();
 		/// lets  build for the filters
 
-		ConfigItem cItem = AppUtils.confItems;
-		ArrayList<Elements> ftItems = cItem.getFilterItems();
+		//ConfigItem cItem = AppUtils.confItems;
+		ArrayList<Elements> ftItems = filters;//cItem.getAllFilterItems();
 
 		Iterator<Elements> iter = ftItems.iterator();
 		while(iter.hasNext()) {
@@ -364,6 +364,18 @@ public class AppUtils {
 		int strtIndx = str.indexOf(item);
 		sb.append(str.substring(strtIndx + item.length()));
 		return sb.toString();
+	}
+
+	public static int getIntFromStringVal( String val ) {
+
+		String intValue = val.replaceAll("[^0-9]", "");
+		return Integer.parseInt(intValue);
+	}
+
+	public static String getStringWithoutIntFromStringVal( String val ) {
+
+		String intValue = val.replaceAll("[0-9]", "");
+		return intValue;
 	}
 
 	public static String getsmsidfromID(String id) {

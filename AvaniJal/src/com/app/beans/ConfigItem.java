@@ -38,15 +38,21 @@ public class ConfigItem implements Serializable{
 		pipelineItems.add(obj);
 	}
 	
+	public void addFilterITems(Elements obj) {
+		if(filterItems.contains(obj)) {
+			filterItems.remove(obj);
+		}
+		filterItems.add(obj);
+	}
 //	public void setPipelineItems(ArrayList<Elements> obj) {
 //
 //		this.pipelineItems = obj;
 //	}
 
-	public void setFilterItems(ArrayList<Elements> obj) {
-
-		this.filterItems = obj;
-	}
+//	public void setFilterItems(ArrayList<Elements> obj) {
+//
+//		this.filterItems = obj;
+//	}
 
 //	public void addValveItems( Elements ele ) {
 //		
@@ -81,7 +87,7 @@ public class ConfigItem implements Serializable{
 		return pipelineItems;
 	}
 
-	public ArrayList<Elements> getFilterItems() {
+	public ArrayList<Elements> getAllFilterItems() {
 
 		return filterItems;
 	}

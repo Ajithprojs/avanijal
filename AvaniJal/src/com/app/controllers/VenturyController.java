@@ -1,6 +1,7 @@
 package com.app.controllers;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
@@ -38,11 +39,14 @@ public class VenturyController extends ElementsController implements CheckboxInt
 	ArrayList<CheckBoxItem> motorIds = new ArrayList<CheckBoxItem>();
 
 	ArrayList<CheckBoxItem> valveIds = new ArrayList<CheckBoxItem>();
+	
+	Hashtable<String, CheckBoxItem> allIds = new Hashtable<String, CheckBoxItem>();
 
 	ArrayList<String> pipelineIds = new ArrayList<String>();
 
 	CheckboxListAdapter valveListadapter;
-
+	
+	ArrayList<Elements> eleHolder = new ArrayList<Elements>();
 
 
 	public VenturyController() {
@@ -74,10 +78,10 @@ public class VenturyController extends ElementsController implements CheckboxInt
 		 * */
 
 		if(AppUtils.confItems.getVenturyFertigationItems() == null)
-			super.elements = new ArrayList<Elements>();
+			eleHolder = new ArrayList<Elements>();
 		else
 		{
-			super.elements = AppUtils.confItems.getVenturyFertigationItems();
+			eleHolder = AppUtils.confItems.getVenturyFertigationItems();
 		}
 		/// adding a empty object so that the dropdowns doesnt show the first object
 		motorIds = new ArrayList<CheckBoxItem>();
@@ -110,7 +114,6 @@ public class VenturyController extends ElementsController implements CheckboxInt
 						citem.setChecked(false);
 						if(containsItem(id))
 							citem.setChecked(true);
-
 						motorIds.add(citem);
 					}
 				}
@@ -161,7 +164,7 @@ public class VenturyController extends ElementsController implements CheckboxInt
 			@Override
 			public void onCheckedChanged(RadioGroup arg0, int pos) {
 				// TODO Auto-generated method stub
-				removeAllElements();
+				//removeAllElements();
 				if(pos == R.id.venturyradio) {
 					showVentury();
 				}else if( pos == R.id.fertiradio) {
@@ -169,10 +172,7 @@ public class VenturyController extends ElementsController implements CheckboxInt
 				}
 			}
 		});
-		//ListView ferti = (ListView) lin.findViewById(R.id.fertiholder);
 
-
-		//ferti.setAdapter(fertiListadapter);
 		reloadUI();
 		showVentury();
 		return lin;
@@ -206,6 +206,41 @@ public class VenturyController extends ElementsController implements CheckboxInt
 		ventury.setAdapter(valveListadapter);
 	}
 
+	private void filterAandBWithMutualExclusion(ArrayList<CheckBoxItem> itemA , ArrayList<CheckBoxItem> itemB) {
+
+		for (CheckBoxItem citemB : itemB) {
+			for (CheckBoxItem citemA : itemA) {
+				if( AppUtils.getIntFromStringVal(citemA.getName()) == AppUtils.getIntFromStringVal(citemB.getName()) ){
+					if(citemA.isChecked()){
+						itemB.remove(citemB);
+						allIds.put(citemB.getName(),citemB);
+					}
+				}
+			}
+		}
+	}
+
+	private void filterAandBWithMutualExclusionToAdd(ArrayList<CheckBoxItem> itemB, String reqItemStr, String remItem ) {
+		
+		String val = reqItemStr;//AppUtils.getStringWithoutIntFromStringVal(itemB.get(0).getName());
+		int added = AppUtils.getIntFromStringVal(remItem);
+		String key = val + "" + added;
+		if(allIds.containsKey(key)){
+			itemB.add(allIds.get(key));
+			allIds.remove(key);
+		}
+//		for (CheckBoxItem citemB : itemB) {
+//			for (CheckBoxItem citemA : itemA) {
+//				if( AppUtils.getIntFromStringVal(citemA.getName()) == AppUtils.getIntFromStringVal(citemB.getName()) ){
+//					//if(!citemA.isChecked()){
+//						itemB.add(allIds.get(citemB.getName()));
+//						allIds.remove(citemB.getName());
+//					//}
+//				}
+//			}
+//		}
+	}
+
 	@Override
 	public void destructController() {
 		// TODO Auto-generated method stub
@@ -231,7 +266,7 @@ public class VenturyController extends ElementsController implements CheckboxInt
 	}
 	public Boolean containsItem( String id ){
 		Boolean contains = false;
-		for (Elements ele : elements) {
+		for (Elements ele : eleHolder) {
 
 			if(ele.getItemid().equals(id)){
 				contains = true;
@@ -242,8 +277,8 @@ public class VenturyController extends ElementsController implements CheckboxInt
 	}
 
 	public void deleteItem( String id ) {
-		if(elements != null){
-			Iterator<Elements> iter = elements.iterator();
+		if(eleHolder != null){
+			Iterator<Elements> iter = eleHolder.iterator();
 			while(iter.hasNext()){
 				Elements ele = iter.next();
 				if(ele.getItemid().equals(id)){
@@ -262,7 +297,12 @@ public class VenturyController extends ElementsController implements CheckboxInt
 			Elements ele = new Elements();
 			ele.setItemid(cItem.getName());
 			ele.setType(cItem.getType());
-			elements.add(ele);
+			eleHolder.add(ele);
+			if(type == AppUtils.VENTURY_TYPE){
+				filterAandBWithMutualExclusion(valveIds,motorIds);
+			}else if(type == AppUtils.FERTIGATION_TYPE){
+				filterAandBWithMutualExclusion(motorIds,valveIds);
+			}
 		}
 
 	}
@@ -273,7 +313,18 @@ public class VenturyController extends ElementsController implements CheckboxInt
 		CheckBoxItem cItem = (CheckBoxItem)c;
 		if(containsItem(cItem.getName())){
 			deleteItem(cItem.getName());
+			if(type == AppUtils.VENTURY_TYPE){
+				filterAandBWithMutualExclusionToAdd(motorIds, "M", cItem.getName());
+			}else if(type == AppUtils.FERTIGATION_TYPE){
+				filterAandBWithMutualExclusionToAdd(valveIds, "V", cItem.getName());
+			}
 		}
+	}
+
+	@Override
+	public void reloadCurrentElements() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

@@ -69,7 +69,7 @@ public class FilterActivity extends Activity {
 
 	private void sendConfig() {
 
-		HashMap<String, String> smss = AppUtils.buildFilterConfigSms();
+		HashMap<String, String> smss = AppUtils.buildFilterConfigSms(filter.elements);
 		Intent i = new Intent(this , SmsActivity.class);
 		i.putExtra("phone", AppUtils.phoneNum);
 		i.putExtra("MESSAGE", smss);
@@ -119,11 +119,12 @@ public class FilterActivity extends Activity {
 
 	private void setConfigured() {
 
-		ArrayList<Elements> filters = AppUtils.confItems.getFilterItems();
+		ArrayList<Elements> filters = filter.elements;//AppUtils.confItems.getAllFilterItems();
 		Iterator<Elements> iter = filters.iterator();
 		while(iter.hasNext()){
 			Elements ele = iter.next();
 			ele.setIsConfigured(true);
+			AppUtils.confItems.addFilterITems(ele);
 		}
 		//showDialog("Pipeline", "Configured Successfully");
 		Intent intent=new Intent();  

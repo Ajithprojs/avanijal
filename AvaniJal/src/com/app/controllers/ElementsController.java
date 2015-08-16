@@ -130,7 +130,8 @@ public abstract class ElementsController {
 				setAddElementToArray(id);
 				//setRemoveElementFromArray(id);
 				localVal--;
-				reloadUI();
+				//reloadUI();
+				reloadCurrentElements();
 				break;
 			}
 		}
@@ -163,6 +164,7 @@ public abstract class ElementsController {
 		
 	}
 
+	public abstract void reloadCurrentElements();
 	public abstract void reloadUI();
 	public abstract void clearUI();
 	public abstract void buildUI( Elements eitem);

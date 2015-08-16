@@ -37,7 +37,7 @@ public class FilterController extends ElementsController {
 
 
 	ArrayList<String> pipelineIds = new ArrayList<String>();
-	RelativeLayout relativ;
+	//RelativeLayout relativ;
 
 	Context activity;
 
@@ -140,15 +140,15 @@ public class FilterController extends ElementsController {
 			filterVal++;
 			super.addElement(""+filterVal, pitem);
 			//AppUtils.confItems.setPipelineItems(filters);
-			AppUtils.confItems.setFilterItems(this.elements);
+			//AppUtils.confItems.setFilterItems(this.elements);
 		}
 
 	}
 
 	public void deleteFilter(String id ) {
 
-		setButtonsSync();
 		filterVal--;
+		setButtonsSync();
 		super.deleteElement(id);
 
 	}
@@ -199,7 +199,7 @@ public class FilterController extends ElementsController {
 		// TODO Auto-generated method stub
 		FilterItem fitem = (FilterItem)eitem;
 		LayoutInflater linf = (LayoutInflater) this.activity.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-		relativ = (RelativeLayout)linf.inflate(R.layout.filterconfiguration, container, false);
+		RelativeLayout relativ = (RelativeLayout)linf.inflate(R.layout.filterconfiguration, container, false);
 
 		//Spinner numberoffiltersSpinner = (Spinner)relativ.findViewById(R.id.motorfilterspinner);
 		//Spinner freqhoursspinner = (Spinner)relativ.findViewById(R.id.filterfrequencyhours);
@@ -217,12 +217,9 @@ public class FilterController extends ElementsController {
 		deleteBtn.setTag(fitem.getItemid());
 		filterid.setText("Filter "+fitem.getItemid());
 		pipelinelabel.setText(AppUtils.replaceLetter(fitem.getItemid(), "F", "P"));
-
-		//freqminutesspinner.setSelection(fitem.getFrequencyminutes());
+		int pos = fitem.getDurationSeconds() - 1;
 		freqminutesspinner.setText(""+fitem.getFrequencyminutes());
-		durationsecondsspinner.setSelection(fitem.getDurationSeconds());
-		//numberoffiltersSpinner.setSelection(1+getAssociatedId(eitem.getItemid()));
-
+		durationsecondsspinner.setSelection(pos);
 		setButtonsSync();
 
 		deleteBtn.setOnClickListener(new OnClickListener() {
@@ -398,7 +395,7 @@ public class FilterController extends ElementsController {
 	public void reloadUI() {
 		// TODO Auto-generated method stub
 		clearUI();
-		ArrayList<Elements> tempFilters = AppUtils.confItems.getFilterItems();//(ArrayList<Elements>)elements.clone();
+		ArrayList<Elements> tempFilters = AppUtils.confItems.getAllFilterItems();//(ArrayList<Elements>)elements.clone();
 		for (Elements mt : tempFilters) {
 
 			disableDropDown = true;
@@ -433,6 +430,16 @@ public class FilterController extends ElementsController {
 		lin = null;
 
 		_instance = null;
+	}
+
+
+	@Override
+	public void reloadCurrentElements() {
+		// TODO Auto-generated method stub
+		clearUI();
+		for (Elements mt : this.elements) {
+			buildUI(mt);
+		}
 	}
 
 
