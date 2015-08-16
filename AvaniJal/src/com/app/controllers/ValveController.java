@@ -25,7 +25,7 @@ public class ValveController implements MultiSelectInterface {
 	
 	
 
-	ArrayList<Elements> valves;
+	public ArrayList<Elements> valves;
 	
 	private String WIRED_VALVE = "wired";
 	
@@ -52,7 +52,7 @@ public class ValveController implements MultiSelectInterface {
 	public RelativeLayout createValveLayout(ViewGroup container , LinearLayout llayout , Activity activity) {
 		
 		//llayout.removeAllViews();
-		valves = AppUtils.confItems.getValveItems();
+		valves = AppUtils.confItems.getAllValveItems();
 		if(valves == null) {
 			valves = new ArrayList<Elements>();
 		}

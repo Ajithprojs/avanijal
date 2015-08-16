@@ -73,6 +73,7 @@ public class IrrigationController implements expandedlistinterfaces {
 		LayoutInflater oldlinf = (LayoutInflater) act.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
 		RelativeLayout rel = (RelativeLayout) oldlinf.inflate(R.layout.activity_configurations_list, cont, false);
 		ListView list = (ListView)rel.findViewById(R.id.configlist);
+		
 		adapter = new ConfigListViewAdapter(act,
 				createAvaniGroups() , AppUtils.irriItems.getElementConfigstatus(), this);
 		list.setAdapter(adapter);

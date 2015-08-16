@@ -331,6 +331,7 @@ public class DashBoardActivity extends FragmentActivity {
 						String status = b.getString("status");
 						String elementName = b.getString("element");
 						if(status.equals("configured")){
+							DataOperations.saveDataToFile(AppUtils.confItems, AppUtils.CONFIG_FILE_NAME, cxt);
 							DataOperations.saveDataToFile(AppUtils.assoItems, AppUtils.ASSO_FILE_NAME, cxt);
 							refreshFragment(2);
 

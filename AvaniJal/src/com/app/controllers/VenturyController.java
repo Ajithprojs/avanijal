@@ -7,8 +7,13 @@ import java.util.List;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
 
 import com.app.avaniadapters.CheckboxListAdapter;
@@ -28,12 +33,15 @@ public class VenturyController extends ElementsController implements CheckboxInt
 
 	ViewGroup container;
 
+	RelativeLayout lin;
 
 	ArrayList<CheckBoxItem> motorIds = new ArrayList<CheckBoxItem>();
 
 	ArrayList<CheckBoxItem> valveIds = new ArrayList<CheckBoxItem>();
 
 	ArrayList<String> pipelineIds = new ArrayList<String>();
+
+	CheckboxListAdapter valveListadapter;
 
 
 
@@ -42,14 +50,14 @@ public class VenturyController extends ElementsController implements CheckboxInt
 
 	}
 
-//	public static VenturyController getInstance() {
-//
-//		if(_instance == null)
-//			_instance = new VenturyController();
-//		return _instance;
-//
-//	}
-	
+	//	public static VenturyController getInstance() {
+	//
+	//		if(_instance == null)
+	//			_instance = new VenturyController();
+	//		return _instance;
+	//
+	//	}
+
 	public void destruct() {
 		motorIds = null;
 		valveIds = null;
@@ -77,11 +85,11 @@ public class VenturyController extends ElementsController implements CheckboxInt
 		valveIds = new ArrayList<CheckBoxItem>();
 
 		pipelineIds = new ArrayList<String>();
-		
+
 		motorIds.clear();
 		valveIds.clear();
 		ArrayList<Elements> motors = AppUtils.confItems.getAllMotorItems();
-		ArrayList<Elements> valves = AppUtils.confItems.getValveItems();
+		ArrayList<Elements> valves = AppUtils.confItems.getAllValveItems();
 		ArrayList<Elements> pipeline = AppUtils.confItems.getAllPipelineItems();
 
 		for (Elements elements : pipeline) {
@@ -126,9 +134,6 @@ public class VenturyController extends ElementsController implements CheckboxInt
 								valveIds.add(citem);
 							}
 						}
-
-
-
 					}
 				}
 			}
@@ -148,17 +153,57 @@ public class VenturyController extends ElementsController implements CheckboxInt
 
 
 		LayoutInflater oldlinf = (LayoutInflater) this.activity.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-		RelativeLayout lin = (RelativeLayout) oldlinf.inflate(R.layout.venturyconfigholder, container, false);
-		ListView ventury = (ListView) lin.findViewById(R.id.valveholder);
-		ListView ferti = (ListView) lin.findViewById(R.id.fertiholder);
+		lin = (RelativeLayout) oldlinf.inflate(R.layout.venturyconfigholder, container, false);
+		//ListView ventury = (ListView) lin.findViewById(R.id.valveholder);
+		RadioGroup venturygrp = (RadioGroup)lin.findViewById(R.id.venturyferti);
+		venturygrp.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-		CheckboxListAdapter valveListadapter = new CheckboxListAdapter(act, 0, valveIds, this);
-		CheckboxListAdapter fertiListadapter = new CheckboxListAdapter(act, 0, motorIds, this);
+			@Override
+			public void onCheckedChanged(RadioGroup arg0, int pos) {
+				// TODO Auto-generated method stub
+				removeAllElements();
+				if(pos == R.id.venturyradio) {
+					showVentury();
+				}else if( pos == R.id.fertiradio) {
+					showFerti();
+				}
+			}
+		});
+		//ListView ferti = (ListView) lin.findViewById(R.id.fertiholder);
 
-		ventury.setAdapter(valveListadapter);
-		ferti.setAdapter(fertiListadapter);
+
+		//ferti.setAdapter(fertiListadapter);
 		reloadUI();
+		showVentury();
 		return lin;
+	}
+
+	private void showVentury() {
+
+		//LayoutInflater oldlinf = (LayoutInflater) this.activity.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+		//RelativeLayout lin = (RelativeLayout) oldlinf.inflate(R.layout.venturyconfigholder, container, false);
+		type = AppUtils.VENTURY_TYPE;
+		super.type = type;
+		ImageView venturyimg = (ImageView) lin.findViewById(R.id.venturyimg);
+		ListView ventury = (ListView) lin.findViewById(R.id.valveholder);
+		CheckboxListAdapter valveListadapter = new CheckboxListAdapter(this.activity, 0, valveIds, this);
+		venturyimg.setImageResource(R.drawable.ventury);
+		venturyimg.invalidate();
+		ventury.setAdapter(valveListadapter);
+
+	}
+
+	private void showFerti() {
+		//LayoutInflater oldlinf = (LayoutInflater) this.activity.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+		//RelativeLayout lin = (RelativeLayout) oldlinf.inflate(R.layout.venturyconfigholder, container, false);
+		type = AppUtils.FERTIGATION_TYPE;
+		super.type = type;
+		ImageView venturyimg = (ImageView) lin.findViewById(R.id.venturyimg);
+		ListView ventury = (ListView) lin.findViewById(R.id.valveholder);
+		CheckboxListAdapter valveListadapter = new CheckboxListAdapter(this.activity, 0, motorIds, this);
+		venturyimg.setImageResource(R.drawable.fertimotor);
+		venturyimg.invalidate();
+		ventury.setAdapter(valveListadapter);
 	}
 
 	@Override

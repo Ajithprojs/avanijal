@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
@@ -76,6 +77,8 @@ public class IrrigationListViewAdapter extends ArrayAdapter<String> {
 			holder.metric = (TextView)convertView.findViewById(R.id.metric);
 			holder.checkbox.setTag(position);
 			holder.timevolumevalue.setTag(position);
+//			InputMethodManager imm = (InputMethodManager) this.cxt.getSystemService(Context.INPUT_METHOD_SERVICE);
+//			imm.showSoftInput(holder.timevolumevalue, InputMethodManager.SHOW_IMPLICIT);
 			convertView.setTag(holder);
 			holder.checkbox.setOnClickListener( new View.OnClickListener() {  
 				public void onClick(View v) {  

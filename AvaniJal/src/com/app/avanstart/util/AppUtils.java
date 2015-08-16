@@ -255,9 +255,8 @@ public class AppUtils {
 		HashMap<String, String> smss = new HashMap<String, String>();
 		StringBuffer sb = new StringBuffer();
 		/// lets  build for the filters
-
 		ConfigItem cItem = AppUtils.confItems;
-		ArrayList<Elements> ftItems = cItem.getValveItems();
+		ArrayList<Elements> ftItems = cItem.getAllValveItems();
 
 		Iterator<Elements> iter = ftItems.iterator();
 		while(iter.hasNext()) {

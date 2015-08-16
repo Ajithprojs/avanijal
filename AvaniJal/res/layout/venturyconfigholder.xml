@@ -17,7 +17,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/sep1"
-        android:text="Ventury Configuration"
+        android:text="Fertigation Ventury Configuration"
         android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
         android:layout_marginLeft="5dp"
@@ -36,6 +36,34 @@
         android:layout_marginBottom="5dp"
         android:id="@+id/sep2"   
         />
+      
+      <RadioGroup 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sep2"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:id="@+id/venturyferti"
+        >
+        
+        <RadioButton 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/venturyradio"
+            android:textSize="18sp"
+            android:text="Ventury"
+            
+            />
+        <RadioButton 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fertiradio"
+            android:textSize="18sp"
+            android:text="Fertigation"
+            
+            />
+       
+    </RadioGroup>
     
 
     <ImageView 
@@ -44,23 +72,23 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ventury"
         android:id="@+id/venturyimg"
-        android:layout_below="@id/sep2"
+        android:layout_below="@id/venturyferti"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="5dp"
         />
     
     <ListView 
         android:layout_width="120dp"
-        android:layout_height="180dp"
+        android:layout_height="wrap_content"
         android:id="@+id/valveholder"
         android:layout_toRightOf="@id/venturyimg"
-        android:layout_below="@id/sep2"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
+        android:layout_below="@id/venturyferti"
         android:layout_alignParentRight="true"
         ></ListView>
   
-     <ImageView 
+     <!-- <ImageView 
         
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -115,6 +143,6 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
         android:layout_alignParentRight="true"
-        ></ListView>
+        ></ListView> -->
 
 </RelativeLayout>

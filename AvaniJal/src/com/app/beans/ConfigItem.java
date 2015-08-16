@@ -48,6 +48,14 @@ public class ConfigItem implements Serializable{
 		this.filterItems = obj;
 	}
 
+//	public void addValveItems( Elements ele ) {
+//		
+//		if(valveItems.contains(ele)) {
+//			valveItems.remove(ele);
+//		}
+//		valveItems.add(ele);
+//		
+//	}
 	public void setValveItems(ArrayList<Elements> obj) {
 
 		this.valveItems = obj;
@@ -78,7 +86,7 @@ public class ConfigItem implements Serializable{
 		return filterItems;
 	}
 
-	public ArrayList<Elements> getValveItems() {
+	public ArrayList<Elements> getAllValveItems() {
 
 		return valveItems ;
 	}

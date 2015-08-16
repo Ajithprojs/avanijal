@@ -33,7 +33,7 @@ public class ValveActivity extends Activity {
 		if(AppUtils.confItems == null) {
 			AppUtils.confItems = new ConfigItem();
 		}
-		
+
 		Button setconfig = (Button)findViewById(R.id.setvalvconfigbtn);
 		setconfig.setOnClickListener(new OnClickListener() {
 
@@ -108,7 +108,7 @@ public class ValveActivity extends Activity {
 
 	private void setConfigured() {
 
-		ArrayList<Elements> valvelines = AppUtils.confItems.getValveItems();
+		ArrayList<Elements> valvelines = AppUtils.confItems.getAllValveItems();
 		Iterator<Elements> iter = valvelines.iterator();
 		while(iter.hasNext()){
 			Elements ele = iter.next();

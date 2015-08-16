@@ -209,6 +209,10 @@ public abstract class ElementsController {
 				iter.remove();
 		}
 	}
+	
+	public void removeAllElements() {
+		elements.removeAll(elements);
+	}
 
 	public void setAddElementToArray( String id ){
 

@@ -93,6 +93,8 @@ public class CropSelectionActivity extends FragmentActivity implements MultiSele
 			imageBg.setBackgroundResource(this.crop.getImgId());
 			cropNameEditText.setText(this.crop.getCropName());
 			acreEditText.setText(""+this.crop.getAcre());
+			//selectedValveIds = this.crop.getAllAssociatedElementsOfType(AppUtils.VALVE_TYPE);
+			//selectedPipeIds = this.crop.getAllAssociatedElementsOfType(AppUtils.PIPELINE_TYPE);
 		} else {
 			this.crop = new CropItem();
 			this.crop.setImgId(img);
@@ -120,11 +122,13 @@ public class CropSelectionActivity extends FragmentActivity implements MultiSele
 
 		MultiSelectionSpinner valveSpinner = (MultiSelectionSpinner)findViewById(R.id.valvespinner);
 		valveSpinner.setTag(VALVE_SPINNER);
-		valves = AppUtils.confItems.getValveItems();
+		valves = AppUtils.confItems.getAllValveItems();
 		List<String> valveIds = new ArrayList<String>();
 		for (Elements valve : valves) {
-			if(!valve.isAssociated())
+			if(!valve.isAssociated()) {
 			valveIds.add(valve.getItemid());
+			
+			}
 		}
 		
 		ArrayList<String> selectedValves = this.crop.getAllAssociatedElementsOfType(AppUtils.VALVE_TYPE);
@@ -134,10 +138,14 @@ public class CropSelectionActivity extends FragmentActivity implements MultiSele
 //			valveIds.add(ele);
 //			
 //		}
-
+		for (String str : selectedValves) {
+			valveIds.add(str);
+			selectedValveIds.add(str);
+		}
 		if(valveIds.size() > 0) {
 			valveSpinner.setVisibility(View.VISIBLE);
 			valveSpinner.setItems(valveIds ,this);
+			
 		}else {
 			valveSpinner.setVisibility(View.GONE);
 			TextView valvetxt = (TextView)findViewById(R.id.valveheading);
@@ -249,7 +257,7 @@ public class CropSelectionActivity extends FragmentActivity implements MultiSele
 
 	private void setConfigured() {
 
-		ArrayList<Elements> valvelines = AppUtils.confItems.getValveItems();
+		ArrayList<Elements> valvelines = AppUtils.confItems.getAllValveItems();
 		ArrayList<Elements> pipelines = AppUtils.confItems.getAllPipelineItems();
 		crop.setIsConfigured(true);
 		ArrayList<String> confvalves = crop.getAllAssociatedElementsOfType(AppUtils.VALVE_TYPE);
@@ -260,17 +268,21 @@ public class CropSelectionActivity extends FragmentActivity implements MultiSele
 			Elements ele = iter.next();
 			for (String string : confvalves) {
 				if(ele.getItemid().equals(string)) {
-					ele.setIsConfigured(true);
+					//ele.setIsConfigured(true);
+					ele.setAssociated(true);
+					//AppUtils.confItems.addValveItems(ele);
 				}
 			}
 		}
-		AppUtils.confItems.setValveItems(valvelines);
+		//AppUtils.confItems.setValveItems(valvelines);
 		Iterator<Elements> iter1 = pipelines.iterator();
 		while(iter1.hasNext()){
 			Elements ele = iter1.next();
 			for (String string : confpipes) {
 				if(ele.getItemid().equals(string)) {
-					ele.setIsConfigured(true);
+					//ele.setIsConfigured(true);
+					ele.setAssociated(true);
+					//AppUtils.confItems.addPipelineItems(ele);
 				}
 			}
 			
