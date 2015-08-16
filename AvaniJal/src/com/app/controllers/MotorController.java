@@ -330,6 +330,7 @@ public class MotorController extends ElementsController {
 		Editminvoltage.setText(mitem.getMinVolts());
 		Editmaxvoltage.setText(mitem.getMaxVolts());
 		Editlitres.setText(mitem.getWaterDeliveryRate());
+		phoneNum.setText(mitem.getPhoneNum());
 
 		typeSpinner.setSelection(mitem.getPumpConnTypenum());
 		hpSpinner.setSelection(mitem.getHpValeint());
@@ -352,6 +353,7 @@ public class MotorController extends ElementsController {
 		Editminvoltage.setTag(mitem.getItemid());
 		Editmaxvoltage.setTag(mitem.getItemid());
 		Editlitres.setTag(mitem.getItemid());
+		phoneNum.setTag(mitem.getItemid());
 		typeSpinner.setTag(mitem.getItemid());
 		hpSpinner.setTag(mitem.getItemid());
 		deleteBtn.setTag(mitem.getItemid());
@@ -457,11 +459,11 @@ public class MotorController extends ElementsController {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				// TODO Auto-generated method stub
-				if(s.length() == 3){
+				//if(s.length() == 3){
 					MotorItem mItem = getMotorObjectforTag((String)EditmotorName.getTag());
 					if(mItem != null)
 						mItem.setPumpName(EditmotorName.getText().toString());
-				}
+				//}
 			}
 
 			@Override
@@ -539,6 +541,32 @@ public class MotorController extends ElementsController {
 					MotorItem mItem = getMotorObjectforTag((String)Editmaxvoltage.getTag());
 					if(mItem != null)
 						mItem.setMaxVolts(Editmaxvoltage.getText().toString());
+				}
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+		
+		phoneNum.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				// TODO Auto-generated method stub
+				if(s.length() == 10){
+					MotorItem mItem = getMotorObjectforTag((String)phoneNum.getTag());
+					if(mItem != null)
+						mItem.setPhoneNum(phoneNum.getText().toString());
 				}
 			}
 
